@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D44C7987AB18EB003B5FD497 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C48675BF53E9699E30550E /* libPods.a */; };
+		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
+		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
+		EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */; };
+		EE58AC4D1CE1ADAB00990B55 /* NYTExamplePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC4B1CE1ADAB00990B55 /* NYTExamplePhoto.m */; };
+		EE6A03DA1CE176A50077B7DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A03D91CE176A50077B7DF /* main.m */; };
+		EE6A03DD1CE176A50077B7DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A03DC1CE176A50077B7DF /* AppDelegate.m */; };
+		EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A03DF1CE176A50077B7DF /* ViewController.m */; };
+		EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E11CE176A50077B7DF /* Main.storyboard */; };
+		EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E41CE176A50077B7DF /* Assets.xcassets */; };
+		EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		E3C48675BF53E9699E30550E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewController.h; sourceTree = "<group>"; };
+		EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewController.m; sourceTree = "<group>"; };
+		EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoModel.h; sourceTree = "<group>"; };
+		EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoModel.m; sourceTree = "<group>"; };
+		EE58AC481CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
+		EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
+		EE58AC4A1CE1ADAB00990B55 /* NYTExamplePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYTExamplePhoto.h; sourceTree = "<group>"; };
+		EE58AC4B1CE1ADAB00990B55 /* NYTExamplePhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYTExamplePhoto.m; sourceTree = "<group>"; };
+		EE6A03D51CE176A50077B7DF /* JPPhotoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JPPhotoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE6A03D91CE176A50077B7DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EE6A03DB1CE176A50077B7DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EE6A03DC1CE176A50077B7DF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EE6A03DE1CE176A50077B7DF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		EE6A03DF1CE176A50077B7DF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		EE6A03E21CE176A50077B7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EE6A03E41CE176A50077B7DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EE6A03E71CE176A50077B7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EE6A03E91CE176A50077B7DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EE6A03D21CE176A50077B7DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D44C7987AB18EB003B5FD497 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DE2C25520B9614CC50A0E74 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E3C48675BF53E9699E30550E /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7209AE746A75F60C814090D4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */,
+				1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		EE6A03CC1CE176A50077B7DF = {
+			isa = PBXGroup;
+			children = (
+				EE6A03D71CE176A50077B7DF /* JPPhotoViewer */,
+				EE6A03D61CE176A50077B7DF /* Products */,
+				7209AE746A75F60C814090D4 /* Pods */,
+				3DE2C25520B9614CC50A0E74 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EE6A03D61CE176A50077B7DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE6A03D51CE176A50077B7DF /* JPPhotoViewer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE6A03D71CE176A50077B7DF /* JPPhotoViewer */ = {
+			isa = PBXGroup;
+			children = (
+				EE58AC481CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.h */,
+				EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */,
+				EE58AC4A1CE1ADAB00990B55 /* NYTExamplePhoto.h */,
+				EE58AC4B1CE1ADAB00990B55 /* NYTExamplePhoto.m */,
+				EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */,
+				EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */,
+				EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */,
+				EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */,
+				EE6A03DB1CE176A50077B7DF /* AppDelegate.h */,
+				EE6A03DC1CE176A50077B7DF /* AppDelegate.m */,
+				EE6A03DE1CE176A50077B7DF /* ViewController.h */,
+				EE6A03DF1CE176A50077B7DF /* ViewController.m */,
+				EE6A03E11CE176A50077B7DF /* Main.storyboard */,
+				EE6A03E41CE176A50077B7DF /* Assets.xcassets */,
+				EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */,
+				EE6A03E91CE176A50077B7DF /* Info.plist */,
+				EE6A03D81CE176A50077B7DF /* Supporting Files */,
+			);
+			path = JPPhotoViewer;
+			sourceTree = "<group>";
+		};
+		EE6A03D81CE176A50077B7DF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EE6A03D91CE176A50077B7DF /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE6A03D41CE176A50077B7DF /* JPPhotoViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE6A03EC1CE176A50077B7DF /* Build configuration list for PBXNativeTarget "JPPhotoViewer" */;
+			buildPhases = (
+				95E2F6BBCFBDCE73C14A2FC3 /* Check Pods Manifest.lock */,
+				EE6A03D11CE176A50077B7DF /* Sources */,
+				EE6A03D21CE176A50077B7DF /* Frameworks */,
+				EE6A03D31CE176A50077B7DF /* Resources */,
+				1387FCC97153624D5395B294 /* Embed Pods Frameworks */,
+				F03588DCE92608DEB861D2C3 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JPPhotoViewer;
+			productName = JPPhotoViewer;
+			productReference = EE6A03D51CE176A50077B7DF /* JPPhotoViewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EE6A03CD1CE176A50077B7DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = soneru;
+				TargetAttributes = {
+					EE6A03D41CE176A50077B7DF = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = EE6A03D01CE176A50077B7DF /* Build configuration list for PBXProject "JPPhotoViewer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EE6A03CC1CE176A50077B7DF;
+			productRefGroup = EE6A03D61CE176A50077B7DF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE6A03D41CE176A50077B7DF /* JPPhotoViewer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EE6A03D31CE176A50077B7DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */,
+				EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */,
+				EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1387FCC97153624D5395B294 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		95E2F6BBCFBDCE73C14A2FC3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F03588DCE92608DEB861D2C3 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EE6A03D11CE176A50077B7DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */,
+				EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */,
+				EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */,
+				EE58AC4D1CE1ADAB00990B55 /* NYTExamplePhoto.m in Sources */,
+				EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */,
+				EE6A03DD1CE176A50077B7DF /* AppDelegate.m in Sources */,
+				EE6A03DA1CE176A50077B7DF /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EE6A03E11CE176A50077B7DF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE6A03E21CE176A50077B7DF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE6A03E71CE176A50077B7DF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EE6A03EA1CE176A50077B7DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EE6A03EB1CE176A50077B7DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EE6A03ED1CE176A50077B7DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = JPPhotoViewer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.soneru.JPPhotoViewer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EE6A03EE1CE176A50077B7DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = JPPhotoViewer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.soneru.JPPhotoViewer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EE6A03D01CE176A50077B7DF /* Build configuration list for PBXProject "JPPhotoViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE6A03EA1CE176A50077B7DF /* Debug */,
+				EE6A03EB1CE176A50077B7DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE6A03EC1CE176A50077B7DF /* Build configuration list for PBXNativeTarget "JPPhotoViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE6A03ED1CE176A50077B7DF /* Debug */,
+				EE6A03EE1CE176A50077B7DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EE6A03CD1CE176A50077B7DF /* Project object */;
+}
