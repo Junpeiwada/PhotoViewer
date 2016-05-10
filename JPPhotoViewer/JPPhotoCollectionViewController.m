@@ -3,12 +3,12 @@
 //  NYTPhotoViewer
 //
 //  Created by junpeiwada on 2016/05/07.
-//  Copyright © 2016年 NYTimes. All rights reserved.
+//  Copyright © 2016年 junpeiwada. All rights reserved.
 //
 
 #import "JPPhotoCollectionViewController.h"
 #import "JPPhotoModel.h"
-#import "NYTExamplePhoto.h"
+#import "JPPhoto.h"
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <AVFoundation/AVFoundation.h>
 #import "CHTCollectionViewWaterfallLayout.h"
@@ -33,6 +33,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
     self.gridSize = savedSize;
     self.gridSizeSlider.value = self.gridSize;
+    
+    
 
 
 }
@@ -47,7 +49,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.columnCount = savedCount;
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        for (NYTExamplePhoto *p in self.photos) {
+        for (JPPhoto *p in self.photos) {
             p.image = nil;
         }
     }];
@@ -60,20 +62,10 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 
 -(void)viewDidLoad{
-    // ナビゲーションバーの見た目を調整
-    self.navigationController.navigationBar.alpha = 0.1;
-    self.navigationController.navigationBar.translucent  = YES;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    self.navigationController.navigationBar.hidden = YES;
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    
-    // レイアウトのパラメータ設定
-    CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
-    
-    t.columnCount = self.columnCount;
-    t.minimumColumnSpacing = self.columnCount;
-    
+    // ナビゲーションバーを出さない
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+     
+     
     // ピンチジェスチャーの実装
     UIPinchGestureRecognizer* pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [self.view addGestureRecognizer:pinchGesture];
@@ -83,9 +75,16 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     swipe.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:swipe];
+
+    // レイアウトのパラメータ設定
+    CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
     
+    t.columnCount = self.columnCount;
+    t.minimumColumnSpacing = self.columnCount;
 }
 
+
+#pragma mark - SettingStatusBar
 -(BOOL)prefersStatusBarHidden {
     return YES;
 }
@@ -94,10 +93,14 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     return UIStatusBarStyleLightContent;
 }
 
+#pragma mark - View
+
 -(void)viewWillAppear:(BOOL)animated{
     // データを初期化する
     self.photos = [JPPhotoModel newTestPhotosWithDirectoryName:self.photoDirectory];
     [self.collectionView reloadData];
+    // ナビゲーションバーを出さない
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.photos = nil;
@@ -106,13 +109,13 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (IBAction)didCloseView:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
     
-    for (NYTExamplePhoto *p in self.photos) {
+    for (JPPhoto *p in self.photos) {
         p.image = nil;
     }
     self.photos = nil;
 }
 
-// ピンチで閉じる
+// ピンチで画像サイズを変更
 - (void) handlePinchGesture:(UIPinchGestureRecognizer*) sender {
     UIPinchGestureRecognizer* pinch = (UIPinchGestureRecognizer*)sender;
     
@@ -171,7 +174,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NYTExamplePhoto *photo = [self.photos objectAtIndex:indexPath.row];
+    JPPhoto *photo = [self.photos objectAtIndex:indexPath.row];
     CGSize size = AVMakeRectWithAspectRatioInsideRect(CGSizeMake(photo.width, photo.height),CGRectMake(0, 0, self.gridSize, self.gridSize)).size;
     
     // Nanの時は0にする
@@ -198,7 +201,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     UIImageView *image = (UIImageView *)[cell viewWithTag:1];
     image.image = nil;
     
-    NYTExamplePhoto *photo = [self.photos objectAtIndex:indexPath.row];
+    JPPhoto *photo = [self.photos objectAtIndex:indexPath.row];
     
     // サムネをロードする
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -243,7 +246,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     [self presentViewController:photosViewController animated:YES completion:nil];
     
     
-    NYTExamplePhoto *target =[self.photos objectAtIndex:indexPath.row];
+    JPPhoto *target =[self.photos objectAtIndex:indexPath.row];
     [self loadPhotoOnPhotosViewController:photosViewController photo:target];
     if (indexPath.row > 0 && indexPath.row < self.photos.count - 1){
         [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row -1]];
@@ -253,7 +256,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     return YES;
 }
 // 画像をロードする
--(void)loadPhotoOnPhotosViewController:(NYTPhotosViewController *)photosViewController photo:(NYTExamplePhoto *)target{
+-(void)loadPhotoOnPhotosViewController:(NYTPhotosViewController *)photosViewController photo:(JPPhoto *)target{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (!target.image && !target.imageData) {
             target.image = [UIImage imageWithContentsOfFile:target.imagePath];
@@ -270,7 +273,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (UIView *)photosViewController:(NYTPhotosViewController *)photosViewController referenceViewForPhoto:(id <NYTPhoto>)photo {
     
-    NYTExamplePhoto *current = photosViewController.currentlyDisplayedPhoto;
+    JPPhoto *current = photosViewController.currentlyDisplayedPhoto;
     NSUInteger index = [self.photos indexOfObject:current];
     
     UICollectionViewCell *tempCell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
@@ -311,8 +314,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 
 - (void)photosViewControllerDidDismiss:(NYTPhotosViewController *)photosViewController {
-//    NSLog(@"Did Dismiss Photo Viewer: %@", photosViewController);
-    for (NYTExamplePhoto *p in self.photos) {
+    for (JPPhoto *p in self.photos) {
         p.image = nil;
     }
 }

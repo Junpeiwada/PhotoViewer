@@ -2,13 +2,13 @@
 //  NYTExamplePhoto.m
 //  ios-photo-viewer
 //
-//  Created by Brian Capps on 2/11/15.
-//  Copyright (c) 2015 NYTimes. All rights reserved.
+//  Created by junpeiwada on 2016/05/07.
+//  Copyright © 2016年 junpeiwada. All rights reserved.
 //
 
-#import "NYTExamplePhoto.h"
+#import "JPPhoto.h"
 #import <AVFoundation/AVFoundation.h>
-@implementation NYTExamplePhoto
+@implementation JPPhoto
 
 // リサイズする関数
 - (UIImage *)resizeImage:(UIImage *)image

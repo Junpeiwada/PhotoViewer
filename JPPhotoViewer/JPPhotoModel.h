@@ -3,7 +3,7 @@
 //  NYTPhotoViewer
 //
 //  Created by junpeiwada on 2016/05/07.
-//  Copyright © 2016年 NYTimes. All rights reserved.
+//  Copyright © 2016年 junpeiwada. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

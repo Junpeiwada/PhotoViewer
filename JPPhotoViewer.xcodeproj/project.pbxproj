@@ -11,7 +11,7 @@
 		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
 		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
 		EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */; };
-		EE58AC4D1CE1ADAB00990B55 /* NYTExamplePhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC4B1CE1ADAB00990B55 /* NYTExamplePhoto.m */; };
+		EE58AC4D1CE1ADAB00990B55 /* JPPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC4B1CE1ADAB00990B55 /* JPPhoto.m */; };
 		EE6A03DA1CE176A50077B7DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A03D91CE176A50077B7DF /* main.m */; };
 		EE6A03DD1CE176A50077B7DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A03DC1CE176A50077B7DF /* AppDelegate.m */; };
 		EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6A03DF1CE176A50077B7DF /* ViewController.m */; };
@@ -30,8 +30,8 @@
 		EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoModel.m; sourceTree = "<group>"; };
 		EE58AC481CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
-		EE58AC4A1CE1ADAB00990B55 /* NYTExamplePhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NYTExamplePhoto.h; sourceTree = "<group>"; };
-		EE58AC4B1CE1ADAB00990B55 /* NYTExamplePhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NYTExamplePhoto.m; sourceTree = "<group>"; };
+		EE58AC4A1CE1ADAB00990B55 /* JPPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhoto.h; sourceTree = "<group>"; };
+		EE58AC4B1CE1ADAB00990B55 /* JPPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhoto.m; sourceTree = "<group>"; };
 		EE6A03D51CE176A50077B7DF /* JPPhotoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JPPhotoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6A03D91CE176A50077B7DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EE6A03DB1CE176A50077B7DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -96,8 +96,8 @@
 			children = (
 				EE58AC481CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.h */,
 				EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */,
-				EE58AC4A1CE1ADAB00990B55 /* NYTExamplePhoto.h */,
-				EE58AC4B1CE1ADAB00990B55 /* NYTExamplePhoto.m */,
+				EE58AC4A1CE1ADAB00990B55 /* JPPhoto.h */,
+				EE58AC4B1CE1ADAB00990B55 /* JPPhoto.m */,
 				EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */,
 				EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */,
 				EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */,
@@ -107,8 +107,8 @@
 				EE6A03DE1CE176A50077B7DF /* ViewController.h */,
 				EE6A03DF1CE176A50077B7DF /* ViewController.m */,
 				EE6A03E11CE176A50077B7DF /* Main.storyboard */,
-				EE6A03E41CE176A50077B7DF /* Assets.xcassets */,
 				EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */,
+				EE6A03E41CE176A50077B7DF /* Assets.xcassets */,
 				EE6A03E91CE176A50077B7DF /* Info.plist */,
 				EE6A03D81CE176A50077B7DF /* Supporting Files */,
 			);
@@ -247,7 +247,7 @@
 				EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */,
 				EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */,
-				EE58AC4D1CE1ADAB00990B55 /* NYTExamplePhoto.m in Sources */,
+				EE58AC4D1CE1ADAB00990B55 /* JPPhoto.m in Sources */,
 				EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */,
 				EE6A03DD1CE176A50077B7DF /* AppDelegate.m in Sources */,
 				EE6A03DA1CE176A50077B7DF /* main.m in Sources */,

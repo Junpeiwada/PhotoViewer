@@ -7,7 +7,7 @@
 //
 #import <ImageIO/ImageIO.h>
 #import "ViewController.h"
-#import "NYTExamplePhoto.h"
+#import "JPPhoto.h"
 #import "JPPhotoModel.h"
 #import "JPPhotoCollectionViewController.h"
 
@@ -94,7 +94,7 @@
     [self.tableView reloadData];
     
     // ついでにキャッシュを削除
-    NYTExamplePhoto *t = [[NYTExamplePhoto alloc]init];
+    JPPhoto *t = [[JPPhoto alloc]init];
     [t remove];
 }
 

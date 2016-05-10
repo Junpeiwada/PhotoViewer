@@ -52,7 +52,7 @@
                         <collectionViewLayout key="collectionViewLayout" id="Isf-xs-iuA" customClass="CHTCollectionViewWaterfallLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="bxx-rc-tqv">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="64" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -75,27 +75,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" id="3Cx-eQ-FY4">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" title="Close" style="plain" id="2dp-cz-nFS">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="GyP-83-sLb">
-                                <rect key="frame" x="16" y="7" width="71" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Close"/>
-                                <connections>
-                                    <action selector="didCloseView:" destination="KsU-5v-bbc" eventType="touchUpInside" id="mgk-eW-Kav"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                        <slider key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="240" minValue="50" maxValue="500" id="9DE-gc-Ip8">
-                            <rect key="frame" x="93" y="6.5" width="219" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <connections>
-                                <action selector="gridSizeChanged:" destination="KsU-5v-bbc" eventType="touchUpInside" id="0Mk-pW-pHZ"/>
-                            </connections>
-                        </slider>
                     </navigationItem>
-                    <connections>
-                        <outlet property="gridSizeSlider" destination="9DE-gc-Ip8" id="IJb-do-oHJ"/>
-                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0RQ-XF-S1H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

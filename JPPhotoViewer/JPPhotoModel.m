@@ -3,13 +3,13 @@
 //  NYTPhotoViewer
 //
 //  Created by junpeiwada on 2016/05/07.
-//  Copyright © 2016年 NYTimes. All rights reserved.
+//  Copyright © 2016年 junpeiwada. All rights reserved.
 //
 
 #import "JPPhotoModel.h"
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <ImageIO/ImageIO.h>
-#import "NYTExamplePhoto.h"
+#import "JPPhoto.h"
 
 @implementation JPPhotoModel
 + (NSArray *)newTestPhotosWithDirectoryName:(NSString *)directoryPath {
@@ -23,7 +23,7 @@
             continue;
         }
         
-        NYTExamplePhoto *photo = [[NYTExamplePhoto alloc] init];
+        JPPhoto *photo = [[JPPhoto alloc] init];
         
         photo.imagePath = [NSString stringWithFormat:@"%@/%@",directoryPath,fileName];
         
