@@ -73,6 +73,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		EE58AC501CE1CC9100990B55 /* UICollectionViewWaterfallLayout */ = {
+			isa = PBXGroup;
+			children = (
+				EE58AC481CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.h */,
+				EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */,
+			);
+			name = UICollectionViewWaterfallLayout;
+			sourceTree = "<group>";
+		};
 		EE6A03CC1CE176A50077B7DF = {
 			isa = PBXGroup;
 			children = (
@@ -94,8 +103,7 @@
 		EE6A03D71CE176A50077B7DF /* JPPhotoViewer */ = {
 			isa = PBXGroup;
 			children = (
-				EE58AC481CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.h */,
-				EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */,
+				EE58AC501CE1CC9100990B55 /* UICollectionViewWaterfallLayout */,
 				EE58AC4A1CE1ADAB00990B55 /* JPPhoto.h */,
 				EE58AC4B1CE1ADAB00990B55 /* JPPhoto.m */,
 				EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */,
