@@ -15,38 +15,27 @@
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (nonatomic) NSInteger columnCount;
-@property double gridSize;
 @end
 
 
 @implementation JPPhotoCollectionViewController {
     dispatch_semaphore_t semaphore_;
-    BOOL pinchBegan_;
+    NSInteger preColumnCount;
 }
 static NSString * const reuseIdentifier = @"PhotoCell";
 
 -(void)awakeFromNib{
     
-    double savedSize = [[NSUserDefaults standardUserDefaults] doubleForKey:@"gridSize"];
-    if (savedSize == 0){
-        savedSize =(self.view.frame.size.width - 2 )/ 2 ;
-    }
-    self.gridSize = savedSize;
-    self.gridSizeSlider.value = self.gridSize;
-    
-    
-
-
 }
 
 -(void)initInstance{
     semaphore_ = dispatch_semaphore_create(3);
     
-    NSInteger savedCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"columnCount"];
-    if  (savedCount == 0){
-        savedCount = 2;
+    NSInteger savedColumnCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"columnCount"];
+    if  (savedColumnCount == 0){
+        savedColumnCount = 2;
     }
-    self.columnCount = savedCount;
+    self.columnCount = savedColumnCount;
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         for (JPPhoto *p in self.photos) {
@@ -120,49 +109,42 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     UIPinchGestureRecognizer* pinch = (UIPinchGestureRecognizer*)sender;
     
     if (pinch.state == UIGestureRecognizerStateBegan){
-        pinchBegan_ = YES;
+        preColumnCount = self.columnCount;
     }
     
-    if (!pinchBegan_){
-        return;
-    }
+    NSInteger preChangeColumnCount = self.columnCount;
     
-    
-    if (pinch.scale < 0.9){
-        self.columnCount =  self.columnCount + 1;
-        pinchBegan_ = NO;
+    if (pinch.scale > 0.5 && pinch.scale < 0.7){
+        self.columnCount =  preColumnCount + 2;
     }
-    if (pinch.scale > 1.1){
-        self.columnCount =  self.columnCount - 1;
-        pinchBegan_ = NO;
-        
+    if (pinch.scale > 0.7 && pinch.scale < 0.9){
+        self.columnCount =  preColumnCount + 1;
+    }
+    if (pinch.scale > 0.9 && pinch.scale < 1.1){
+        self.columnCount =  preColumnCount;
+    }
+    if (pinch.scale > 1.1 && pinch.scale < 1.4){
+        self.columnCount =  preColumnCount - 1;
+    }
+    if (pinch.scale > 1.4 && pinch.scale < 1.6){
+        self.columnCount =  preColumnCount - 2 ;
     }
     
     if (self.columnCount <= 0){
         self.columnCount = 1;
     }
     
-    CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
-    t.columnCount = self.columnCount;
-    [self.collectionView reloadData];
-    
-    [[NSUserDefaults standardUserDefaults] setInteger:self.columnCount forKey:@"columnCount"];
-    
+    if (preChangeColumnCount != self.columnCount){
+        CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
+        t.columnCount = self.columnCount;
+        [self.collectionView reloadData];
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:self.columnCount forKey:@"columnCount"];
+    }
 }
 // スワイプで閉じる
 - (void) swipe:(UISwipeGestureRecognizer*) sender {
     [self didCloseView:nil];
-}
-
-- (IBAction)gridSizeChanged:(id)sender {
-    UISlider *slider = sender;
-    self.gridSize = slider.value;
-    if (self.gridSize > self.view.frame.size.width){
-        self.gridSize = self.view.frame.size.width;
-    }
-    [self.collectionView reloadData];
-    
-    [[NSUserDefaults standardUserDefaults] setDouble:self.gridSize forKey:@"gridSize"];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -175,7 +157,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JPPhoto *photo = [self.photos objectAtIndex:indexPath.row];
-    CGSize size = AVMakeRectWithAspectRatioInsideRect(CGSizeMake(photo.width, photo.height),CGRectMake(0, 0, self.gridSize, self.gridSize)).size;
+    CGSize size = AVMakeRectWithAspectRatioInsideRect(CGSizeMake(photo.width, photo.height),CGRectMake(0, 0, 300, 300)).size;
     
     // Nanの時は0にする
     if (isnan(size.height)){
