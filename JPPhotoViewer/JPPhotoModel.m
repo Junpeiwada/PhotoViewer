@@ -180,6 +180,7 @@
             if (date){
                 [caption appendString:@"\n日時:"];
                 [caption appendString:date];
+                photo.originalDateString = date;
             }
             
             // レンズ名
@@ -218,6 +219,12 @@
         [photos addObject:photo];
     }
     
-    return photos;
+    // 日付順に並び替え
+    NSArray * result = [photos sortedArrayUsingComparator:^NSComparisonResult(JPPhoto * obj1, JPPhoto *  obj2) {
+        NSStringCompareOptions compareOptions = (NSCaseInsensitiveSearch);
+        return [obj1.originalDateString compare:obj2.originalDateString options:compareOptions];
+    }];
+    
+    return result;
 }
 @end
