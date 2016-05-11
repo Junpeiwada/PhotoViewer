@@ -75,7 +75,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 #pragma mark - SettingStatusBar
 -(BOOL)prefersStatusBarHidden {
-    return YES;
+    return NO;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
