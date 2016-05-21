@@ -44,20 +44,25 @@
     
     NSString *passcode = nil;
     // KeyChainから読み出すようにする。とりあえずバンドル・・・
-    passcode = [[NSUserDefaults standardUserDefaults]stringForKey:@"passcode"];
-    if (passcode){
-        // 認証
-        PAPasscodeViewController *passcodeViewController = [[PAPasscodeViewController alloc] initForAction:PasscodeActionEnter];
-        passcodeViewController.delegate = self;
-        
-        passcodeViewController.passcode = passcode;
-        [self.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:passcodeViewController] animated:NO completion:nil];
-    }else{
-        // セット
-        PAPasscodeViewController *passcodeViewController = [[PAPasscodeViewController alloc] initForAction:PasscodeActionSet];
-        passcodeViewController.delegate = self;
-        
-        [self.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:passcodeViewController] animated:NO completion:nil];
+    
+
+    BOOL usePasscode = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
+    if (usePasscode){
+        passcode = [[NSUserDefaults standardUserDefaults]stringForKey:@"passcode"];
+        if (passcode){
+            // 認証
+            PAPasscodeViewController *passcodeViewController = [[PAPasscodeViewController alloc] initForAction:PasscodeActionEnter];
+            passcodeViewController.delegate = self;
+            
+            passcodeViewController.passcode = passcode;
+            [self.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:passcodeViewController] animated:NO completion:nil];
+        }else{
+            // セット
+            PAPasscodeViewController *passcodeViewController = [[PAPasscodeViewController alloc] initForAction:PasscodeActionSet];
+            passcodeViewController.delegate = self;
+            
+            [self.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:passcodeViewController] animated:NO completion:nil];
+        }
     }
 }
 

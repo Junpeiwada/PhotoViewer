@@ -41,6 +41,12 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
+- (IBAction)lockSwitchChanged:(id)sender {
+    UISwitch *s = sender;
+    
+    [[NSUserDefaults standardUserDefaults]setBool:s.on forKey:@"useLock"];
+    
+}
 
 #pragma mark - UITableViewDelegate
 
