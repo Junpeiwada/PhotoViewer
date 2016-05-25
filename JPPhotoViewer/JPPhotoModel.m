@@ -14,6 +14,9 @@
 @implementation JPPhotoModel
 + (NSArray *)newTestPhotosWithDirectoryName:(NSString *)directoryPath {
     
+    // インデックスを削除する
+//    [[NSFileManager defaultManager] removeItemAtPath:[self plistPath:directoryPath] error:nil];
+    
     NSMutableArray *photos;
     
     photos = [[self loadPhotosFromJsonWithDirectortyPath:directoryPath]mutableCopy];
@@ -239,6 +242,11 @@
     return result;
 }
 
++(NSString *)plistPath:(NSString *)directoryPath{
+    NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
+    return pListPath;
+}
+
 +(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath{
     
     NSMutableArray *saveTarget = [NSMutableArray array];
@@ -246,8 +254,8 @@
     for (JPPhoto *p in photos) {
         NSMutableDictionary *pdic = [NSMutableDictionary dictionary];
         
-        [pdic setObject:p.imagePath forKey:@"imagePath"];
-        [pdic setObject:p.thumbnailPath forKey:@"thumbnailPath"];
+        [pdic setObject:p.imagePath.lastPathComponent forKey:@"imagePath"];
+        [pdic setObject:p.thumbnailPath.lastPathComponent forKey:@"thumbnailPath"];
         
         [pdic setObject:[NSNumber numberWithInteger:p.width] forKey:@"width"];
         [pdic setObject:[NSNumber numberWithInteger:p.height] forKey:@"height"];
@@ -266,13 +274,12 @@
     
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:saveTarget options:0 error:nil];
-    
-    NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
-    [data writeToFile:pListPath atomically:YES];
+    [data writeToFile:[self plistPath:directoryPath] atomically:YES];
 }
 
 +(NSArray *)loadPhotosFromJsonWithDirectortyPath:(NSString *)directoryPath{
-    NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
+    NSString *pListPath = [self plistPath:directoryPath];
+    
     if ([[NSFileManager defaultManager]fileExistsAtPath:pListPath]){
         NSData *data = [NSData dataWithContentsOfFile:pListPath];
         NSArray * photos = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -282,8 +289,12 @@
         for (NSDictionary *dic in photos) {
             JPPhoto *photo = [[JPPhoto alloc] init];
             
-            photo.imagePath = [dic objectForKey:@"imagePath"];
-            photo.thumbnailPath = [dic objectForKey:@"thumbnailPath"];
+            photo.imagePath = [NSString stringWithFormat:@"%@/%@",directoryPath, [dic objectForKey:@"imagePath"]];
+            
+            
+            NSString *thumbPath = [NSString stringWithFormat:@"%@%@--%@",NSTemporaryDirectory(),directoryPath.lastPathComponent,[dic objectForKey:@"imagePath"]];
+            
+            photo.thumbnailPath = thumbPath;
             
             photo.width = [[dic objectForKey:@"width"]integerValue];
             photo.height = [[dic objectForKey:@"height"]integerValue];

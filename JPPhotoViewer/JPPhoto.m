@@ -64,13 +64,18 @@
     }else{
         full = [UIImage imageWithContentsOfFile:self.imagePath];
     }
-    CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, size, size));
-    frame = CGRectMake(0, 0, (int)frame.size.width, (int)frame.size.height);
-    UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationMedium size:frame.size];
-    
-    NSData *dataSaveImage = UIImageJPEGRepresentation(thumb, 1.0);
-    [dataSaveImage writeToFile:self.thumbnailPath atomically:YES];
-    return thumb;
+    if (full){
+        CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, size, size));
+        frame = CGRectMake(0, 0, (int)frame.size.width, (int)frame.size.height);
+        UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationMedium size:frame.size];
+        
+        NSData *dataSaveImage = UIImageJPEGRepresentation(thumb, 1.0);
+        [dataSaveImage writeToFile:self.thumbnailPath atomically:YES];
+        return thumb;
+    }else{
+        NSLog(@"画像が見つかりません。%@",self.imagePath);
+        return nil;
+    }
 }
 
 - (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension

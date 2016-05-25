@@ -204,10 +204,10 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         dispatch_async(dispatch_get_main_queue(), ^{
             image.image =thumb;
             
-                // パッと出るよりモヤッとでたほうがいいらしい。
-                image.alpha = 0;
+            // パッと出るよりモヤッとでたほうがいいらしい。
+            image.alpha = 0;
             if (alreadyExistThumb){
-                [UIView animateWithDuration:0.1f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^ {
+                [UIView animateWithDuration:0.01f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^ {
                     image.alpha = 1;
                 } completion:nil];
             }else{
