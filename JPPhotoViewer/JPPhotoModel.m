@@ -31,7 +31,9 @@
     while(fileName = [dirEnum nextObject]) {
         // 拡張子がJPG以外は無視。MOVも無視かな・・・
         if (![[fileName uppercaseString] hasSuffix:@"JPG"]){
-            continue;
+            if (![[fileName uppercaseString] hasSuffix:@"JPEG"]){
+                continue;
+            }
         }
         
         JPPhoto *photo = [[JPPhoto alloc] init];
@@ -94,6 +96,11 @@
                 }
             }
             
+            if (photo.width <= 0 && photo.height <= 0){
+                UIImage *image = [UIImage imageWithContentsOfFile:photo.imagePath];
+                photo.width = image.size.width;
+                photo.height = image.size.height;
+            }
             
             
             
