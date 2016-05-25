@@ -13,7 +13,15 @@
 
 @implementation JPPhotoModel
 + (NSArray *)newTestPhotosWithDirectoryName:(NSString *)directoryPath {
-    NSMutableArray *photos = [NSMutableArray array];
+    
+    NSMutableArray *photos;
+    
+    photos = [[self loadPhotosFromJsonWithDirectortyPath:directoryPath]mutableCopy];
+    if (photos){
+        return photos;
+    }
+    
+    photos = [NSMutableArray array];
     
     NSString* fileName;
     NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
@@ -225,6 +233,92 @@
         return [obj1.originalDateString compare:obj2.originalDateString options:compareOptions];
     }];
     
+    // 保存
+    [self saveToJsonWithPhotos:result directortyPath:directoryPath];
+    
     return result;
 }
+
++(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath{
+    
+    NSMutableArray *saveTarget = [NSMutableArray array];
+    
+    for (JPPhoto *p in photos) {
+        NSMutableDictionary *pdic = [NSMutableDictionary dictionary];
+        
+        [pdic setObject:p.imagePath forKey:@"imagePath"];
+        [pdic setObject:p.thumbnailPath forKey:@"thumbnailPath"];
+        
+        [pdic setObject:[NSNumber numberWithInteger:p.width] forKey:@"width"];
+        [pdic setObject:[NSNumber numberWithInteger:p.height] forKey:@"height"];
+        
+        if (p.originalDateString){
+            [pdic setObject:p.originalDateString forKey:@"originalDateString"];
+        }
+        
+        
+        [pdic setObject:p.attributedCaptionTitle.string forKey:@"attributedCaptionTitle"];
+        [pdic setObject:p.attributedCaptionSummary.string forKey:@"attributedCaptionSummary"];
+        [pdic setObject:p.attributedCaptionCredit.string forKey:@"attributedCaptionCredit"];
+        
+        [saveTarget addObject:pdic];
+    }
+    
+    
+    NSData *data = [NSJSONSerialization dataWithJSONObject:saveTarget options:0 error:nil];
+    
+    NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
+    [data writeToFile:pListPath atomically:YES];
+}
+
++(NSArray *)loadPhotosFromJsonWithDirectortyPath:(NSString *)directoryPath{
+    NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
+    if ([[NSFileManager defaultManager]fileExistsAtPath:pListPath]){
+        NSData *data = [NSData dataWithContentsOfFile:pListPath];
+        NSArray * photos = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        
+        NSMutableArray *result = [NSMutableArray array];
+        
+        for (NSDictionary *dic in photos) {
+            JPPhoto *photo = [[JPPhoto alloc] init];
+            
+            photo.imagePath = [dic objectForKey:@"imagePath"];
+            photo.thumbnailPath = [dic objectForKey:@"thumbnailPath"];
+            
+            photo.width = [[dic objectForKey:@"width"]integerValue];
+            photo.height = [[dic objectForKey:@"height"]integerValue];
+            
+            photo.originalDateString =[dic objectForKey:@"thumbnailPath"];
+            
+            NSShadow * shadow = [[NSShadow alloc] init];
+            [shadow setShadowColor:[UIColor blackColor]];
+            [shadow setShadowOffset:CGSizeMake(0.5, -0.5)];
+            photo.attributedCaptionTitle = [[NSAttributedString alloc] initWithString:[dic objectForKey:@"attributedCaptionTitle"] attributes:
+                                            @{
+                                              NSForegroundColorAttributeName: [UIColor whiteColor],
+                                              NSFontAttributeName:[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2],
+                                              NSShadowAttributeName: shadow
+                                              }];
+            photo.attributedCaptionSummary = [[NSAttributedString alloc] initWithString:[dic objectForKey:@"attributedCaptionSummary"] attributes:
+                                              @{
+                                                NSForegroundColorAttributeName: [UIColor whiteColor],
+                                                NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleBody],
+                                                NSShadowAttributeName: shadow
+                                                }];
+            photo.attributedCaptionCredit = [[NSAttributedString alloc] initWithString:[dic objectForKey:@"attributedCaptionCredit"] attributes:
+                                             @{
+                                               NSForegroundColorAttributeName:[UIColor grayColor],
+                                               NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1],
+                                               NSShadowAttributeName: shadow
+                                               }];
+            
+            [result addObject:photo];
+
+        }
+        
+        return result;
+    }
+    return nil;
+}
+
 @end
