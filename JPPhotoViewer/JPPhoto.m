@@ -57,7 +57,7 @@
         return [UIImage imageWithContentsOfFile:[self thumbnailPathSize]];
     }else{
         // ないので作る
-        NSLog(@"makeThumbnail");
+//        NSLog(@"makeThumbnail");
         return [self makeThumbnail];
     }
 }
@@ -72,7 +72,7 @@
     if (full){
         CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, self.thumbnailSize, self.thumbnailSize));
         frame = CGRectMake(0, 0, (int)frame.size.width, (int)frame.size.height);
-        UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationMedium size:frame.size];
+        UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationHigh size:frame.size];
         
         NSData *dataSaveImage = UIImageJPEGRepresentation(thumb, 1.0);
         [dataSaveImage writeToFile:[self thumbnailPathSize] atomically:YES];

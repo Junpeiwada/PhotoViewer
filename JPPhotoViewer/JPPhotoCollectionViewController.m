@@ -155,13 +155,15 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 -(void)updateThumbnailSize{
     CGSize s = UIScreen.mainScreen.bounds.size;
-    NSInteger size = (s.width / self.columnCount) * 2;
+    NSInteger size = (s.width / self.columnCount) * 1.66;
     
     for (JPPhoto *p in self.photos) {
         if (MAX(p.width, p.height) < size){
             p.thumbnailSize = MAX(p.width, p.height);
+        }else{
+            p.thumbnailSize = size;
         }
-        
+//        NSLog(@"thumb:%ld orix:%ld y:%ld",p.thumbnailSize,p.width,p.height);
     }
 }
 
@@ -230,7 +232,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             // パッと出るよりモヤッとでたほうがいいらしい。
             image.alpha = 0;
             if (alreadyExistThumb){
-                [UIView animateWithDuration:0.01f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^ {
+                [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^ {
                     image.alpha = 1;
                 } completion:nil];
             }else{
