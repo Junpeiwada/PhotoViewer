@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
-@property (weak, nonatomic) IBOutlet UISwitch *useLockSwitch;
 
 @property (nonnull) NSMutableArray *directorys;
 @property (nonnull) NSMutableArray *directoryNames;
@@ -41,15 +40,11 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
-    
     [self.tableView reloadData];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-- (IBAction)lockSwitchChanged:(id)sender {
-    [[NSUserDefaults standardUserDefaults]setBool:self.useLockSwitch.on forKey:@"useLock"];
-}
+
 
 #pragma mark - UITableViewDelegate
 
@@ -105,32 +100,12 @@
     [self.navigationController pushViewController:self.collectionView animated:YES];
 }
 
-- (IBAction)reloadData:(id)sender {
-    [self.tableView reloadData];
-    
-    // ついでにキャッシュを削除
-    JPPhoto *t = [[JPPhoto alloc]init];
-    [t remove];
-    
-    
-    // インデックスも削除
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    for (NSString *path in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] )
-    {
-        BOOL dir;
-        
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,path];
-        
-        if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
-            if ( dir ){
-                [[NSFileManager defaultManager] removeItemAtPath:[JPPhotoModel plistPath:fullPath] error:nil];
-            }
-        }
-    }
+- (IBAction)showSetting:(id)sender {
+    // コレクションビューを表示する
+    UIViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"settings"];
+    [self.navigationController pushViewController:vc animated:YES];
 
-    
-    //    [[NSFileManager defaultManager] removeItemAtPath:[self plistPath:directoryPath] error:nil];
 }
+
 
 @end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D44C7987AB18EB003B5FD497 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C48675BF53E9699E30550E /* libPods.a */; };
+		EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2B63841CF7605300B6E33A /* SettingsVC.m */; };
 		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
 		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
 		EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -24,6 +25,8 @@
 		1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E3C48675BF53E9699E30550E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE2B63831CF7605300B6E33A /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
+		EE2B63841CF7605300B6E33A /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
 		EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewController.h; sourceTree = "<group>"; };
 		EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewController.m; sourceTree = "<group>"; };
 		EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoModel.h; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 				EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */,
 				EE6A03DB1CE176A50077B7DF /* AppDelegate.h */,
 				EE6A03DC1CE176A50077B7DF /* AppDelegate.m */,
+				EE2B63831CF7605300B6E33A /* SettingsVC.h */,
+				EE2B63841CF7605300B6E33A /* SettingsVC.m */,
 				EE6A03DE1CE176A50077B7DF /* ViewController.h */,
 				EE6A03DF1CE176A50077B7DF /* ViewController.m */,
 				EE6A03E11CE176A50077B7DF /* Main.storyboard */,
@@ -253,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */,
+				EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */,
 				EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */,
 				EE58AC4D1CE1ADAB00990B55 /* JPPhoto.m in Sources */,
