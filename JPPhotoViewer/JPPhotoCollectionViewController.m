@@ -232,11 +232,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             // パッと出るよりモヤッとでたほうがいいらしい。
             image.alpha = 0;
             if (alreadyExistThumb){
-                [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^ {
+                [UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
                     image.alpha = 1;
                 } completion:nil];
             }else{
-                [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^ {
+                [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
                     image.alpha = 1;
                 } completion:nil];
             }
