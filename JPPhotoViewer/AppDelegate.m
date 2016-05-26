@@ -36,14 +36,12 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
-    // 黒いビューをdissmissする
-    [self.window.rootViewController dismissViewControllerAnimated:NO completion:nil];
-    
     NSString *passcode = nil;
     // KeyChainから読み出すようにする。とりあえずバンドル・・・
     
     BOOL usePasscode = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
     if (usePasscode){
+        self.isPassCodeViewShown = YES;
         passcode = [[NSUserDefaults standardUserDefaults]stringForKey:@"passcode"];
         if (passcode){
             // パスコードの画面を表示する
@@ -51,13 +49,19 @@
             passcodeViewController.delegate = self;
             
             passcodeViewController.passcode = passcode;
-            [self.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:passcodeViewController] animated:NO completion:nil];
+            
+            UINavigationController *navi =[[UINavigationController alloc] initWithRootViewController:passcodeViewController];
+            // 黒いビューをdissmissする
+            [self.window.rootViewController dismissViewControllerAnimated:NO completion:nil];
+            [self.window.rootViewController presentViewController:navi animated:NO completion:nil];
         }else{
             // 新規に設定
             PAPasscodeViewController *passcodeViewController = [[PAPasscodeViewController alloc] initForAction:PasscodeActionSet];
             passcodeViewController.delegate = self;
             
             UINavigationController *navi =[[UINavigationController alloc] initWithRootViewController:passcodeViewController];
+            // 黒いビューをdissmissする
+            [self.window.rootViewController dismissViewControllerAnimated:NO completion:nil];
             [self.window.rootViewController presentViewController:navi animated:NO completion:nil];
         }
     }
@@ -67,6 +71,7 @@
 }
 - (void)PAPasscodeViewControllerDidEnterPasscode:(PAPasscodeViewController *)controller{
     // パスワードが正解ならこのビューを非表示にする
+    self.isPassCodeViewShown = NO;
     [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)PAPasscodeViewControllerDidCancel:(PAPasscodeViewController *)controller {
@@ -76,6 +81,8 @@
 
 - (void)PAPasscodeViewControllerDidSetPasscode:(PAPasscodeViewController *)controller {
     // パスワードの設定後の処理。パスワードを保存する ココはキーチェーンにすべき！
+    self.isPassCodeViewShown = NO;
+
     [[NSUserDefaults standardUserDefaults]setObject:controller.passcode forKey:@"passcode"];
     [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }

@@ -6,6 +6,7 @@
 //  Copyright © 2016年 junpeiwada. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "JPPhotoCollectionViewController.h"
 #import "JPPhotoModel.h"
 #import "JPPhoto.h"
@@ -85,14 +86,20 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 #pragma mark - View
 
 -(void)viewWillAppear:(BOOL)animated{
-    // データを初期化する
-    self.photos = [JPPhotoModel newTestPhotosWithDirectoryName:self.photoDirectory];
-    [self.collectionView reloadData];
-    // ナビゲーションバーを出さない
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    if (!app.isPassCodeViewShown){
+        // データを初期化する
+        self.photos = [JPPhotoModel newTestPhotosWithDirectoryName:self.photoDirectory];
+        [self.collectionView reloadData];
+        // ナビゲーションバーを出さない
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+        self.collectionView.hidden = NO;
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated{
+    NSLog(@"viewWillDisappear");
     self.photos = nil;
+    self.collectionView.hidden = YES;
 }
 
 - (IBAction)didCloseView:(id)sender {
