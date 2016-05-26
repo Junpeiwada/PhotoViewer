@@ -21,6 +21,7 @@
 
 @property (nonatomic) NSInteger width;
 @property (nonatomic) NSInteger height;
+@property (nonatomic) NSInteger thumbnailSize;
 
 @property (nonatomic) NSData *imageData;
 @property (nonatomic) UIImage *placeholderImage;

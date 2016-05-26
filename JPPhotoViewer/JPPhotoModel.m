@@ -234,6 +234,8 @@
                                            NSShadowAttributeName: shadow
                                            }];
         
+        photo.thumbnailSize = 300;
+        
         [photos addObject:photo];
     }
     
@@ -330,6 +332,7 @@
                                                NSShadowAttributeName: shadow
                                                }];
             
+            photo.thumbnailSize = 300;
             [result addObject:photo];
 
         }

@@ -40,24 +40,29 @@
     }
 }
 
+// サムネのパスを作る
+-(NSString *)thumbnailPathSize{
+    return [NSString stringWithFormat:@"%@-%ld",self.thumbnailPath,(long)self.thumbnailSize];
+}
+
 // サムネイルがあるかどうか
 -(BOOL)isExistThumbFile{
-    return [[NSFileManager defaultManager] fileExistsAtPath:self.thumbnailPath];
+    return [[NSFileManager defaultManager] fileExistsAtPath:[self thumbnailPathSize]];
 }
 
 // サムネイルをロードする。サムネがあればそれを、なければ作る
 -(UIImage *)thumbnail{
     if ([self isExistThumbFile]){
         // サムネイルが存在するのでロード
-        return [UIImage imageWithContentsOfFile:self.thumbnailPath];
+        return [UIImage imageWithContentsOfFile:[self thumbnailPathSize]];
     }else{
         // ないので作る
         NSLog(@"makeThumbnail");
-        return [self makeThumbnail:300];
+        return [self makeThumbnail];
     }
 }
 
--(UIImage *)makeThumbnail:(NSInteger)size{
+-(UIImage *)makeThumbnail{
     UIImage * full ;
     if (self.image){
         full = self.image;
@@ -65,12 +70,12 @@
         full = [UIImage imageWithContentsOfFile:self.imagePath];
     }
     if (full){
-        CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, size, size));
+        CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, self.thumbnailSize, self.thumbnailSize));
         frame = CGRectMake(0, 0, (int)frame.size.width, (int)frame.size.height);
         UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationMedium size:frame.size];
         
         NSData *dataSaveImage = UIImageJPEGRepresentation(thumb, 1.0);
-        [dataSaveImage writeToFile:self.thumbnailPath atomically:YES];
+        [dataSaveImage writeToFile:[self thumbnailPathSize] atomically:YES];
         return thumb;
     }else{
         NSLog(@"画像が見つかりません。%@",self.imagePath);
@@ -78,7 +83,7 @@
     }
 }
 
-- (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension
+- (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath
 {
     NSFileManager *fileManager=[[NSFileManager alloc] init];
     NSError *error = nil;
@@ -87,17 +92,12 @@
     if (error) return nil;
     NSMutableArray *hitFileNames = [[NSMutableArray alloc] init];
     for (NSString *fileName in allFileName) {
-        /* 拡張子が一致するか */
-        if ([[fileName pathExtension] isEqualToString:extension]) {
-            [hitFileNames addObject:fileName];
-        }
+        [hitFileNames addObject:fileName];
     }
     return hitFileNames;
 }
 -(void)remove{
-    NSString *path;
-    
-    NSArray *imgFileNames = [self fileNamesAtDirectoryPath:NSTemporaryDirectory() extension:@"JPG"];
+    NSArray *imgFileNames = [self fileNamesAtDirectoryPath:NSTemporaryDirectory() ];
     for (NSString *fileName in imgFileNames) {
         NSString *filePath = [NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),fileName];
 
@@ -106,7 +106,7 @@
         if (error!=nil) {
             NSLog(@"failed to remove %@",[error localizedDescription]);
         }else{
-            NSLog(@"Successfully removed:%@",path);
+            NSLog(@"Successfully removed:%@",filePath);
         }
     }
 }

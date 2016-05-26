@@ -90,6 +90,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     if (!app.isPassCodeViewShown){
         // データを初期化する
         self.photos = [JPPhotoModel newTestPhotosWithDirectoryName:self.photoDirectory];
+        [self updateThumbnailSize];
         [self.collectionView reloadData];
         // ナビゲーションバーを出さない
         [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -97,7 +98,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    NSLog(@"viewWillDisappear");
     self.photos = nil;
     self.collectionView.hidden = YES;
 }
@@ -141,6 +141,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         self.columnCount = 1;
     }
     
+    [self updateThumbnailSize];
+    
     if (preChangeColumnCount != self.columnCount){
         CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
         t.columnCount = self.columnCount;
@@ -149,6 +151,20 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         [[NSUserDefaults standardUserDefaults] setInteger:self.columnCount forKey:@"columnCount"];
     }
 }
+
+
+-(void)updateThumbnailSize{
+    CGSize s = UIScreen.mainScreen.bounds.size;
+    NSInteger size = (s.width / self.columnCount) * 2;
+    
+    for (JPPhoto *p in self.photos) {
+        if (MAX(p.width, p.height) < size){
+            p.thumbnailSize = MAX(p.width, p.height);
+        }
+        
+    }
+}
+
 // スワイプで閉じる
 - (void) swipe:(UISwipeGestureRecognizer*) sender {
     [self didCloseView:nil];
