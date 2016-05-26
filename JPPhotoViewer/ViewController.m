@@ -5,6 +5,7 @@
 //  Created by junpeiwada on 2016/05/10.
 //  Copyright © 2016年 soneru. All rights reserved.
 //
+#import "AppDelegate.h"
 #import <ImageIO/ImageIO.h>
 #import "ViewController.h"
 #import "JPPhoto.h"
@@ -15,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *useLockSwitch;
 
 @property (nonnull) NSMutableArray *directorys;
 @property (nonnull) NSMutableArray *directoryNames;
@@ -39,18 +41,25 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
+    
+    [self.tableView reloadData];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
+
 - (IBAction)lockSwitchChanged:(id)sender {
-    UISwitch *s = sender;
-    
-    [[NSUserDefaults standardUserDefaults]setBool:s.on forKey:@"useLock"];
-    
+    [[NSUserDefaults standardUserDefaults]setBool:self.useLockSwitch.on forKey:@"useLock"];
 }
 
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    if (app.isPassCodeViewShown){
+        // ロック中は見せない
+        return 0;
+    }
+    
     self.directorys = [NSMutableArray array];
     self.directoryNames = [NSMutableArray array];
     

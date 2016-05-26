@@ -64,6 +64,9 @@
             [self.window.rootViewController dismissViewControllerAnimated:NO completion:nil];
             [self.window.rootViewController presentViewController:navi animated:NO completion:nil];
         }
+    }else{
+        // 黒いビューをdissmissする
+        [self.window.rootViewController dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
