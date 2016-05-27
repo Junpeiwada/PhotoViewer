@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "PAPasscodeViewController.h"
+#import "SSKeychain.h"
 
 @interface AppDelegate ()<PAPasscodeViewControllerDelegate>
 
@@ -35,14 +36,10 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-    NSString *passcode = nil;
-    // KeyChainから読み出すようにする。とりあえずバンドル・・・
-    
     BOOL usePasscode = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
     if (usePasscode){
         self.isPassCodeViewShown = YES;
-        passcode = [[NSUserDefaults standardUserDefaults]stringForKey:@"passcode"];
+        NSString *passcode = [self loadPassword];
         if (passcode){
             // パスコードの画面を表示する
             PAPasscodeViewController *passcodeViewController = [[PAPasscodeViewController alloc] initForAction:PasscodeActionEnter];
@@ -83,11 +80,18 @@
 }
 
 - (void)PAPasscodeViewControllerDidSetPasscode:(PAPasscodeViewController *)controller {
-    // パスワードの設定後の処理。パスワードを保存する ココはキーチェーンにすべき！
+    // パスワードの設定後の処理。パスワードを保存する
     self.isPassCodeViewShown = NO;
 
-    [[NSUserDefaults standardUserDefaults]setObject:controller.passcode forKey:@"passcode"];
+    [self savePassword:controller.passcode];
     [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)savePassword:(NSString *)password{
+    [SSKeychain setPassword:password forService:@"JPPhotoViewer" account:@"jp" error:nil];
+}
+- (NSString *)loadPassword{
+    return [SSKeychain passwordForService:@"JPPhotoViewer" account:@"jp"];
 }
 
 @end

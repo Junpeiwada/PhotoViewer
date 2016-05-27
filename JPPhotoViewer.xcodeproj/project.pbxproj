@@ -19,6 +19,7 @@
 		EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E11CE176A50077B7DF /* Main.storyboard */; };
 		EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E41CE176A50077B7DF /* Assets.xcassets */; };
 		EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */; };
+		EECD5C211CF90B5200527B2B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECD5C201CF90B5200527B2B /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		EE6A03E41CE176A50077B7DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE6A03E71CE176A50077B7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE6A03E91CE176A50077B7DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EECD5C201CF90B5200527B2B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EECD5C211CF90B5200527B2B /* Security.framework in Frameworks */,
 				4AB1D91E53EC8983ED3B30FE /* libPods-JPPhotoViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +74,7 @@
 		D8FB5DAC14DCC55670F5A378 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EECD5C201CF90B5200527B2B /* Security.framework */,
 				C41C6D7B4E1DD8365E8AE64B /* libPods-JPPhotoViewer.a */,
 			);
 			name = Frameworks;

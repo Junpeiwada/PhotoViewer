@@ -8,4 +8,5 @@ target 'JPPhotoViewer' do
   # Pods for JPPhotoViewer
 pod 'NYTPhotoViewer', '~> 1.1.0'
 pod 'PAPasscode'
+pod 'SSKeychain', '~> 1.3'
 end

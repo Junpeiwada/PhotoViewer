@@ -8,16 +8,19 @@ PODS:
     - NYTPhotoViewer/Core
   - NYTPhotoViewer/Core (1.1.0)
   - PAPasscode (1.0)
+  - SSKeychain (1.4.0)
 
 DEPENDENCIES:
   - NYTPhotoViewer (~> 1.1.0)
   - PAPasscode
+  - SSKeychain (~> 1.3)
 
 SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   NYTPhotoViewer: e80e8767f3780d2df37c6f72cbab15d6c7232911
   PAPasscode: b408fb87c530cad58a554e26482e87dbb14b7bc2
+  SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
 
-PODFILE CHECKSUM: 042f101d355c98ed3237bf7ad99224285c846218
+PODFILE CHECKSUM: 837de618ffbc3df4651368908dd8153b43cd4260
 
 COCOAPODS: 1.0.0
