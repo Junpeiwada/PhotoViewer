@@ -90,9 +90,9 @@
                         default:
                             break;
                     }
-
                 }
             }
+            
             
             if (photo.width <= 0 && photo.height <= 0){
                 UIImage *image = [UIImage imageWithContentsOfFile:photo.imagePath];
@@ -100,13 +100,16 @@
                 photo.height = image.size.height;
             }
             
+            // サイズ
+            [caption appendString:[NSString stringWithFormat:@"サイズ : %ld x %ld",photo.width,photo.height]];
+            
             
             
             // 絞り
             NSNumber *FNumber = [exif objectForKey:(NSString *)kCGImagePropertyExifFNumber];
             if (FNumber){
                 if (FNumber){
-                    [caption appendString:@"絞り:F"];
+                    [caption appendString:@"\n絞り:F"];
                     [caption appendString:[FNumber description]];
                 }
             }
