@@ -26,9 +26,7 @@
     
     photos = [NSMutableArray array];
     
-    NSString* fileName;
-    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:directoryPath];
-    while(fileName = [dirEnum nextObject]) {
+    for (NSString * fileName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:nil]) {
         // 拡張子がJPG以外は無視。MOVも無視かな・・・
         if (![[fileName uppercaseString] hasSuffix:@"JPG"]){
             if (![[fileName uppercaseString] hasSuffix:@"JPEG"]){
