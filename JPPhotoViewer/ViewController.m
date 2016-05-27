@@ -42,6 +42,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self.tableView reloadData];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 
