@@ -106,9 +106,28 @@
         if (error!=nil) {
             NSLog(@"failed to remove %@",[error localizedDescription]);
         }else{
-            NSLog(@"Successfully removed:%@",filePath);
+//            NSLog(@"Successfully removed:%@",filePath);
         }
     }
+}
+
++ (NSInteger)tempFilesSize {
+    
+    NSString *folderPath = NSTemporaryDirectory();
+    
+    NSArray *filesArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
+    NSEnumerator *filesEnumerator = [filesArray objectEnumerator];
+    NSString *fileName;
+    NSInteger fileSize = 0;
+    
+    while (fileName = [filesEnumerator nextObject]) {
+        NSDictionary *fileDictionary = [[NSFileManager defaultManager]
+                                        attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:fileName]
+                                        error:nil];
+        fileSize += [fileDictionary fileSize];
+    }
+    
+    return fileSize;
 }
 
 @end

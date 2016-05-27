@@ -36,4 +36,6 @@
 -(UIImage *)thumbnail;
 
 -(void)remove;
+
++ (NSInteger)tempFilesSize ;
 @end

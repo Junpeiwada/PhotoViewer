@@ -12,6 +12,7 @@
 
 @interface SettingsVC ()
 @property (weak, nonatomic) IBOutlet UISwitch *useLockSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *tempSizeLabel;
 
 @end
 
@@ -34,6 +35,17 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
+    self.tempSizeLabel.text = @"Loading...";
+    [self showTempSize];
+}
+
+-(void)showTempSize{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSInteger size = [JPPhoto tempFilesSize];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.tempSizeLabel.text = [NSString stringWithFormat:@"%ld MB",(size / (1000 * 1000))];
+        });
+    });
 }
 
 #pragma mark - Table view data source
@@ -102,7 +114,7 @@
 }
 */
 - (IBAction)lockValueChanged:(id)sender {
-[[NSUserDefaults standardUserDefaults]setBool:self.useLockSwitch.on forKey:@"useLock"];
+    [[NSUserDefaults standardUserDefaults]setBool:self.useLockSwitch.on forKey:@"useLock"];
 }
 - (IBAction)removeThumb:(id)sender {
     [self.tableView reloadData];
@@ -127,6 +139,8 @@
             }
         }
     }
+    
+    [self showTempSize];
 }
 
 @end
