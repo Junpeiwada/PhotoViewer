@@ -340,6 +340,56 @@
     return nil;
 }
 
++(void)removeAllIndex{
+    // インデックスをすべて削除
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    for (NSString *path in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] )
+    {
+        BOOL dir;
+        
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,path];
+        
+        if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
+            if ( dir ){
+                [[NSFileManager defaultManager] removeItemAtPath:[JPPhotoModel plistPath:fullPath] error:nil];
+            }
+        }
+    }
+}
+
++(void)removeIndex:(NSString *)directoryname{
+    // 指定されたインデックスを削除
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    BOOL dir;
+    
+    NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,directoryname];
+    
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
+        if ( dir ){
+            [[NSFileManager defaultManager] removeItemAtPath:[JPPhotoModel plistPath:fullPath] error:nil];
+        }
+    }
+}
+
+// していされたドキュメントディレクトリのフォルダを削除します
++(void)removeDirectory:(NSString *)directoryname{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    BOOL dir;
+    
+    NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,directoryname];
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
+        if ( dir ){
+            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+        }
+    }
+}
+
+
+
 
 
 @end

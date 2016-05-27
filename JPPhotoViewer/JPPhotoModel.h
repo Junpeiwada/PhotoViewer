@@ -11,4 +11,7 @@
 @interface JPPhotoModel : NSObject
 + (NSArray *)newTestPhotosWithDirectoryName:(NSString *)directoryPath;
 + (NSString *)plistPath:(NSString *)directoryPath;
++(void)removeIndex:(NSString *)directoryname;
++(void)removeAllIndex;
++(void)removeDirectory:(NSString *)directoryname;
 @end

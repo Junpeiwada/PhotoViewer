@@ -123,22 +123,9 @@
     JPPhoto *t = [[JPPhoto alloc]init];
     [t remove];
     
+    // インデックスを削除
+    [JPPhotoModel removeAllIndex];
     
-    // インデックスも削除
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    for (NSString *path in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] )
-    {
-        BOOL dir;
-        
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,path];
-        
-        if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
-            if ( dir ){
-                [[NSFileManager defaultManager] removeItemAtPath:[JPPhotoModel plistPath:fullPath] error:nil];
-            }
-        }
-    }
     
     [self showTempSize];
 }

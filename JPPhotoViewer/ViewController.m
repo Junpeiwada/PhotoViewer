@@ -101,6 +101,32 @@
     [self.navigationController pushViewController:self.collectionView animated:YES];
 }
 
+- (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @[
+             [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
+                                                title:@"削除"
+                                              handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                                                  // own delete action
+//                                                  [self.list removeObjectAtIndex:indexPath.row];
+                                                  NSString *direc = [self.directoryNames objectAtIndex:indexPath.row];
+                                                  [JPPhotoModel removeDirectory:direc];
+                                                  
+                                                  [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                              }],
+             [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
+                                                title:@"インデックスの削除"
+                                              handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                                                  // own action
+                                                  
+                                                  NSString *direc = [self.directoryNames objectAtIndex:indexPath.row];
+                                                  [JPPhotoModel removeIndex:direc];
+                                                  
+                                                  [tableView setEditing:NO animated:YES];
+                                              }],
+             ];
+}
+
 - (IBAction)showSetting:(id)sender {
     // コレクションビューを表示する
     UIViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"settings"];
