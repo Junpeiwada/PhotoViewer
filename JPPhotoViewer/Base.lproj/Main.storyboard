@@ -26,7 +26,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="PhotoViewer" id="y9F-FK-zuG">
-                        <barButtonItem key="rightBarButtonItem" title="Settings" style="plain" id="Ezx-3U-vaG"/>
+                        <barButtonItem key="rightBarButtonItem" title="Settings" style="plain" id="Ezx-3U-vaG">
+                            <connections>
+                                <action selector="showSetting:" destination="vXZ-lx-hvc" id="wBd-3a-0Ns"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="qUZ-pH-2FP" id="7QE-kl-was"/>
@@ -46,7 +50,7 @@
                         <collectionViewLayout key="collectionViewLayout" id="Isf-xs-iuA" customClass="CHTCollectionViewWaterfallLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="bxx-rc-tqv">
-                                <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
