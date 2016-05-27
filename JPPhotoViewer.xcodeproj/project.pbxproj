@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D44C7987AB18EB003B5FD497 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3C48675BF53E9699E30550E /* libPods.a */; };
+		4AB1D91E53EC8983ED3B30FE /* libPods-JPPhotoViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C41C6D7B4E1DD8365E8AE64B /* libPods-JPPhotoViewer.a */; };
 		EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2B63841CF7605300B6E33A /* SettingsVC.m */; };
 		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
 		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
@@ -22,9 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		E3C48675BF53E9699E30550E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		33B8621531949CA448CEDEE7 /* Pods-JPPhotoViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JPPhotoViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		85271CD2D8A2F184C05DCA4B /* Pods-JPPhotoViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JPPhotoViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer.release.xcconfig"; sourceTree = "<group>"; };
+		C41C6D7B4E1DD8365E8AE64B /* libPods-JPPhotoViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JPPhotoViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE2B63831CF7605300B6E33A /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
 		EE2B63841CF7605300B6E33A /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
 		EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewController.h; sourceTree = "<group>"; };
@@ -52,28 +52,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D44C7987AB18EB003B5FD497 /* libPods.a in Frameworks */,
+				4AB1D91E53EC8983ED3B30FE /* libPods-JPPhotoViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3DE2C25520B9614CC50A0E74 /* Frameworks */ = {
+		2ACB564CEA72717681B9DAAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E3C48675BF53E9699E30550E /* libPods.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		7209AE746A75F60C814090D4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */,
-				1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */,
+				33B8621531949CA448CEDEE7 /* Pods-JPPhotoViewer.debug.xcconfig */,
+				85271CD2D8A2F184C05DCA4B /* Pods-JPPhotoViewer.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D8FB5DAC14DCC55670F5A378 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C41C6D7B4E1DD8365E8AE64B /* libPods-JPPhotoViewer.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		EE58AC501CE1CC9100990B55 /* UICollectionViewWaterfallLayout */ = {
@@ -90,8 +90,8 @@
 			children = (
 				EE6A03D71CE176A50077B7DF /* JPPhotoViewer */,
 				EE6A03D61CE176A50077B7DF /* Products */,
-				7209AE746A75F60C814090D4 /* Pods */,
-				3DE2C25520B9614CC50A0E74 /* Frameworks */,
+				2ACB564CEA72717681B9DAAF /* Pods */,
+				D8FB5DAC14DCC55670F5A378 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,12 +143,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE6A03EC1CE176A50077B7DF /* Build configuration list for PBXNativeTarget "JPPhotoViewer" */;
 			buildPhases = (
-				95E2F6BBCFBDCE73C14A2FC3 /* Check Pods Manifest.lock */,
+				897D1166B2CBD5576E97BBB8 /* 📦 Check Pods Manifest.lock */,
 				EE6A03D11CE176A50077B7DF /* Sources */,
 				EE6A03D21CE176A50077B7DF /* Frameworks */,
 				EE6A03D31CE176A50077B7DF /* Resources */,
-				1387FCC97153624D5395B294 /* Embed Pods Frameworks */,
-				F03588DCE92608DEB861D2C3 /* Copy Pods Resources */,
+				1F49EBE64F0F8198B0A48CCC /* 📦 Embed Pods Frameworks */,
+				3DEFBCF4155BF6F40F5C8A42 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -205,49 +205,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1387FCC97153624D5395B294 /* Embed Pods Frameworks */ = {
+		1F49EBE64F0F8198B0A48CCC /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		95E2F6BBCFBDCE73C14A2FC3 /* Check Pods Manifest.lock */ = {
+		3DEFBCF4155BF6F40F5C8A42 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		897D1166B2CBD5576E97BBB8 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F03588DCE92608DEB861D2C3 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -376,7 +376,7 @@
 		};
 		EE6A03ED1CE176A50077B7DF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C612144E41CCE945B0EB6677 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 33B8621531949CA448CEDEE7 /* Pods-JPPhotoViewer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = JPPhotoViewer/Info.plist;
@@ -388,7 +388,7 @@
 		};
 		EE6A03EE1CE176A50077B7DF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B581A8E29C0475EDA4C234B /* Pods.release.xcconfig */;
+			baseConfigurationReference = 85271CD2D8A2F184C05DCA4B /* Pods-JPPhotoViewer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = JPPhotoViewer/Info.plist;
