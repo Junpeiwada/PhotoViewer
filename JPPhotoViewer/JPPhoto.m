@@ -71,6 +71,18 @@
     }
     if (full){
         CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, self.thumbnailSize, self.thumbnailSize));
+        
+        // アスペクトを求める
+        CGFloat ratio =  full.size.width / full.size.height;
+        if (full.size.width > full.size.height){
+            // 横長の画像
+            frame = CGRectMake(0, 0, self.thumbnailSize, (int)(self.thumbnailSize / ratio));
+        }else{
+            // 縦長の画像
+            frame = CGRectMake(0, 0, self.thumbnailSize, (int)(self.thumbnailSize / ratio));
+        }
+        
+        
         frame = CGRectMake(0, 0, (int)frame.size.width, (int)frame.size.height);
         UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationHigh size:frame.size];
         
