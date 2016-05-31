@@ -54,13 +54,13 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 -(void)viewDidLoad{
     // ナビゲーションバーを出さない
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-     
+    
      
     // ピンチジェスチャーの実装
     UIPinchGestureRecognizer* pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [self.view addGestureRecognizer:pinchGesture];
     
-    // 右スワイプの実装
+    // 右スワイプで戻る
     UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
     swipe.direction = UISwipeGestureRecognizerDirectionRight;
     swipe.numberOfTouchesRequired = 1;
@@ -139,6 +139,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     if (self.columnCount <= 0){
         self.columnCount = 1;
+    }else if (self.columnCount >= 10){
+        self.columnCount = 10;
     }
     
     [self updateThumbnailSize];
