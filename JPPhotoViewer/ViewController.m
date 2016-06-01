@@ -11,6 +11,7 @@
 #import "JPPhoto.h"
 #import "JPPhotoModel.h"
 #import "JPPhotoCollectionViewController.h"
+#import <SVProgressHUD.h>
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
@@ -96,9 +97,24 @@
     }
     
     [self.collectionView.collectionView setContentOffset:CGPointMake(0, 0)];
-        
+    
     self.collectionView.photoDirectory = [self.directorys objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:self.collectionView animated:YES];
+    
+    // データロードのためにプログレスを表示
+    if (![JPPhotoModel isExistIndexWithDirectoryName:self.collectionView.photoDirectory]){
+        [SVProgressHUD showWithStatus:@"写真の一覧を作っています"];
+    }
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // データをロード
+        self.collectionView.photos = [JPPhotoModel photosWithDirectoryName:self.collectionView.photoDirectory];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.navigationController pushViewController:self.collectionView animated:YES];
+            [SVProgressHUD dismiss];
+        });
+    });
 }
 
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath

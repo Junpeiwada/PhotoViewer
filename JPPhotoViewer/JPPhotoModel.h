@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface JPPhotoModel : NSObject
-+ (NSArray *)newTestPhotosWithDirectoryName:(NSString *)directoryPath;
++ (NSArray *)photosWithDirectoryName:(NSString *)directoryPath;
 + (NSString *)plistPath:(NSString *)directoryPath;
 +(void)removeIndex:(NSString *)directoryname;
 +(void)removeAllIndex;
 +(void)removeDirectory:(NSString *)directoryname;
++(BOOL)isExistIndexWithDirectoryName:(NSString *)directoryPath;
 @end

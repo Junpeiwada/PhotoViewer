@@ -10,24 +10,44 @@
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <ImageIO/ImageIO.h>
 #import "JPPhoto.h"
+#import <SVProgressHUD.h>
 
 @implementation JPPhotoModel
-+ (NSArray *)newTestPhotosWithDirectoryName:(NSString *)directoryPath {
+
++ (BOOL)isExistIndexWithDirectoryName:(NSString *)directoryPath{
+    NSString *pListPath = [self plistPath:directoryPath];
     
-    // インデックスを削除する
-//    [[NSFileManager defaultManager] removeItemAtPath:[self plistPath:directoryPath] error:nil];
+    if ([[NSFileManager defaultManager]fileExistsAtPath:pListPath]){
+        return YES;
+    }
+    return NO;
+}
+
++ (NSArray *)photosWithDirectoryName:(NSString *)directoryPath {
     
     NSMutableArray *photos;
     
+    // すでにインデックスがあればそれを使う
     photos = [[self loadPhotosFromJsonWithDirectortyPath:directoryPath]mutableCopy];
     if (photos){
         return photos;
     }
     
+    // ない場合は作る
     photos = [NSMutableArray array];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:nil];
     
-    for (NSString * fileName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:nil]) {
-        // 拡張子がJPG以外は無視。MOVも無視かな・・・
+    float preProgress = 0;
+    
+    for (int i = 0; i < files.count; i++) {
+        
+        float progress = (float)i/(float)files.count;
+        if ((progress - preProgress) > 0.2){
+            preProgress = progress;
+            [SVProgressHUD showProgress:(float)i/(float)files.count status:@"写真の一覧を作っています"];
+        }
+        NSString *fileName = files[i];
+
         if (![[fileName uppercaseString] hasSuffix:@"JPG"]){
             if (![[fileName uppercaseString] hasSuffix:@"JPEG"]){
                 continue;
@@ -101,7 +121,7 @@
             }
             
             // サイズ
-            [caption appendString:[NSString stringWithFormat:@"サイズ : %ld x %ld",photo.width,photo.height]];
+            [caption appendString:[NSString stringWithFormat:@"サイズ : %ld x %ld",(long)photo.width,(long)photo.height]];
             
             
             
@@ -239,6 +259,8 @@
         
         [photos addObject:photo];
     }
+    
+    [SVProgressHUD showProgress:1.0 status:@"完了"];
     
     // 日付順に並び替え
     NSArray * result = [photos sortedArrayUsingComparator:^NSComparisonResult(JPPhoto * obj1, JPPhoto *  obj2) {

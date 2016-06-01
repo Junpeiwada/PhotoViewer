@@ -88,8 +88,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 -(void)viewWillAppear:(BOOL)animated{
     AppDelegate *app = [[UIApplication sharedApplication] delegate];
     if (!app.isPassCodeViewShown){
-        // データを初期化する
-        self.photos = [JPPhotoModel newTestPhotosWithDirectoryName:self.photoDirectory];
         [self updateThumbnailSize];
         [self.collectionView reloadData];
         // ナビゲーションバーを出さない
