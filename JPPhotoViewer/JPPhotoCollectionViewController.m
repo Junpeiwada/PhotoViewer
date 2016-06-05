@@ -230,18 +230,26 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         
         // UIThreadで表示
         dispatch_async(dispatch_get_main_queue(), ^{
-            image.image =thumb;
             
-            // パッと出るよりモヤッとでたほうがいいらしい。
-            image.alpha = 0;
-            if (alreadyExistThumb){
-                [UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                    image.alpha = 1;
-                } completion:nil];
-            }else{
-                [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                    image.alpha = 1;
-                } completion:nil];
+            for (UICollectionViewCell * cell in [self.collectionView visibleCells]) {
+                NSIndexPath* visiblePath = [self.collectionView indexPathForCell:cell];
+                if (visiblePath.row == indexPath.row){
+                    // まだ画面に表示されているなら表示
+                    image.image =thumb;
+                    
+                    // パッと出るよりモヤッとでたほうがいいらしい。
+                    image.alpha = 0;
+                    if (alreadyExistThumb){
+                        [UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+                            image.alpha = 1;
+                        } completion:nil];
+                    }else{
+                        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+                            image.alpha = 1;
+                        } completion:nil];
+                    }
+                    break;
+                }
             }
         });
     });
