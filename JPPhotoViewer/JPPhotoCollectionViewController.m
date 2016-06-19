@@ -13,6 +13,7 @@
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <AVFoundation/AVFoundation.h>
 #import "CHTCollectionViewWaterfallLayout.h"
+#import "JPPhotoCollectionViewCell.h"
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (nonatomic) NSInteger columnCount;
@@ -206,12 +207,10 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    UIImageView *image = (UIImageView *)[cell viewWithTag:1];
-    image.image = nil;
+    JPPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     JPPhoto *photo = [self.photos objectAtIndex:indexPath.row];
+    cell.thumbnailPath = [photo thumbnailPathSize];
     
     // サムネをロードする
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -231,21 +230,21 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         // UIThreadで表示
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            for (UICollectionViewCell * cell in [self.collectionView visibleCells]) {
-                NSIndexPath* visiblePath = [self.collectionView indexPathForCell:cell];
+            for (JPPhotoCollectionViewCell * jpCell in [self.collectionView visibleCells]) {
+                NSIndexPath* visiblePath = [self.collectionView indexPathForCell:jpCell];
                 if (visiblePath.row == indexPath.row){
-                    // まだ画面に表示されているなら表示
-                    image.image =thumb;
+                    
+                    [jpCell loadImage];
                     
                     // パッと出るよりモヤッとでたほうがいいらしい。
-                    image.alpha = 0;
+                    [jpCell imageView].alpha = 0;
                     if (alreadyExistThumb){
                         [UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                            image.alpha = 1;
+                            [jpCell imageView].alpha = 1;
                         } completion:nil];
                     }else{
                         [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                            image.alpha = 1;
+                            [jpCell imageView].alpha = 1;
                         } completion:nil];
                     }
                     break;

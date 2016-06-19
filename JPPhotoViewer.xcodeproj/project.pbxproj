@@ -19,6 +19,7 @@
 		EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E11CE176A50077B7DF /* Main.storyboard */; };
 		EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E41CE176A50077B7DF /* Assets.xcassets */; };
 		EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */; };
+		EEA912BC1D1666CA007FC163 /* JPPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */; };
 		EECD5C211CF90B5200527B2B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECD5C201CF90B5200527B2B /* Security.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,8 @@
 		EE6A03E41CE176A50077B7DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE6A03E71CE176A50077B7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE6A03E91CE176A50077B7DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EEA912BA1D1666CA007FC163 /* JPPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		EECD5C201CF90B5200527B2B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -117,6 +120,8 @@
 				EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */,
 				EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */,
 				EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */,
+				EEA912BA1D1666CA007FC163 /* JPPhotoCollectionViewCell.h */,
+				EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */,
 				EE6A03DB1CE176A50077B7DF /* AppDelegate.h */,
 				EE6A03DC1CE176A50077B7DF /* AppDelegate.m */,
 				EE2B63831CF7605300B6E33A /* SettingsVC.h */,
@@ -147,12 +152,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE6A03EC1CE176A50077B7DF /* Build configuration list for PBXNativeTarget "JPPhotoViewer" */;
 			buildPhases = (
+				21A8C22F52D02CB02DFB0171 /* 📦 Check Pods Manifest.lock */,
 				897D1166B2CBD5576E97BBB8 /* [CP] Check Pods Manifest.lock */,
 				EE6A03D11CE176A50077B7DF /* Sources */,
 				EE6A03D21CE176A50077B7DF /* Frameworks */,
 				EE6A03D31CE176A50077B7DF /* Resources */,
 				1F49EBE64F0F8198B0A48CCC /* [CP] Embed Pods Frameworks */,
 				3DEFBCF4155BF6F40F5C8A42 /* [CP] Copy Pods Resources */,
+				C8828AE88E33BA68047FCE8C /* 📦 Embed Pods Frameworks */,
+				716FD40B1353DFF2C41A33DE /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -224,6 +232,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		21A8C22F52D02CB02DFB0171 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		3DEFBCF4155BF6F40F5C8A42 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +255,21 @@
 			inputPaths = (
 			);
 			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		716FD40B1353DFF2C41A33DE /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,6 +292,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		C8828AE88E33BA68047FCE8C /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -261,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEA912BC1D1666CA007FC163 /* JPPhotoCollectionViewCell.m in Sources */,
 				EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */,
 				EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */,
 				EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */,

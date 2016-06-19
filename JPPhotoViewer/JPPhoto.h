@@ -13,7 +13,7 @@
 @interface JPPhoto : NSObject <NYTPhoto>
 
 
-@property (nonatomic) NSString *imagePath;
+@property (nonatomic) NSString *imagePath; // イメージのパス（フルパス）
 @property (nonatomic) NSString *thumbnailPath;
 
 // Redeclare all the properties as readwrite for sample/testing purposes.
@@ -34,8 +34,8 @@
 -(BOOL)isExistThumbFile;
 
 -(UIImage *)thumbnail;
-
+-(NSString *)thumbnailPathSize; // サイズ指定のサムネイルのパスを返す
 -(void)remove;
 
-+ (NSInteger)tempFilesSize ;
++ (NSInteger)tempFilesSize ; //テンポラリディレクトリのサイズを返す。
 @end
