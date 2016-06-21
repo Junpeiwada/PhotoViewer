@@ -26,6 +26,9 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    UIViewController *root = [UIApplication sharedApplication].delegate.window.rootViewController;
+    [root dismissViewControllerAnimated:YES completion:nil];
+    
     // 黒いビューを表示して、タスクスイッチャに黒い画面が表示されるようにする
     UIViewController *blankViewController = [UIViewController new];
     blankViewController.view.backgroundColor = [UIColor blackColor];
