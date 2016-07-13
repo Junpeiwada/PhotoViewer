@@ -152,7 +152,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EE6A03EC1CE176A50077B7DF /* Build configuration list for PBXNativeTarget "JPPhotoViewer" */;
 			buildPhases = (
-				21A8C22F52D02CB02DFB0171 /* 📦 Check Pods Manifest.lock */,
+				21A8C22F52D02CB02DFB0171 /* [CP] Check Pods Manifest.lock */,
 				897D1166B2CBD5576E97BBB8 /* [CP] Check Pods Manifest.lock */,
 				EE6A03D11CE176A50077B7DF /* Sources */,
 				EE6A03D21CE176A50077B7DF /* Frameworks */,
@@ -232,14 +232,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		21A8C22F52D02CB02DFB0171 /* 📦 Check Pods Manifest.lock */ = {
+		21A8C22F52D02CB02DFB0171 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
