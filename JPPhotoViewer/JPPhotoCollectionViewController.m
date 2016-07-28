@@ -140,6 +140,9 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
     [super viewWillAppear:animated];
 }
+-(void)prepareForAppear{
+    [self.collectionView reloadData];
+}
 -(void)viewWillDisappear:(BOOL)animated{
     self.photos = nil;
     self.collectionView.hidden = YES;
