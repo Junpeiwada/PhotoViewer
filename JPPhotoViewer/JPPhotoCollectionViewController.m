@@ -31,7 +31,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 
 -(void)initInstance{
-    semaphore_ = dispatch_semaphore_create(3);
+    semaphore_ = dispatch_semaphore_create(20);
     
     NSInteger savedColumnCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"columnCount"];
     if  (savedColumnCount == 0){
