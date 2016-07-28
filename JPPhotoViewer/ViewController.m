@@ -92,11 +92,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!self.collectionView){
-        // コレクションビューを表示する
-        UINavigationController *navi = [[self storyboard] instantiateViewControllerWithIdentifier:@"collectionViewNavi"];
-        self.collectionView = (JPPhotoCollectionViewController *)navi.topViewController;
-    }
+
+    UINavigationController *navi = [[self storyboard] instantiateViewControllerWithIdentifier:@"collectionViewNavi"];
+    self.collectionView = (JPPhotoCollectionViewController *)navi.topViewController;
     
     [self.collectionView.collectionView setContentOffset:CGPointMake(0, 0)];
     

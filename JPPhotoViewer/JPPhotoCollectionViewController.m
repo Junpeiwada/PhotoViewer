@@ -156,6 +156,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         p.image = nil;
     }
     self.photos = nil;
+    self.collectionView = nil;
 }
 
 // ピンチで画像サイズを変更
@@ -281,12 +282,12 @@ static NSString * const reuseIdentifier = @"PhotoCell";
                     [jpCell loadImage];
                     
                     // パッと出るよりモヤッとでたほうがいいらしい。
-                    [jpCell imageView].alpha = 0;
                     if (alreadyExistThumb){
                         [UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
                             [jpCell imageView].alpha = 1;
                         } completion:nil];
                     }else{
+                        [jpCell imageView].alpha = 0.1;
                         [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
                             [jpCell imageView].alpha = 1;
                         } completion:nil];
