@@ -15,12 +15,10 @@
              withQuality:(CGInterpolationQuality)quality
                     size:(CGSize)size
 {
-    NSDate *timer = nil;
+    
     UIImage *resized = nil;
     CGFloat width = size.width;
     CGFloat height = size.height;
-    
-    timer = [NSDate date];
     UIGraphicsBeginImageContext(CGSizeMake(width, height));
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetInterpolationQuality(context, quality);
@@ -28,7 +26,9 @@
     resized = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    //    NSLog(@"time: %f", [[NSDate date] timeIntervalSinceDate:timer]);
+//    NSDate *timer = nil;
+//    timer = [NSDate date];
+//    NSLog(@"time: %f", [[NSDate date] timeIntervalSinceDate:timer]);
     return resized;
     
 }
@@ -70,7 +70,7 @@
         full = [UIImage imageWithContentsOfFile:self.imagePath];
     }
     if (full){
-        CGRect frame = AVMakeRectWithAspectRatioInsideRect(full.size,CGRectMake(0, 0, self.thumbnailSize, self.thumbnailSize));
+        CGRect frame;
         
         // アスペクトを求める
         CGFloat ratio =  full.size.width / full.size.height;

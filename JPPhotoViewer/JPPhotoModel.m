@@ -62,8 +62,11 @@
         photo.thumbnailPath = [NSString stringWithFormat:@"%@%@--%@",NSTemporaryDirectory(),directoryPath.lastPathComponent,fileName];
         
         // メタデータを取り出し
-        CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:photo.imagePath]), nil);
+        NSURL *filePath = [NSURL fileURLWithPath:photo.imagePath];
+        
+        CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)(filePath), nil);
         NSDictionary *metadata = (NSDictionary *) CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, 0, NULL));
+        CFRelease(source);
         
         
         NSMutableString *credit = [NSMutableString string];

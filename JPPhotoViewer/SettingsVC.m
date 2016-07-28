@@ -34,6 +34,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
     self.tempSizeLabel.text = @"Loading...";
     [self showTempSize];

@@ -77,6 +77,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     longPressRecognizer.allowableMovement = 10;
     longPressRecognizer.minimumPressDuration = 0.5;
     [self.collectionView addGestureRecognizer:longPressRecognizer];
+    [super viewDidLoad];
 }
 
 -(void)longPressAction:(UILongPressGestureRecognizer *)sender{
@@ -137,10 +138,12 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         self.collectionView.hidden = NO;
     }
+    [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.photos = nil;
     self.collectionView.hidden = YES;
+    [super viewWillDisappear:animated];
 }
 
 - (IBAction)didCloseView:(id)sender {
@@ -254,14 +257,13 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     // サムネをロードする
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         BOOL alreadyExistThumb;
-        UIImage *thumb;
         if ([photo isExistThumbFile]){
-            thumb = [photo thumbnail];
+            [photo thumbnail];
             alreadyExistThumb = YES;
         }else{
             // ロードするときにサムネを作るので、あんまりたくさんのThreadで実行してはだめ。
             dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER);
-            thumb = [photo thumbnail];
+            [photo thumbnail];
             dispatch_semaphore_signal(semaphore_);
             alreadyExistThumb = NO;
         }

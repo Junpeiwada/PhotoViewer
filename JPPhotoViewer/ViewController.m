@@ -31,6 +31,7 @@
 
 -(void)viewDidLoad{
     self.debugLabel.text = [NSString stringWithFormat:@"%d",(int)self.columnCountSlider.value];
+    [super viewDidLoad];
 }
 - (IBAction)sliderChanged:(id)sender {
     self.columnCountSlider.value = (int)self.columnCountSlider.value;
@@ -44,6 +45,7 @@
     [self.tableView reloadData];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [super viewWillAppear:animated];
 }
 
 
