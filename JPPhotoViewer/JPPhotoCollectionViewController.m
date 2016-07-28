@@ -72,6 +72,45 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     t.columnCount = self.columnCount;
     t.minimumColumnSpacing = self.columnCount;
+    
+    UILongPressGestureRecognizer * longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressAction:)];
+    longPressRecognizer.allowableMovement = 10;
+    longPressRecognizer.minimumPressDuration = 0.5;
+    [self.collectionView addGestureRecognizer:longPressRecognizer];
+}
+
+-(void)longPressAction:(UILongPressGestureRecognizer *)sender{
+    
+    CGPoint location = [sender locationInView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
+    if (indexPath){
+        if (sender.state == UIGestureRecognizerStateBegan){
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"削除"
+                                                                                     message:@"削除しますよろしいですか？"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            // addActionした順に左から右にボタンが配置されます
+            [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                JPPhoto *p = self.photos[indexPath.row];
+                [p removeOriginal];
+                [p removeThumb];
+                [self.photos removeObject:p];
+                [self.collectionView performBatchUpdates:^ {
+                    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]]; // no assertion now
+                } completion:nil];
+                
+                // JSONを上書き
+                [JPPhotoModel saveToJsonWithPhotos:self.photos directortyPath:self.photoDirectory];
+            }]];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                // cancelボタンが押された時の処理
+                return;
+            }]];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+    }
 }
 
 
@@ -321,6 +360,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     [self loadPhotoOnPhotosViewController:photosViewController photo:photo];
     if (photoIndex > 0 && photoIndex < self.photos.count - 1){
+        // 前後の画像をロードしておく。スワイプ時にロード画面が表示されなくていい感じになる。
         [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex -1]];
         [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex +1]];
     }

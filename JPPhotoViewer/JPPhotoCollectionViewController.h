@@ -10,7 +10,7 @@
 
 @interface JPPhotoCollectionViewController : UICollectionViewController
 @property (nonatomic) NSString * photoDirectory;
-@property (nonatomic) NSArray * photos;
+@property (nonatomic) NSMutableArray * photos;
 
 
 @end

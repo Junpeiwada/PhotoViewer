@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface JPPhotoModel : NSObject
-+ (NSArray *)photosWithDirectoryName:(NSString *)directoryPath;
++ (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath;
 + (NSString *)plistPath:(NSString *)directoryPath;
 +(void)removeIndex:(NSString *)directoryname;
 +(void)removeAllIndex;
 +(void)removeDirectory:(NSString *)directoryname;
 +(BOOL)isExistIndexWithDirectoryName:(NSString *)directoryPath;
++(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath;
 @end

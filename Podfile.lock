@@ -8,7 +8,7 @@ PODS:
     - NYTPhotoViewer/Core
   - NYTPhotoViewer/Core (1.1.0)
   - PAPasscode (1.0)
-  - SSKeychain (1.4.0)
+  - SSKeychain (1.4.1)
   - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
@@ -21,7 +21,7 @@ SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   NYTPhotoViewer: e80e8767f3780d2df37c6f72cbab15d6c7232911
   PAPasscode: b408fb87c530cad58a554e26482e87dbb14b7bc2
-  SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
+  SSKeychain: 55cc80f66f5c73da827e3077f02e43528897db41
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
 PODFILE CHECKSUM: 5e5bd8bff4b0dfc7a1548b116dbd6bc480448053

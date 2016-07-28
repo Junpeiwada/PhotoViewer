@@ -108,7 +108,7 @@
     }
     return hitFileNames;
 }
--(void)remove{
+-(void)removeThumb{
     NSArray *imgFileNames = [self fileNamesAtDirectoryPath:NSTemporaryDirectory() ];
     for (NSString *fileName in imgFileNames) {
         NSString *filePath = [NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),fileName];
@@ -120,6 +120,18 @@
         }else{
 //            NSLog(@"Successfully removed:%@",filePath);
         }
+    }
+}
+
+// 本物を削除します
+-(void)removeOriginal{
+    
+    NSError *error=nil;
+    [[NSFileManager defaultManager] removeItemAtPath:self.imagePath error:&error];
+    if (error!=nil) {
+        NSLog(@"failed to remove %@",[error localizedDescription]);
+    }else{
+        //            NSLog(@"Successfully removed:%@",filePath);
     }
 }
 

@@ -35,7 +35,8 @@
 
 -(UIImage *)thumbnail;
 -(NSString *)thumbnailPathSize; // サイズ指定のサムネイルのパスを返す
--(void)remove;
+-(void)removeThumb;
+-(void)removeOriginal;
 
 + (NSInteger)tempFilesSize ; //テンポラリディレクトリのサイズを返す。
 @end

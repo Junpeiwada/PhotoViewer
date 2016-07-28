@@ -23,7 +23,7 @@
     return NO;
 }
 
-+ (NSArray *)photosWithDirectoryName:(NSString *)directoryPath {
++ (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath {
     
     NSMutableArray *photos;
     
@@ -271,8 +271,9 @@
     // 保存
     [self saveToJsonWithPhotos:result directortyPath:directoryPath];
     
-    return result;
+    return [result mutableCopy];
 }
+
 
 +(NSString *)plistPath:(NSString *)directoryPath{
     NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
