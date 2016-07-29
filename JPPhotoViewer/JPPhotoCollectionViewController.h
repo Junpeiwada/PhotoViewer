@@ -12,6 +12,4 @@
 @property (nonatomic) NSString * photoDirectory;
 @property (nonatomic) NSMutableArray * photos;
 
--(void)prepareForAppear;
-
 @end

@@ -47,7 +47,11 @@
 
 // サムネイルがあるかどうか
 -(BOOL)isExistThumbFile{
-    return [[NSFileManager defaultManager] fileExistsAtPath:[self thumbnailPathSize]];
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:[self thumbnailPathSize]];
+//    if (!isExist){
+//        NSLog(@"%@",[self thumbnailPathSize]);
+//    }
+    return isExist;
 }
 
 // サムネイルをロードする。サムネがあればそれを、なければ作る
@@ -57,7 +61,6 @@
         return [UIImage imageWithContentsOfFile:[self thumbnailPathSize]];
     }else{
         // ないので作る
-//        NSLog(@"makeThumbnail");
         return [self makeThumbnail];
     }
 }
@@ -87,7 +90,13 @@
         UIImage * thumb = [self resizeImage:full withQuality:kCGInterpolationHigh size:frame.size];
         
         NSData *dataSaveImage = UIImageJPEGRepresentation(thumb, 1.0);
-        [dataSaveImage writeToFile:[self thumbnailPathSize] atomically:YES];
+        if (![dataSaveImage writeToFile:[self thumbnailPathSize] atomically:YES]){
+            NSLog(@"サムネールの作成に失敗");
+        }
+        
+        NSLog(@"サムネール作った%@",[self thumbnailPathSize]);
+        
+        
         return thumb;
     }else{
         NSLog(@"画像が見つかりません。%@",self.imagePath);

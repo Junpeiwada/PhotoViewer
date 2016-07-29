@@ -21,7 +21,6 @@
 
 
 @implementation JPPhotoCollectionViewController {
-    dispatch_semaphore_t semaphore_;
     NSInteger preColumnCount;
 }
 static NSString * const reuseIdentifier = @"PhotoCell";
@@ -31,8 +30,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 
 -(void)initInstance{
-    semaphore_ = dispatch_semaphore_create(20);
-    
     NSInteger savedColumnCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"columnCount"];
     if  (savedColumnCount == 0){
         savedColumnCount = 2;
@@ -131,17 +128,15 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     if (!app.isPassCodeViewShown){
         if (!self.photos){
             self.photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory];
+            [self updateThumbnailSize];
         }
-        [self updateThumbnailSize];
-        [self.collectionView reloadData];
+        
+//        [self.collectionView reloadData];
         // ナビゲーションバーを出さない
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         self.collectionView.hidden = NO;
     }
     [super viewWillAppear:animated];
-}
--(void)prepareForAppear{
-    [self.collectionView reloadData];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.photos = nil;
@@ -260,17 +255,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     // サムネをロードする
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        BOOL alreadyExistThumb;
-        if ([photo isExistThumbFile]){
-            [photo thumbnail];
-            alreadyExistThumb = YES;
-        }else{
-            // ロードするときにサムネを作るので、あんまりたくさんのThreadで実行してはだめ。
-            dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER);
-            [photo thumbnail];
-            dispatch_semaphore_signal(semaphore_);
-            alreadyExistThumb = NO;
-        }
+        // サムネを作るorロードする
+        [photo thumbnail];
         
         // UIThreadで表示
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -282,16 +268,10 @@ static NSString * const reuseIdentifier = @"PhotoCell";
                     [jpCell loadImage];
                     
                     // パッと出るよりモヤッとでたほうがいいらしい。
-                    if (alreadyExistThumb){
-                        [UIView animateWithDuration:0.15f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                            [jpCell imageView].alpha = 1;
-                        } completion:nil];
-                    }else{
-                        [jpCell imageView].alpha = 0.1;
-                        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                            [jpCell imageView].alpha = 1;
-                        } completion:nil];
-                    }
+                    [jpCell imageView].alpha = 0;
+                    [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+                        [jpCell imageView].alpha = 1;
+                    } completion:nil];
                     break;
                 }
             }
