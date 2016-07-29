@@ -44,7 +44,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self.tableView reloadData];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillAppear:animated];
 }
 
@@ -99,6 +98,8 @@
     [self.collectionView.collectionView setContentOffset:CGPointMake(0, 0)];
     
     self.collectionView.photoDirectory = [self.directorys objectAtIndex:indexPath.row];
+    
+    self.collectionView.title = [self.directoryNames objectAtIndex:indexPath.row];
     
     // データロードのためにプログレスを表示
     if (![JPPhotoModel isExistIndexWithDirectoryName:self.collectionView.photoDirectory]){

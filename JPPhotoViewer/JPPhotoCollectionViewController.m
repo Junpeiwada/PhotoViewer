@@ -14,9 +14,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "JPPhotoCollectionViewCell.h"
-@interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout>
+#import "NJKScrollFullScreen.h"
+#import "UIViewController+NJKFullScreenSupport.h"
+@interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout,NJKScrollFullscreenDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (nonatomic) NSInteger columnCount;
+@property (nonatomic) NJKScrollFullScreen *scrollProxy;
 @end
 
 
@@ -50,10 +53,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 
 -(void)viewDidLoad{
-    // ナビゲーションバーを出さない
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-     
     // ピンチジェスチャーの実装
     UIPinchGestureRecognizer* pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [self.view addGestureRecognizer:pinchGesture];
@@ -74,6 +74,16 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     longPressRecognizer.allowableMovement = 10;
     longPressRecognizer.minimumPressDuration = 0.5;
     [self.collectionView addGestureRecognizer:longPressRecognizer];
+    
+    // NJKScrollFullScreenの生成
+    self.scrollProxy = [[NJKScrollFullScreen alloc] initWithForwardTarget:self];
+    self.collectionView.delegate = (id)self.scrollProxy;
+    self.scrollProxy.delegate = self;
+    
+    
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    
     [super viewDidLoad];
 }
 
@@ -130,12 +140,15 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             self.photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory];
             [self updateThumbnailSize];
         }
-        
-//        [self.collectionView reloadData];
-        // ナビゲーションバーを出さない
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
         self.collectionView.hidden = NO;
     }
+    double delayInSeconds = 0.5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self moveNavigationBar:-50 animated:YES];
+    });
+
+    
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -360,6 +373,32 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     for (JPPhoto *p in self.photos) {
         p.image = nil;
     }
+}
+
+
+
+- (void)scrollFullScreen:(NJKScrollFullScreen *)proxy scrollViewDidScrollUp:(CGFloat)deltaY
+{
+    [self moveNavigationBar:deltaY animated:YES];
+    [self moveToolbar:-deltaY animated:YES];
+}
+
+- (void)scrollFullScreen:(NJKScrollFullScreen *)proxy scrollViewDidScrollDown:(CGFloat)deltaY
+{
+    [self moveNavigationBar:deltaY animated:YES];
+    [self moveToolbar:-deltaY animated:YES];
+}
+
+- (void)scrollFullScreenScrollViewDidEndDraggingScrollUp:(NJKScrollFullScreen *)proxy
+{
+    [self hideNavigationBar:YES];
+    [self hideToolbar:YES];
+}
+
+- (void)scrollFullScreenScrollViewDidEndDraggingScrollDown:(NJKScrollFullScreen *)proxy
+{
+    [self showNavigationBar:YES];
+    [self showToolbar:YES];
 }
 
 @end
