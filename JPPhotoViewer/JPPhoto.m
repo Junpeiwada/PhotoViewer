@@ -94,7 +94,7 @@
             NSLog(@"サムネールの作成に失敗");
         }
         
-        NSLog(@"サムネール作った%@",[self thumbnailPathSize]);
+//        NSLog(@"サムネール作った%@",[self thumbnailPathSize]);
         
         
         return thumb;

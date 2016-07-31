@@ -19,6 +19,7 @@
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout,NJKScrollFullscreenDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (nonatomic) NSInteger columnCount;
+@property (weak, nonatomic) IBOutlet UIStepper *columnCountStepper;
 @property (nonatomic) NJKScrollFullScreen *scrollProxy;
 @end
 
@@ -38,6 +39,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         savedColumnCount = 2;
     }
     self.columnCount = savedColumnCount;
+    
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         for (JPPhoto *p in self.photos) {
@@ -80,6 +82,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.collectionView.delegate = (id)self.scrollProxy;
     self.scrollProxy.delegate = self;
     
+    
+    self.columnCountStepper.value = self.columnCount;
     
     
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
@@ -175,29 +179,45 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         preColumnCount = self.columnCount;
     }
     
-    NSInteger preChangeColumnCount = self.columnCount;
+    NSInteger size = self.columnCount;
     
     if (pinch.scale > 0.5 && pinch.scale < 0.7){
-        self.columnCount =  preColumnCount + 2;
+        size =  preColumnCount + 2;
     }
     if (pinch.scale > 0.7 && pinch.scale < 0.9){
-        self.columnCount =  preColumnCount + 1;
+        size =  preColumnCount + 1;
     }
     if (pinch.scale > 0.9 && pinch.scale < 1.1){
-        self.columnCount =  preColumnCount;
+        size =  preColumnCount;
     }
     if (pinch.scale > 1.1 && pinch.scale < 1.4){
-        self.columnCount =  preColumnCount - 1;
+        size =  preColumnCount - 1;
     }
     if (pinch.scale > 1.4 && pinch.scale < 1.6){
-        self.columnCount =  preColumnCount - 2 ;
+        size =  preColumnCount - 2 ;
     }
     
-    if (self.columnCount <= 0){
-        self.columnCount = 1;
-    }else if (self.columnCount >= 10){
-        self.columnCount = 10;
+    if (size <= 0){
+        size = 1;
+    }else if (size >= 10){
+        size = 10;
     }
+    
+    [self changeThumbnailSize:size];
+}
+- (IBAction)thumbnailSizeChange:(id)sender {
+    UIStepper * s = (UIStepper *)sender;
+    [self changeThumbnailSize:s.value];
+}
+
+-(void)changeThumbnailSize:(NSInteger)size{
+    NSInteger preChangeColumnCount = self.columnCount;
+    if (size <= 0){
+        size = 1;
+    }else if (size >= 10){
+        size = 10;
+    }
+    self.columnCount = size;
     
     [self updateThumbnailSize];
     
@@ -209,7 +229,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         [[NSUserDefaults standardUserDefaults] setInteger:self.columnCount forKey:@"columnCount"];
     }
 }
-
 
 -(void)updateThumbnailSize{
     CGSize s = UIScreen.mainScreen.bounds.size;
