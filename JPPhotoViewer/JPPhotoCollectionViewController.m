@@ -55,16 +55,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 
 -(void)viewDidLoad{
-    
-    // ピンチジェスチャーの実装
-    UIPinchGestureRecognizer* pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
-    [self.view addGestureRecognizer:pinchGesture];
-    
-    // 右スワイプで戻る
-    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-    swipe.direction = UISwipeGestureRecognizerDirectionRight;
-    swipe.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:swipe];
 
     // レイアウトのパラメータ設定
     CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
@@ -157,8 +147,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.photos = nil;
-    self.collectionView.hidden = YES;
     [super viewWillDisappear:animated];
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    self.collectionView.hidden = YES;
+    [super viewDidDisappear:animated];
 }
 
 - (IBAction)didCloseView:(id)sender {
@@ -171,40 +164,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.collectionView = nil;
 }
 
-// ピンチで画像サイズを変更
-- (void) handlePinchGesture:(UIPinchGestureRecognizer*) sender {
-    UIPinchGestureRecognizer* pinch = (UIPinchGestureRecognizer*)sender;
-    
-    if (pinch.state == UIGestureRecognizerStateBegan){
-        preColumnCount = self.columnCount;
-    }
-    
-    NSInteger size = self.columnCount;
-    
-    if (pinch.scale > 0.5 && pinch.scale < 0.7){
-        size =  preColumnCount + 2;
-    }
-    if (pinch.scale > 0.7 && pinch.scale < 0.9){
-        size =  preColumnCount + 1;
-    }
-    if (pinch.scale > 0.9 && pinch.scale < 1.1){
-        size =  preColumnCount;
-    }
-    if (pinch.scale > 1.1 && pinch.scale < 1.4){
-        size =  preColumnCount - 1;
-    }
-    if (pinch.scale > 1.4 && pinch.scale < 1.6){
-        size =  preColumnCount - 2 ;
-    }
-    
-    if (size <= 0){
-        size = 1;
-    }else if (size >= 10){
-        size = 10;
-    }
-    
-    [self changeThumbnailSize:size];
-}
 - (IBAction)thumbnailSizeChange:(id)sender {
     UIStepper * s = (UIStepper *)sender;
     [self changeThumbnailSize:s.value];
@@ -230,6 +189,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
 }
 
+// JPPhotoのサムネサイズの指定を変更
 -(void)updateThumbnailSize{
     CGSize s = UIScreen.mainScreen.bounds.size;
     NSInteger size = (s.width / self.columnCount) * 2.1; // Retinaだからx2かな？

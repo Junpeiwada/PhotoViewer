@@ -42,9 +42,14 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadData];
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self.tableView selectRowAtIndexPath:path animated:NO scrollPosition:UITableViewScrollPositionNone];
     [super viewWillAppear:animated];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [super viewDidAppear:animated];
 }
 
 
