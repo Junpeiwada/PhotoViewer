@@ -82,11 +82,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell =[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"DirectoryCell";
+    UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    cell.textLabel.text = [self.directoryNames objectAtIndex:indexPath.row];
+    UILabel *mainLabel = [cell viewWithTag:1];
+    UILabel *countLabel = [cell viewWithTag:2];
     
+    mainLabel.text = [self.directoryNames objectAtIndex:indexPath.row];
+    
+    
+    NSInteger fileCount = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directorys[indexPath.row] error:nil] count];
+    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount];
     return cell;
 }
 
