@@ -29,10 +29,6 @@
 }
 static NSString * const reuseIdentifier = @"PhotoCell";
 
--(void)awakeFromNib{
-    
-}
-
 -(void)initInstance{
     NSInteger savedColumnCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"columnCount"];
     if  (savedColumnCount == 0){
@@ -136,14 +132,27 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         }
         self.collectionView.hidden = NO;
     }
-    double delayInSeconds = 0.5;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self moveNavigationBar:-50 animated:YES];
-    });
+    
+    
+    [self hideNavigationBarAfterDuration];
 
     
     [super viewWillAppear:animated];
+}
+
+-(void)hideNavigationBarAfterDuration{
+    // NavigationBarを非表示にする
+    double delayInSeconds = 1.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self hideNavigationBar:YES];
+    });
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([self.collectionView contentOffset].y == 0){
+        [self hideNavigationBarAfterDuration];
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.photos = nil;
