@@ -109,7 +109,7 @@
                 dispatch_async(dispatch_get_main_queue(), ^{
                     image.image = [UIImage imageWithContentsOfFile:imagePath];
                     image.alpha = 0;
-                    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+                    [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
                         image.alpha = 1;
                     } completion:nil];
                 });
@@ -124,9 +124,15 @@
     UILabel *countLabel = [cell viewWithTag:2];
     
     mainLabel.text = [self.directoryNames objectAtIndex:indexPath.row];
+    countLabel.text = @"";
     
-    NSInteger fileCount = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directorys[indexPath.row] error:nil] count];
-    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount - 1];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSInteger fileCount = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directorys[indexPath.row] error:nil] count];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            countLabel.text = [NSString stringWithFormat:@"%ld",fileCount - 1];
+        });
+    });
+    
     return cell;
 }
 
