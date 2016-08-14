@@ -90,16 +90,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             
             // addActionした順に左から右にボタンが配置されます
             [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                JPPhoto *p = self.photos[indexPath.row];
-                [p removeOriginal];
-                [p removeThumb];
-                [self.photos removeObject:p];
-                [self.collectionView performBatchUpdates:^ {
-                    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]]; // no assertion now
-                } completion:nil];
-                
-                // JSONを上書き
-                [JPPhotoModel saveToJsonWithPhotos:self.photos directortyPath:self.photoDirectory];
+                // 削除する
+                [self removePhotoFile:indexPath];
             }]];
             [alertController addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 // cancelボタンが押された時の処理
@@ -109,6 +101,20 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             [self presentViewController:alertController animated:YES completion:nil];
         }
     }
+}
+
+// 写真のファイルを削除します。
+-(void)removePhotoFile:(NSIndexPath*)indexPath{
+    JPPhoto *p = self.photos[indexPath.row];
+    [p removeOriginal];
+    [p removeThumb];
+    [self.photos removeObject:p];
+    [self.collectionView performBatchUpdates:^ {
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]]; // no assertion now
+    } completion:nil];
+    
+    // JSONを上書き
+    [JPPhotoModel saveToJsonWithPhotos:self.photos directortyPath:self.photoDirectory];
 }
 
 
@@ -284,7 +290,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // サムネイルをタップした時に拡大するビューを表示する
-    NYTPhotosViewController *photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:self.photos initialPhoto:self.photos[indexPath.row]];
+    NYTPhotosViewController * photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:self.photos initialPhoto:self.photos[indexPath.row]];
     photosViewController.delegate = self;
     [self presentViewController:photosViewController animated:YES completion:nil];
     
@@ -364,7 +370,35 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 
 
+- (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController handleLongPressForPhoto:(id <NYTPhoto>)photo withGestureRecognizer:(UILongPressGestureRecognizer *)longPressGestureRecognizer{
+    
+    
+    // 写真のインデックス
+    JPPhoto *current = photosViewController.currentlyDisplayedPhoto;
+    NSUInteger index = [self.photos indexOfObject:current];
+    
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"削除"
+                                                                             message:@"削除しますよろしいですか？"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    // addActionした順に左から右にボタンが配置されます
+    [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // 削除する
+        [self removePhotoFile:[NSIndexPath indexPathForRow:index inSection:0]];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // cancelボタンが押された時の処理
+        return;
+    }]];
+    
+    [photosViewController presentViewController:alertController animated:YES completion:nil];
+    
+    return YES;
+}
 
+#pragma mark NJKScrollFullScreen のデリゲート
 - (void)scrollFullScreen:(NJKScrollFullScreen *)proxy scrollViewDidScrollUp:(CGFloat)deltaY
 {
     [self moveNavigationBar:deltaY animated:YES];

@@ -100,7 +100,7 @@
                     </collectionView>
                     <navigationItem key="navigationItem" id="3Cx-eQ-FY4">
                         <nil key="title"/>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="kKl-da-dSq">
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="kKl-da-dSq">
                             <stepper key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="10" id="gf2-TO-cjq">
                                 <rect key="frame" x="210" y="7" width="94" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
