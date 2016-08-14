@@ -57,9 +57,8 @@
         JPPhoto *photo = [[JPPhoto alloc] init];
         
         photo.imagePath = [NSString stringWithFormat:@"%@/%@",directoryPath,fileName];
-        
-        
         photo.thumbnailPath = [NSString stringWithFormat:@"%@%@--%@",NSTemporaryDirectory(),directoryPath.lastPathComponent,fileName];
+        photo.directryName = directoryPath.lastPathComponent;
         
         // メタデータを取り出し
         NSURL *filePath = [NSURL fileURLWithPath:photo.imagePath];

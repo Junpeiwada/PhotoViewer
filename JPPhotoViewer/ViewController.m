@@ -90,14 +90,43 @@
     static NSString *CellIdentifier = @"DirectoryCell";
     UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    // サムネのリセット
+    for (NSInteger i = 10; i<14; i++) {
+        UIImageView *image = [cell viewWithTag:i];
+        image.image = nil;
+        image.alpha = 0;
+    }
+    
+    // 4つのちっこいサムネを表示する。（cellがキャプチャされているから不正な表示になるかもしれないけど・・まあ
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        
+        for (NSInteger i = 10; i<14; i++) {
+            NSString *path = self.directorys[indexPath.row];
+            NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),path.lastPathComponent,i,@".jpg"];
+            
+            UIImageView *image = [cell viewWithTag:i];
+            if ( [[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    image.image = [UIImage imageWithContentsOfFile:imagePath];
+                    image.alpha = 0;
+                    [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+                        image.alpha = 1;
+                    } completion:nil];
+                });
+            }else{
+                image.image = nil;
+            }
+        }
+    });
+    
+    // ラベルに表示
     UILabel *mainLabel = [cell viewWithTag:1];
     UILabel *countLabel = [cell viewWithTag:2];
     
     mainLabel.text = [self.directoryNames objectAtIndex:indexPath.row];
     
-    
     NSInteger fileCount = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directorys[indexPath.row] error:nil] count];
-    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount];
+    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount - 1];
     return cell;
 }
 

@@ -94,8 +94,16 @@
             NSLog(@"サムネールの作成に失敗");
         }
         
-//        NSLog(@"サムネール作った%@",[self thumbnailPathSize]);
-        
+        // リスト用のサムネを生成
+        for (NSInteger i = 10; i<14; i++) {
+            NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),self.directryName,i,@".jpg"];
+            if ( ![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
+                if (![dataSaveImage writeToFile:imagePath atomically:YES]){
+                    NSLog(@"サムネールの作成に失敗");
+                }
+                break;
+            }
+        }
         
         return thumb;
     }else{
@@ -144,6 +152,7 @@
     }
 }
 
+// 一時ファイルのサイズを調べます
 + (NSInteger)tempFilesSize {
     
     NSString *folderPath = NSTemporaryDirectory();

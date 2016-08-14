@@ -14,7 +14,8 @@
 
 
 @property (nonatomic) NSString *imagePath; // イメージのパス（フルパス）
-@property (nonatomic) NSString *thumbnailPath;
+@property (nonatomic) NSString *thumbnailPath; // サムネのパス
+@property (nonatomic) NSString *directryName; // ディレクトリ名
 
 // Redeclare all the properties as readwrite for sample/testing purposes.
 @property (nonatomic) UIImage *image;
