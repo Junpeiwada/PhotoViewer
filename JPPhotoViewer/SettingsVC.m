@@ -122,7 +122,7 @@
     
     // ついでにキャッシュを削除
     JPPhoto *t = [[JPPhoto alloc]init];
-    [t removeThumb];
+    [t removeAllThumb];
     
     // インデックスを削除
     [JPPhotoModel removeAllIndex];

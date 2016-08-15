@@ -107,7 +107,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 -(void)removePhotoFile:(NSIndexPath*)indexPath{
     JPPhoto *p = self.photos[indexPath.row];
     [p removeOriginal];
-    [p removeThumb];
+
     [self.photos removeObject:p];
     [self.collectionView performBatchUpdates:^ {
         [self.collectionView deleteItemsAtIndexPaths:@[indexPath]]; // no assertion now

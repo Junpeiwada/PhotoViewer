@@ -125,7 +125,9 @@
     }
     return hitFileNames;
 }
--(void)removeThumb{
+
+
+-(void)removeAllThumb{
     NSArray *imgFileNames = [self fileNamesAtDirectoryPath:NSTemporaryDirectory() ];
     for (NSString *fileName in imgFileNames) {
         NSString *filePath = [NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),fileName];
