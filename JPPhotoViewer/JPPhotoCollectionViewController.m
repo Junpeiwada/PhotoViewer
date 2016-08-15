@@ -71,6 +71,12 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     self.columnCountStepper.value = self.columnCount;
     
+    // スワイプで戻る
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    swipe.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:swipe];
+    
     
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     
