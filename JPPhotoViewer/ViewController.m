@@ -18,10 +18,11 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *debugLabel;
 
-@property (nonnull) NSMutableArray *directorys;
-@property (nonnull) NSMutableArray *directoryNames;
-@property (nonatomic) NSArray *photos;
-@property (weak, nonatomic) IBOutlet UISlider *columnCountSlider;
+@property (nonatomic) NSMutableArray *directorys; // 対象のディレクトリパス
+@property (nonatomic) NSMutableArray *directoryNames; // 対象のディレクトリ名
+@property (nonatomic) NSMutableArray *fileCounts; // フォルダごとのファイル数
+
+@property (nonatomic) NSMutableDictionary *thumbs; // リストにちっこく表示するサムネールのキャッシュ
 
 @property (nonatomic) JPPhotoCollectionViewController * collectionView;
 @end
@@ -30,19 +31,12 @@
 
 
 -(void)viewDidLoad{
-    self.debugLabel.text = [NSString stringWithFormat:@"%d",(int)self.columnCountSlider.value];
+    self.thumbs = [NSMutableDictionary dictionary];
     [super viewDidLoad];
 }
-- (IBAction)sliderChanged:(id)sender {
-    self.columnCountSlider.value = (int)self.columnCountSlider.value;
-    self.debugLabel.text = [NSString stringWithFormat:@"%d",(int)self.columnCountSlider.value];
-}
-- (IBAction)sliderValueChanged:(id)sender {
-    self.debugLabel.text = [NSString stringWithFormat:@"%d",(int)self.columnCountSlider.value];
-}
-
 -(void)viewWillAppear:(BOOL)animated{
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    [self prepareData];
     [self.tableView reloadData];
     [self.tableView selectRowAtIndexPath:path animated:NO scrollPosition:UITableViewScrollPositionNone];
     [super viewWillAppear:animated];
@@ -52,20 +46,12 @@
     [super viewDidAppear:animated];
 }
 
-
-
-#pragma mark - UITableViewDelegate
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    if (app.isPassCodeViewShown){
-        // ロック中は見せない
-        return 0;
-    }
-    
+// 表示するデータを更新する
+-(void)prepareData{
     self.directorys = [NSMutableArray array];
     self.directoryNames = [NSMutableArray array];
-    
+    self.fileCounts = [NSMutableArray array];
+
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
@@ -82,6 +68,39 @@
             }
         }
     }
+    for (NSInteger i = 0; i < self.directorys.count; i++) {
+        NSString *path = self.directorys[i];
+        NSInteger fileCount = 0;
+        
+        // json以外の数を数える
+        for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil]) {
+            if (![file hasSuffix:@"json"]){
+                fileCount+= 1;
+            }
+        }
+        [self.fileCounts addObject:[NSNumber numberWithInteger:fileCount]];
+        
+        // サムネのロード
+        for (NSInteger i = 10; i<14; i++) {
+            NSString *thumbImagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),path.lastPathComponent,i,@".jpg"];
+            if (![self.thumbs.allKeys containsObject:thumbImagePath]){
+                if ( [[NSFileManager defaultManager] fileExistsAtPath:thumbImagePath isDirectory:nil] ){
+                    [self.thumbs setObject:[UIImage imageWithContentsOfFile:thumbImagePath] forKey:thumbImagePath] ;
+                }
+            }
+        }
+    }
+    
+}
+
+#pragma mark - UITableViewDelegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    if (app.isPassCodeViewShown){
+        // ロック中は見せない
+        return 0;
+    }
     
     return self.directorys.count;
 }
@@ -94,34 +113,30 @@
     for (NSInteger i = 10; i<14; i++) {
         UIImageView *image = [cell viewWithTag:i];
         image.image = nil;
-        image.alpha = 0;
     }
     
-    // 4つのちっこいサムネを表示する。（cellがキャプチャされているから不正な表示になるかもしれないけど・・まあ
+    // 4つのちっこいサムネを表示する。
     for (NSInteger i = 10; i<14; i++) {
         NSString *path = self.directorys[indexPath.row];
-        NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),path.lastPathComponent,i,@".jpg"];
+        NSString *thumbImagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),path.lastPathComponent,i,@".jpg"];
         
         UIImageView *image = [cell viewWithTag:i];
-        if ( [[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
-            image.image = [UIImage imageWithContentsOfFile:imagePath];
-            image.alpha = 0;
-            [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                image.alpha = 1;
-            } completion:nil];
+        // キャッシュから表示
+        if ([self.thumbs.allKeys containsObject:thumbImagePath]){
+            UIImage *thumbImage = [self.thumbs objectForKey:thumbImagePath];
+            image.image = thumbImage;
         }else{
             image.image = nil;
         }
     }
-    
-    // ラベルに表示
+
+    // ディレクトリ名を表示
     UILabel *mainLabel = [cell viewWithTag:1];
-    UILabel *countLabel = [cell viewWithTag:2];
-    
     mainLabel.text = [self.directoryNames objectAtIndex:indexPath.row];
-    countLabel.text = @"";
     
-    NSInteger fileCount = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.directorys[indexPath.row] error:nil] count];
+    // ファイル数を表示
+    UILabel *countLabel = [cell viewWithTag:2];
+    NSInteger fileCount = [self.fileCounts[indexPath.row]integerValue];
     countLabel.text = [NSString stringWithFormat:@"%ld",fileCount - 1];
     
     return cell;
