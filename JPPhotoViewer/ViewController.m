@@ -74,7 +74,7 @@
         
         // json以外の数を数える
         for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil]) {
-            if (![file hasSuffix:@"json"]){
+            if (![file hasSuffix:@"plist"]){
                 fileCount+= 1;
             }
         }
@@ -137,7 +137,7 @@
     // ファイル数を表示
     UILabel *countLabel = [cell viewWithTag:2];
     NSInteger fileCount = [self.fileCounts[indexPath.row]integerValue];
-    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount - 1];
+    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount];
     
     return cell;
 }
