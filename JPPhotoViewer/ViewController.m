@@ -32,7 +32,12 @@
 
 -(void)viewDidLoad{
     self.thumbs = [NSMutableDictionary dictionary];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(clearCache) name:@"removeCache" object:nil];
     [super viewDidLoad];
+}
+-(void)clearCache{
+    [self.thumbs removeAllObjects];
 }
 -(void)viewWillAppear:(BOOL)animated{
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];

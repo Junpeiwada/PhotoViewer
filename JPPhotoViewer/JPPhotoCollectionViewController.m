@@ -146,7 +146,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
     
     
-    [self hideNavigationBarAfterDuration];
+    [self hideNavigationBar:YES];
 
     
     [super viewWillAppear:animated];

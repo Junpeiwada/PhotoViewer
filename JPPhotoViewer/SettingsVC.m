@@ -36,11 +36,11 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
-    self.tempSizeLabel.text = @"Loading...";
     [self showTempSize];
 }
 
 -(void)showTempSize{
+    self.tempSizeLabel.text = @"Loading...";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSInteger size = [JPPhoto tempFilesSize];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -117,7 +117,7 @@
 - (IBAction)lockValueChanged:(id)sender {
     [[NSUserDefaults standardUserDefaults]setBool:self.useLockSwitch.on forKey:@"useLock"];
 }
-- (IBAction)removeThumb:(id)sender {
+- (IBAction)removeCache:(id)sender {
     [self.tableView reloadData];
     
     // キャッシュを削除
@@ -126,8 +126,17 @@
     // インデックスを削除
     [JPPhotoModel removeAllIndex];
     
-    
     [self showTempSize];
+    
+    NSNotification *n = [NSNotification notificationWithName:@"removeCache" object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:n];
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 2){
+        [self removeCache:tableView];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self showTempSize];
+    }
 }
 
 @end
