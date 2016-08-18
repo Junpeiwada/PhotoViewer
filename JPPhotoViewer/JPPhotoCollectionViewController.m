@@ -72,11 +72,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.columnCountStepper.value = self.columnCount;
     
     // スワイプで戻る
-    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-    swipe.direction = UISwipeGestureRecognizerDirectionRight;
-    swipe.numberOfTouchesRequired = 1;
+    UIPanGestureRecognizer *swipe = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
     [self.view addGestureRecognizer:swipe];
-    
     
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     
@@ -94,7 +91,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
                                                                                      message:@"削除しますよろしいですか？"
                                                                               preferredStyle:UIAlertControllerStyleAlert];
             
-            // addActionした順に左から右にボタンが配置されます
             [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 // 削除する
                 [self removePhotoFile:indexPath];
@@ -106,6 +102,14 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             
             [self presentViewController:alertController animated:YES completion:nil];
         }
+    }
+}
+// スワイプで閉じる
+- (void) swipe:(UIPanGestureRecognizer*) sender {
+    CGPoint p = [sender translationInView:self.view];
+
+    if (p.x > 10){
+        [self didCloseView:nil];
     }
 }
 
@@ -225,10 +229,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
 }
 
-// スワイプで閉じる
-- (void) swipe:(UISwipeGestureRecognizer*) sender {
-    [self didCloseView:nil];
-}
+
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     // アイテムの個数を返す
