@@ -39,8 +39,7 @@
 // 元ファイルの削除
 -(void)removeOriginal;
 
-// すべてのサムネの削除
--(void)removeAllThumb;
+
 
 
 + (NSInteger)tempFilesSize ; //テンポラリディレクトリのサイズを返す。

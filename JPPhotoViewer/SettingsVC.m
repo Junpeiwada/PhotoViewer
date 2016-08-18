@@ -120,9 +120,8 @@
 - (IBAction)removeThumb:(id)sender {
     [self.tableView reloadData];
     
-    // ついでにキャッシュを削除
-    JPPhoto *t = [[JPPhoto alloc]init];
-    [t removeAllThumb];
+    // キャッシュを削除
+    [JPPhotoModel removeAllThumb];
     
     // インデックスを削除
     [JPPhotoModel removeAllIndex];

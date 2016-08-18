@@ -12,7 +12,8 @@
 + (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath;
 + (NSString *)plistPath:(NSString *)directoryPath;
 +(void)removeIndex:(NSString *)directoryname;
-+(void)removeAllIndex;
++(void)removeAllIndex; // すべてのインデックスの削除
++(void)removeAllThumb; // すべてのサムネの削除
 +(void)removeDirectory:(NSString *)directoryname;
 +(BOOL)isExistIndexWithDirectoryName:(NSString *)directoryPath;
 +(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath;

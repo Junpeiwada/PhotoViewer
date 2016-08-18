@@ -385,6 +385,33 @@
         }
     }
 }
++ (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath
+{
+    NSFileManager *fileManager=[[NSFileManager alloc] init];
+    NSError *error = nil;
+    /* 全てのファイル名 */
+    NSArray *allFileName = [fileManager contentsOfDirectoryAtPath:directoryPath error:&error];
+    if (error) return nil;
+    NSMutableArray *hitFileNames = [[NSMutableArray alloc] init];
+    for (NSString *fileName in allFileName) {
+        [hitFileNames addObject:fileName];
+    }
+    return hitFileNames;
+}
++(void)removeAllThumb{
+    NSArray *imgFileNames = [self fileNamesAtDirectoryPath:NSTemporaryDirectory() ];
+    for (NSString *fileName in imgFileNames) {
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),fileName];
+        
+        NSError *error=nil;
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        if (error!=nil) {
+            NSLog(@"failed to remove %@",[error localizedDescription]);
+        }else{
+            //            NSLog(@"Successfully removed:%@",filePath);
+        }
+    }
+}
 
 +(void)removeIndex:(NSString *)directoryname{
     // 指定されたインデックスを削除
