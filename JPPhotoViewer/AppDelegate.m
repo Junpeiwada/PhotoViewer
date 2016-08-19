@@ -92,10 +92,12 @@
 }
 
 - (void)savePassword:(NSString *)password{
-    [SSKeychain setPassword:password forService:@"JPPhotoViewer" account:@"jp" error:nil];
+    [[NSUserDefaults standardUserDefaults]setObject:password forKey:@"JPPhotoViewerP"];
+//    [SSKeychain setPassword:password forService:@"JPPhotoViewer" account:@"jp" error:nil];
 }
 - (NSString *)loadPassword{
-    return [SSKeychain passwordForService:@"JPPhotoViewer" account:@"jp"];
+    return [[NSUserDefaults standardUserDefaults]objectForKey:@"JPPhotoViewerP"];
+//    return [SSKeychain passwordForService:@"JPPhotoViewer" account:@"jp"];
 }
 
 @end
