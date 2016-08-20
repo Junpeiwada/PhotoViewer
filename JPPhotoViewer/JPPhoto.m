@@ -9,7 +9,10 @@
 #import "JPPhoto.h"
 #import <AVFoundation/AVFoundation.h>
 @implementation JPPhoto
-
+static NSObject *syncRoot;
++ (void)initialize{
+    syncRoot = [NSObject new];
+}
 // リサイズする関数
 - (UIImage *)resizeImage:(UIImage *)image
              withQuality:(CGInterpolationQuality)quality
@@ -25,10 +28,6 @@
     [image drawInRect:CGRectMake(0, 0, width, height)];
     resized = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-//    NSDate *timer = nil;
-//    timer = [NSDate date];
-//    NSLog(@"time: %f", [[NSDate date] timeIntervalSinceDate:timer]);
     return resized;
     
 }
@@ -48,9 +47,6 @@
 // サムネイルがあるかどうか
 -(BOOL)isExistThumbFile{
     BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:[self thumbnailPathSize]];
-//    if (!isExist){
-//        NSLog(@"%@",[self thumbnailPathSize]);
-//    }
     return isExist;
 }
 
@@ -74,16 +70,13 @@
     }
     if (full){
         CGRect frame;
+        CGRect listFrame;
         
         // アスペクトを求める
         CGFloat ratio =  full.size.width / full.size.height;
-        if (full.size.width > full.size.height){
-            // 横長の画像
-            frame = CGRectMake(0, 0, self.thumbnailSize, (int)(self.thumbnailSize / ratio));
-        }else{
-            // 縦長の画像
-            frame = CGRectMake(0, 0, self.thumbnailSize, (int)(self.thumbnailSize / ratio));
-        }
+        frame = CGRectMake(0, 0, self.thumbnailSize, (int)(self.thumbnailSize / ratio));
+        listFrame = CGRectMake(0, 0, 50, (int)(50 / ratio));
+
         
         
         frame = CGRectMake(0, 0, (int)frame.size.width, (int)frame.size.height);
@@ -95,15 +88,20 @@
         }
         
         // リスト用のサムネを生成
-        for (NSInteger i = 10; i<14; i++) {
-            NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),self.directryName,i,@".jpg"];
-            if ( ![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
-                if (![dataSaveImage writeToFile:imagePath atomically:YES]){
-                    NSLog(@"サムネールの作成に失敗");
+        @synchronized (syncRoot){
+            for (NSInteger i = 10; i<14; i++) {
+                NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),self.directryName,i,@".jpg"];
+                if ( ![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
+                    UIImage * thumbForList = [self resizeImage:thumb withQuality:kCGInterpolationHigh size:listFrame.size];
+                    NSData *dataSaveImagethumbForList = UIImageJPEGRepresentation(thumbForList, 1.0);
+                    if (![dataSaveImagethumbForList writeToFile:imagePath atomically:YES]){
+                        NSLog(@"サムネールの作成に失敗");
+                    }
+                    break;
                 }
-                break;
             }
         }
+        
         
         return thumb;
     }else{
