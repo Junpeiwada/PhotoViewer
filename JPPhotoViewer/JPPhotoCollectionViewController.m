@@ -140,7 +140,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 #pragma mark - View
 
 -(void)viewWillAppear:(BOOL)animated{
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     if (!app.isPassCodeViewShown){
         if (!self.photos){
             self.photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory];

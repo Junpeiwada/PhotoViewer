@@ -101,7 +101,7 @@
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     if (app.isPassCodeViewShown){
         // ロック中は見せない
         return 0;
