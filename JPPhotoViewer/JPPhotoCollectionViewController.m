@@ -274,21 +274,13 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         
         // UIThreadで表示
         dispatch_async(dispatch_get_main_queue(), ^{
+            [cell loadImage];
             
-            for (JPPhotoCollectionViewCell * jpCell in [self.collectionView visibleCells]) {
-                NSIndexPath* visiblePath = [self.collectionView indexPathForCell:jpCell];
-                if (visiblePath.row == indexPath.row){
-                    
-                    [jpCell loadImage];
-                    
-                    // パッと出るよりモヤッとでたほうがいいらしい。
-                    [jpCell imageView].alpha = 0;
-                    [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
-                        [jpCell imageView].alpha = 1;
-                    } completion:nil];
-                    break;
-                }
-            }
+            // パッと出るよりモヤッとでたほうがいいらしい。
+            [cell imageView].alpha = 0;
+            [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+                [cell imageView].alpha = 1;
+            } completion:nil];
         });
     });
 
