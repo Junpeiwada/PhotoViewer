@@ -54,11 +54,22 @@ static NSObject *syncRoot;
 -(UIImage *)thumbnail{
     if ([self isExistThumbFile]){
         // サムネイルが存在するのでロード
+        for (NSInteger i = 10; i<14; i++) {
+            NSString *imagePath =[self thumbnailPathForList:i];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
+                [self makeThumbnail];
+            }
+        }
         return [UIImage imageWithContentsOfFile:[self thumbnailPathSize]];
     }else{
         // ないので作る
         return [self makeThumbnail];
     }
+}
+
+-(NSString *)thumbnailPathForList:(NSInteger)index{
+    NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),self.directryName,index,@".jpg"];
+    return imagePath;
 }
 
 -(UIImage *)makeThumbnail{
@@ -90,7 +101,7 @@ static NSObject *syncRoot;
         // リスト用のサムネを生成
         @synchronized (syncRoot){
             for (NSInteger i = 10; i<14; i++) {
-                NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),self.directryName,i,@".jpg"];
+                NSString *imagePath =[self thumbnailPathForList:i];
                 if ( ![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
                     UIImage * thumbForList = [self resizeImage:thumb withQuality:kCGInterpolationHigh size:listFrame.size];
                     NSData *dataSaveImagethumbForList = UIImageJPEGRepresentation(thumbForList, 1.0);

@@ -30,6 +30,9 @@
     // すでにインデックスがあればそれを使う
     photos = [[self loadPhotosFromJsonWithDirectortyPath:directoryPath]mutableCopy];
     if (photos){
+        for (JPPhoto *p in photos) {
+            p.directryName = directoryPath.lastPathComponent;
+        }
         return photos;
     }
     
@@ -399,6 +402,7 @@
     return hitFileNames;
 }
 +(void)removeAllThumb{
+    // すべてのサムネを削除
     NSArray *imgFileNames = [self fileNamesAtDirectoryPath:NSTemporaryDirectory() ];
     for (NSString *fileName in imgFileNames) {
         NSString *filePath = [NSString stringWithFormat:@"%@/%@",NSTemporaryDirectory(),fileName];
@@ -429,7 +433,7 @@
     }
 }
 
-// していされたドキュメントディレクトリのフォルダを削除します
+// 指定されたドキュメントディレクトリのフォルダを削除します
 +(void)removeDirectory:(NSString *)directoryname{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
