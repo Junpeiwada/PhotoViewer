@@ -7,6 +7,7 @@
 //
 
 #import "JPPhoto.h"
+#import "JPPath.h"
 #import <AVFoundation/AVFoundation.h>
 @implementation JPPhoto
 static NSObject *syncRoot;
@@ -53,9 +54,9 @@ static NSObject *syncRoot;
 // サムネイルをロードする。サムネがあればそれを、なければ作る
 -(UIImage *)thumbnail{
     if ([self isExistThumbFile]){
-        // サムネイルが存在するのでロード
+        // ちっこいサムネイルが存在するのでロード
         for (NSInteger i = 10; i<14; i++) {
-            NSString *imagePath =[self thumbnailPathForList:i];
+            NSString *imagePath =[JPPath tableViewHeaderThumbPath:self.directryName index:i];
             if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
                 [self makeThumbnail];
             }
@@ -65,11 +66,6 @@ static NSObject *syncRoot;
         // ないので作る
         return [self makeThumbnail];
     }
-}
-
--(NSString *)thumbnailPathForList:(NSInteger)index{
-    NSString *imagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),self.directryName,index,@".jpg"];
-    return imagePath;
 }
 
 -(UIImage *)makeThumbnail{
@@ -98,10 +94,10 @@ static NSObject *syncRoot;
             NSLog(@"サムネールの作成に失敗");
         }
         
-        // リスト用のサムネを生成
+        // リスト用のちっこいサムネを生成
         @synchronized (syncRoot){
             for (NSInteger i = 10; i<14; i++) {
-                NSString *imagePath =[self thumbnailPathForList:i];
+                NSString *imagePath =[JPPath tableViewHeaderThumbPath:self.directryName index:i];;
                 if ( ![[NSFileManager defaultManager] fileExistsAtPath:imagePath isDirectory:nil] ){
                     UIImage * thumbForList = [self resizeImage:thumb withQuality:kCGInterpolationHigh size:listFrame.size];
                     NSData *dataSaveImagethumbForList = UIImageJPEGRepresentation(thumbForList, 1.0);
@@ -127,7 +123,7 @@ static NSObject *syncRoot;
     NSError *error=nil;
     [[NSFileManager defaultManager] removeItemAtPath:self.imagePath error:&error];
     if (error!=nil) {
-        NSLog(@"failed to remove %@",[error localizedDescription]);
+        NSLog(@"削除に失敗 %@",[error localizedDescription]);
     }else{
         //            NSLog(@"Successfully removed:%@",filePath);
     }

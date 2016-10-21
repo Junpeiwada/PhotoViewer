@@ -11,6 +11,7 @@
 #import "JPPhoto.h"
 #import "JPPhotoModel.h"
 #import "JPPhotoCollectionViewController.h"
+#import "JPPath.h"
 #import <SVProgressHUD.h>
 
 @interface ViewController ()
@@ -66,12 +67,15 @@
         
         NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,path];
         
-        if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
-            if ( dir ){
-                [self.directorys addObject:fullPath];
-                [self.directoryNames addObject:path];
+        if (![path isEqualToString:@".thumb"]){
+            if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
+                if ( dir ){
+                    [self.directorys addObject:fullPath];
+                    [self.directoryNames addObject:path];
+                }
             }
         }
+        
     }
     for (NSInteger i = 0; i < self.directorys.count; i++) {
         NSString *path = self.directorys[i];
@@ -87,7 +91,7 @@
         
         // サムネのロード
         for (NSInteger i = 10; i<14; i++) {
-            NSString *thumbImagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),path.lastPathComponent,i,@".jpg"];
+            NSString *thumbImagePath =[JPPath tableViewHeaderThumbPath:path index:i];
             if (![self.thumbs.allKeys containsObject:thumbImagePath]){
                 if ( [[NSFileManager defaultManager] fileExistsAtPath:thumbImagePath isDirectory:nil] ){
                     [self.thumbs setObject:[UIImage imageWithContentsOfFile:thumbImagePath] forKey:thumbImagePath] ;
@@ -122,8 +126,9 @@
     
     // 4つのちっこいサムネを表示する。
     for (NSInteger i = 10; i<14; i++) {
+        
         NSString *path = self.directorys[indexPath.row];
-        NSString *thumbImagePath =[NSString stringWithFormat:@"%@%@--%ld%@",NSTemporaryDirectory(),path.lastPathComponent,i,@".jpg"];
+        NSString *thumbImagePath =[JPPath tableViewHeaderThumbPath:path index:i];
         
         UIImageView *image = [cell viewWithTag:i];
         // キャッシュから表示

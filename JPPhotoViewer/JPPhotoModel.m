@@ -410,7 +410,7 @@
         NSError *error=nil;
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
         if (error!=nil) {
-            NSLog(@"failed to remove %@",[error localizedDescription]);
+            NSLog(@"削除に失敗 %@",[error localizedDescription]);
         }else{
             //            NSLog(@"Successfully removed:%@",filePath);
         }

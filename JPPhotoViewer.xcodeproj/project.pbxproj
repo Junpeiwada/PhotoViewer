@@ -19,6 +19,7 @@
 		EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E11CE176A50077B7DF /* Main.storyboard */; };
 		EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E41CE176A50077B7DF /* Assets.xcassets */; };
 		EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE6A03E61CE176A50077B7DF /* LaunchScreen.storyboard */; };
+		EE9DF31A1DB9CE6E0007AE6C /* JPPath.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9DF3191DB9CE6E0007AE6C /* JPPath.m */; };
 		EEA912BC1D1666CA007FC163 /* JPPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */; };
 		EECD5C211CF90B5200527B2B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECD5C201CF90B5200527B2B /* Security.framework */; };
 /* End PBXBuildFile section */
@@ -47,6 +48,8 @@
 		EE6A03E41CE176A50077B7DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EE6A03E71CE176A50077B7DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EE6A03E91CE176A50077B7DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE9DF3181DB9CE6E0007AE6C /* JPPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPath.h; sourceTree = "<group>"; };
+		EE9DF3191DB9CE6E0007AE6C /* JPPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPath.m; sourceTree = "<group>"; };
 		EEA912BA1D1666CA007FC163 /* JPPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		EECD5C201CF90B5200527B2B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -133,6 +136,8 @@
 				EE6A03E41CE176A50077B7DF /* Assets.xcassets */,
 				EE6A03E91CE176A50077B7DF /* Info.plist */,
 				EE6A03D81CE176A50077B7DF /* Supporting Files */,
+				EE9DF3181DB9CE6E0007AE6C /* JPPath.h */,
+				EE9DF3191DB9CE6E0007AE6C /* JPPath.m */,
 			);
 			path = JPPhotoViewer;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */,
 				EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */,
 				EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */,
+				EE9DF31A1DB9CE6E0007AE6C /* JPPath.m in Sources */,
 				EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */,
 				EE58AC4D1CE1ADAB00990B55 /* JPPhoto.m in Sources */,
 				EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */,
