@@ -74,8 +74,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     // スワイプで戻る
     UIPanGestureRecognizer *swipe = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
     [self.view addGestureRecognizer:swipe];
-    
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+
     
     [super viewDidLoad];
 }
@@ -149,11 +148,19 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         self.collectionView.hidden = NO;
     }
     
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
     
     [self hideNavigationBar:YES];
-
-    
     [super viewWillAppear:animated];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.photos = nil;
+    [super viewWillDisappear:animated];
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    self.collectionView.hidden = YES;
+    [super viewDidDisappear:animated];
 }
 
 -(void)hideNavigationBarAfterDuration{
@@ -169,14 +176,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     if ([self.collectionView contentOffset].y == 0){
         [self hideNavigationBarAfterDuration];
     }
-}
--(void)viewWillDisappear:(BOOL)animated{
-    self.photos = nil;
-    [super viewWillDisappear:animated];
-}
--(void)viewDidDisappear:(BOOL)animated{
-    self.collectionView.hidden = YES;
-    [super viewDidDisappear:animated];
 }
 
 - (IBAction)didCloseView:(id)sender {
