@@ -10,12 +10,13 @@
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <ImageIO/ImageIO.h>
 #import "JPPhoto.h"
+#import "JPPath.h"
 #import <SVProgressHUD.h>
 
 @implementation JPPhotoModel
 
 + (BOOL)isExistIndexWithDirectoryName:(NSString *)directoryPath{
-    NSString *pListPath = [self plistPath:directoryPath];
+    NSString *pListPath = [JPPath jsonPath:directoryPath];
     
     if ([[NSFileManager defaultManager]fileExistsAtPath:pListPath]){
         return YES;
@@ -279,12 +280,6 @@
     return [result mutableCopy];
 }
 
-
-+(NSString *)plistPath:(NSString *)directoryPath{
-    NSString *pListPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.plist"];
-    return pListPath;
-}
-
 +(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath{
     
     NSMutableArray *saveTarget = [NSMutableArray array];
@@ -312,11 +307,11 @@
     
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:saveTarget options:0 error:nil];
-    [data writeToFile:[self plistPath:directoryPath] atomically:YES];
+    [data writeToFile:[JPPath jsonPath:directoryPath] atomically:YES];
 }
 
 +(NSArray *)loadPhotosFromJsonWithDirectortyPath:(NSString *)directoryPath{
-    NSString *pListPath = [self plistPath:directoryPath];
+    NSString *pListPath = [JPPath jsonPath:directoryPath];
     
     if ([[NSFileManager defaultManager]fileExistsAtPath:pListPath]){
         NSData *data = [NSData dataWithContentsOfFile:pListPath];
@@ -383,7 +378,8 @@
         
         if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
             if ( dir ){
-                [[NSFileManager defaultManager] removeItemAtPath:[JPPhotoModel plistPath:fullPath] error:nil];
+                // JSONの削除
+                [[NSFileManager defaultManager] removeItemAtPath:[JPPath jsonPath:fullPath] error:nil];
             }
         }
     }
@@ -415,6 +411,21 @@
             //            NSLog(@"Successfully removed:%@",filePath);
         }
     }
+    
+    // ちっこいサムネも削除
+    NSString *thumbDirectoryPath = [JPPath tableViewHeaderThumbDirectoryPath];
+    NSArray *thumbNames = [self fileNamesAtDirectoryPath:thumbDirectoryPath];
+    for (NSString *fileName in thumbNames) {
+        NSString *filePath = [NSString stringWithFormat:@"%@/%@",thumbDirectoryPath,fileName];
+        
+        NSError *error=nil;
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        if (error!=nil) {
+            NSLog(@"削除に失敗 %@",[error localizedDescription]);
+        }else{
+            //            NSLog(@"Successfully removed:%@",filePath);
+        }
+    }
 }
 
 +(void)removeIndex:(NSString *)directoryname{
@@ -428,7 +439,8 @@
     
     if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
         if ( dir ){
-            [[NSFileManager defaultManager] removeItemAtPath:[JPPhotoModel plistPath:fullPath] error:nil];
+            // JOSONの削除
+            [[NSFileManager defaultManager] removeItemAtPath:[JPPath jsonPath:fullPath] error:nil];
         }
     }
 }

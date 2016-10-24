@@ -10,7 +10,6 @@
 
 @interface JPPhotoModel : NSObject
 + (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath;
-+ (NSString *)plistPath:(NSString *)directoryPath;
 +(void)removeIndex:(NSString *)directoryname;
 +(void)removeAllIndex; // すべてのインデックスの削除
 +(void)removeAllThumb; // すべてのサムネの削除

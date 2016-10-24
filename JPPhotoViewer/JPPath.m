@@ -12,15 +12,26 @@
 
 // テーブルビューのヘッダに表示するためのすごくちっこいサムネのパスを返す
 +(NSString *)tableViewHeaderThumbPath:(NSString *)directoryPath index:(NSInteger)index{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,@".thumb"];
+    NSString *fullPath = [JPPath tableViewHeaderThumbDirectoryPath];
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]){
         [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
     
-    NSString *result =[NSString stringWithFormat:@"%@/%@--%ld%@",fullPath,directoryPath.lastPathComponent,index,@".jpg"];
+    NSString *result =[NSString stringWithFormat:@"%@/%@--%ld%@",fullPath,directoryPath.lastPathComponent,(long)index,@".jpg"];
     return result;
+}
+// テーブルビューのヘッダに表示するためのすごくちっこいサムネの保存ディレクトリパス
++(NSString *)tableViewHeaderThumbDirectoryPath{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,@".thumb"];
+    return fullPath;
+}
+
+// ディレクトリのフルパスからjsonのパスを返す。
++(NSString *)jsonPath:(NSString *)directoryPath{
+    NSString *jsonPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.json"];
+    return jsonPath;
 }
 @end
