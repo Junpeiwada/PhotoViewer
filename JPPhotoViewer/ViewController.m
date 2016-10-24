@@ -154,6 +154,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    // TableViewCellのタップ
+    // コレクションビューの表示
     UINavigationController *navi = [[self storyboard] instantiateViewControllerWithIdentifier:@"collectionViewNavi"];
     self.collectionView = (JPPhotoCollectionViewController *)navi.topViewController;
     

@@ -34,4 +34,11 @@
     NSString *jsonPath = [NSString stringWithFormat:@"%@/%@",directoryPath,@"photos.json"];
     return jsonPath;
 }
+
+
+// イメージのサムネパス
++(NSString *)thumbnailPathWithDirectory:(NSString *)directoryPath filename:(NSString *)filename{
+    NSString *path = [NSString stringWithFormat:@"%@%@--%@",NSTemporaryDirectory(),directoryPath.lastPathComponent,filename];
+    return path;
+}
 @end

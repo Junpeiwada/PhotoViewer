@@ -61,7 +61,7 @@
         JPPhoto *photo = [[JPPhoto alloc] init];
         
         photo.imagePath = [NSString stringWithFormat:@"%@/%@",directoryPath,fileName];
-        photo.thumbnailPath = [NSString stringWithFormat:@"%@%@--%@",NSTemporaryDirectory(),directoryPath.lastPathComponent,fileName];
+        photo.thumbnailPath = [JPPath thumbnailPathWithDirectory:directoryPath filename:fileName];
         photo.directryName = directoryPath.lastPathComponent;
         
         // メタデータを取り出し
@@ -81,6 +81,8 @@
             if (model){
                 [credit appendString:@"機種名:"];
                 [credit appendString:model];
+            }else{
+//                continue;
             }
         }
         
@@ -233,7 +235,18 @@
             if (lens){
                 [caption appendString:@"\nレンズ:"];
                 [caption appendString:lens];
+            }else{
+                // Exif AUX
+                // Exif 2.3以前にはレンズモデルがないので、拡張領域を読み取る
+                NSDictionary *exifaux = [metadata objectForKey:(NSString *)kCGImagePropertyExifAuxDictionary];
+                NSString *lensModel =[exifaux objectForKey:(NSString *)kCGImagePropertyExifAuxLensModel];
+                if (lensModel){
+                    [caption appendString:@"\nレンズモデル:"];
+                    [caption appendString:lensModel];
+                }
             }
+            
+            
         }
         
 
@@ -323,11 +336,8 @@
             JPPhoto *photo = [[JPPhoto alloc] init];
             
             photo.imagePath = [NSString stringWithFormat:@"%@/%@",directoryPath, [dic objectForKey:@"imagePath"]];
-            
-            
-            NSString *thumbPath = [NSString stringWithFormat:@"%@%@--%@",NSTemporaryDirectory(),directoryPath.lastPathComponent,[dic objectForKey:@"imagePath"]];
-            
-            photo.thumbnailPath = thumbPath;
+            photo.thumbnailPath = [JPPath thumbnailPathWithDirectory:directoryPath filename:[dic objectForKey:@"imagePath"]];
+            photo.thumbnailSize = 300;
             
             photo.width = [[dic objectForKey:@"width"]integerValue];
             photo.height = [[dic objectForKey:@"height"]integerValue];
@@ -356,7 +366,7 @@
                                                NSShadowAttributeName: shadow
                                                }];
             
-            photo.thumbnailSize = 300;
+            
             [result addObject:photo];
 
         }

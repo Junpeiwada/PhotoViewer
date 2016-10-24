@@ -17,4 +17,7 @@
 
 // ディレクトリの中のファイル一覧（Exifも）がアーカイブされたJsonのパスを返す
 +(NSString *)jsonPath:(NSString *)directoryPath;
+
+// イメージのサムネイルパス
++(NSString *)thumbnailPathWithDirectory:(NSString *)directoryPath filename:(NSString *)filename;
 @end
