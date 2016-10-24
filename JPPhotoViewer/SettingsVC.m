@@ -9,6 +9,7 @@
 #import "SettingsVC.h"
 #import "JPPhoto.h"
 #import "JPPhotoModel.h"
+#import <SVProgressHUD.h>
 
 @interface SettingsVC ()
 @property (weak, nonatomic) IBOutlet UISwitch *useLockSwitch;
@@ -136,7 +137,54 @@
         [self removeCache:tableView];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self showTempSize];
+    }else if (indexPath.row == 3){
+        [self createIndexies];
+        
+
     }
+}
+
+-(void)createIndexies{
+    // 事前にインデックスと一番ちっさいサムネを作る
+    NSMutableArray *directorys = [NSMutableArray array];
+    NSMutableArray *directoryNames = [NSMutableArray array];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    for (NSString *path in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectory error:nil] )
+    {
+        BOOL dir;
+        
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,path];
+        
+        if (![path isEqualToString:@".thumb"]){
+            if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
+                if ( dir ){
+                    [directorys addObject:fullPath];
+                    [directoryNames addObject:path];
+                }
+            }
+        }
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // 一覧生成
+        for (NSInteger i = 0; i < directorys.count; i++) {
+            NSString *path = directorys[i];
+            NSArray *photos = [JPPhotoModel photosWithDirectoryName:path];
+            
+            for (NSInteger j = 0; j < 4; j++) {
+                if (photos.count > j){
+                    JPPhoto *p = photos[j];
+                    [p makeThumbnail];
+                }
+            }
+        }
+        [SVProgressHUD dismiss];
+        [self.tableView reloadData];
+    });
+    
+    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
 }
 
 @end

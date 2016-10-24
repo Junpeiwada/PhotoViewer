@@ -83,7 +83,7 @@
         
         // json以外の数を数える
         for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil]) {
-            if (![file hasSuffix:@"plist"]){
+            if (![file hasSuffix:@"json"]){
                 fileCount+= 1;
             }
         }

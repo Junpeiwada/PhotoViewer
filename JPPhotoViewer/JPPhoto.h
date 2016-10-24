@@ -38,7 +38,7 @@
 -(NSString *)thumbnailPathSize; // サイズ指定のサムネイルのパスを返す
 // 元ファイルの削除
 -(void)removeOriginal;
-
+-(UIImage *)makeThumbnail;
 
 
 
