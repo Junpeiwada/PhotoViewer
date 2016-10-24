@@ -24,7 +24,7 @@
     return NO;
 }
 
-+ (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath {
++ (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath showProgress:(BOOL)showProgress{
     
     NSMutableArray *photos;
     
@@ -48,7 +48,10 @@
         float progress = (float)i/(float)files.count;
         if ((progress - preProgress) > 0.2){
             preProgress = progress;
-            [SVProgressHUD showProgress:(float)i/(float)files.count status:@"写真の一覧を作っています"];
+            if (showProgress){
+                [SVProgressHUD showProgress:(float)i/(float)files.count status:@"写真の一覧を作っています"];
+            }
+            
         }
         NSString *fileName = files[i];
 
@@ -79,7 +82,7 @@
             // 機種名
             NSString *model =[tiff objectForKey:(NSString *)kCGImagePropertyTIFFModel];
             if (model){
-                [credit appendString:@"機種名:"];
+                [credit appendString:@"📷:"];
                 [credit appendString:model];
             }else{
 //                continue;
@@ -137,7 +140,7 @@
             NSNumber *FNumber = [exif objectForKey:(NSString *)kCGImagePropertyExifFNumber];
             if (FNumber){
                 if (FNumber){
-                    [caption appendString:@"\n絞り:F"];
+                    [caption appendString:@"\n:F"];
                     [caption appendString:[FNumber description]];
                 }
             }
@@ -278,8 +281,9 @@
         
         [photos addObject:photo];
     }
-    
-    [SVProgressHUD showProgress:1.0 status:@"完了"];
+    if (showProgress){
+        [SVProgressHUD showProgress:1.0 status:@"完了"];
+    }
     
     // 日付順に並び替え
     NSArray * result = [photos sortedArrayUsingComparator:^NSComparisonResult(JPPhoto * obj1, JPPhoto *  obj2) {

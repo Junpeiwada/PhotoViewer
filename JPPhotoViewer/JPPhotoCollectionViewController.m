@@ -143,7 +143,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     if (!app.isPassCodeViewShown){
         if (!self.photos){
-            self.photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory];
+            self.photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory showProgress:YES];
             [self updateThumbnailSize];
         }
         self.collectionView.hidden = NO;

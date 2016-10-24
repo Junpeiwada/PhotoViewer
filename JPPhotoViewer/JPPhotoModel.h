@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface JPPhotoModel : NSObject
-+ (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath;
++(NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath showProgress:(BOOL)showProgress;
 +(void)removeIndex:(NSString *)directoryname;
 +(void)removeAllIndex; // すべてのインデックスの削除
 +(void)removeAllThumb; // すべてのサムネの削除

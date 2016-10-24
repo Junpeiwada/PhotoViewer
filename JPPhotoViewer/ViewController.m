@@ -173,7 +173,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // データをロード
-        self.collectionView.photos = [JPPhotoModel photosWithDirectoryName:self.collectionView.photoDirectory];
+        self.collectionView.photos = [JPPhotoModel photosWithDirectoryName:self.collectionView.photoDirectory showProgress:YES];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:self.collectionView animated:YES];
             [SVProgressHUD dismiss];

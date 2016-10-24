@@ -170,8 +170,9 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 一覧生成
         for (NSInteger i = 0; i < directorys.count; i++) {
+            [SVProgressHUD showProgress:(float)i/(float)directorys.count status:@"写真の一覧を作っています"];
             NSString *path = directorys[i];
-            NSArray *photos = [JPPhotoModel photosWithDirectoryName:path];
+            NSArray *photos = [JPPhotoModel photosWithDirectoryName:path showProgress:NO];
             
             for (NSInteger j = 0; j < 4; j++) {
                 if (photos.count > j){
