@@ -31,6 +31,8 @@
 @property (nonatomic) NSAttributedString *attributedCaptionCredit;
 @property (nonatomic) NSString *originalDateString;
 
+@property (nonatomic) Boolean existEXIF;
+
 -(void)loadImage;
 -(BOOL)isExistThumbFile;
 

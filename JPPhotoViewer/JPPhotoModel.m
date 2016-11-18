@@ -24,6 +24,17 @@
     return NO;
 }
 
++ (NSMutableArray *)exifFilter:(NSArray *)photos{
+    // EXIFフィルター
+    NSMutableArray *filteredPhoto = [NSMutableArray array];
+    for (JPPhoto *p in photos) {
+        if (p.existEXIF){
+            [filteredPhoto addObject:p];
+        }
+    }
+    return filteredPhoto;
+}
+
 + (NSMutableArray *)photosWithDirectoryName:(NSString *)directoryPath showProgress:(BOOL)showProgress{
     
     NSMutableArray *photos;
@@ -34,6 +45,12 @@
         for (JPPhoto *p in photos) {
             p.directryName = directoryPath.lastPathComponent;
         }
+        
+        // EXIFフィルター
+        if ([[NSUserDefaults standardUserDefaults]boolForKey:@"exifFilter"]){
+            photos = [self exifFilter:photos];
+        }
+       
         return photos;
     }
     
@@ -85,7 +102,7 @@
                 [credit appendString:@"📷:"];
                 [credit appendString:model];
             }else{
-//                continue;
+                //                continue;
             }
         }
         
@@ -140,8 +157,9 @@
             NSNumber *FNumber = [exif objectForKey:(NSString *)kCGImagePropertyExifFNumber];
             if (FNumber){
                 if (FNumber){
-                    [caption appendString:@"\n:F"];
+                    [caption appendString:@"\n絞り:F"];
                     [caption appendString:[FNumber description]];
+                    photo.existEXIF = YES;
                 }
             }
             
@@ -158,6 +176,7 @@
                     }else{
                         [caption appendString:[exposureTime description]];
                     }
+                    photo.existEXIF = YES;
                 }
             }
             
@@ -176,6 +195,7 @@
                 [caption appendString:@"\nレンズ焦点距離:"];
                 [caption appendString:[focallength description]];
                 [caption appendString:@"mm"];
+                photo.existEXIF = YES;
             }
             
             // 35mm換算の焦点距離
@@ -184,6 +204,7 @@
                 [caption appendString:@"\n35mm換算:"];
                 [caption appendString:[focallength35 description]];
                 [caption appendString:@"mm"];
+                photo.existEXIF = YES;
             }
             
             // 露出プログラム
@@ -238,6 +259,7 @@
             if (lens){
                 [caption appendString:@"\nレンズ:"];
                 [caption appendString:lens];
+                photo.existEXIF = YES;
             }else{
                 // Exif AUX
                 // Exif 2.3以前にはレンズモデルがないので、拡張領域を読み取る
@@ -246,6 +268,7 @@
                 if (lensModel){
                     [caption appendString:@"\nレンズモデル:"];
                     [caption appendString:lensModel];
+                    photo.existEXIF = YES;
                 }
             }
             
@@ -294,6 +317,11 @@
     // 保存
     [self saveToJsonWithPhotos:result directortyPath:directoryPath];
     
+    // EXIFフィルター
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"exifFilter"]){
+        result = [self exifFilter:result];
+    }
+    
     return [result mutableCopy];
 }
 
@@ -318,6 +346,8 @@
         [pdic setObject:p.attributedCaptionTitle.string forKey:@"attributedCaptionTitle"];
         [pdic setObject:p.attributedCaptionSummary.string forKey:@"attributedCaptionSummary"];
         [pdic setObject:p.attributedCaptionCredit.string forKey:@"attributedCaptionCredit"];
+        
+        [pdic setObject:[NSNumber numberWithBool:p.existEXIF] forKey:@"existEXIF"];
         
         [saveTarget addObject:pdic];
     }
@@ -369,6 +399,8 @@
                                                NSFontAttributeName: [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1],
                                                NSShadowAttributeName: shadow
                                                }];
+            
+            photo.existEXIF = [[dic objectForKey:@"existEXIF"]boolValue];
             
             
             [result addObject:photo];

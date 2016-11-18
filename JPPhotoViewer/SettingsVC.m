@@ -14,6 +14,7 @@
 @interface SettingsVC ()
 @property (weak, nonatomic) IBOutlet UISwitch *useLockSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *tempSizeLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *exifFilterSwitch;
 
 @end
 
@@ -37,6 +38,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
+    self.exifFilterSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"exifFilter"];
     [self showTempSize];
 }
 
@@ -117,6 +119,9 @@
 */
 - (IBAction)lockValueChanged:(id)sender {
     [[NSUserDefaults standardUserDefaults]setBool:self.useLockSwitch.on forKey:@"useLock"];
+}
+- (IBAction)exifFilterChanged:(id)sender {
+    [[NSUserDefaults standardUserDefaults]setBool:self.exifFilterSwitch.on forKey:@"exifFilter"];
 }
 - (IBAction)removeCache:(id)sender {
     [self.tableView reloadData];
