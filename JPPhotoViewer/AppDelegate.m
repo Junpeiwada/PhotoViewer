@@ -22,6 +22,34 @@
     return YES;
 }
 
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+    if ([url isFileURL]) {
+        if ([[url pathExtension] isEqualToString:@"jpg"]) {
+            NSLog(@"%@", url.absoluteString);
+            
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            NSString* filename = [url lastPathComponent];
+            NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSError* error = nil;
+            NSString* impPath = [NSString stringWithFormat:@"%@/Imports", [paths objectAtIndex:0]];
+            [[NSFileManager defaultManager] createDirectoryAtPath:impPath withIntermediateDirectories:YES attributes:nil error:&error];
+            NSString* savePath = [NSString stringWithFormat:@"%@/Imports/%@", [paths objectAtIndex:0], filename];
+            
+            // Importフォルダに保存
+            if ([data writeToFile:savePath atomically:YES]){
+                // 削除
+                if ([[NSFileManager defaultManager]fileExistsAtPath:[url path]]) {
+                    [[NSFileManager defaultManager]removeItemAtPath:[url path] error:&error];
+                }
+            }
+            
+            
+            
+        }
+    }
+    return YES;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
 
 }
