@@ -10,7 +10,7 @@ PODS:
   - NYTPhotoViewer/Core (1.1.0)
   - PAPasscode (1.0)
   - SSKeychain (1.4.1)
-  - SVProgressHUD (2.0.3)
+  - SVProgressHUD (2.1.2)
 
 DEPENDENCIES:
   - NJKScrollFullScreen
@@ -25,8 +25,8 @@ SPEC CHECKSUMS:
   NYTPhotoViewer: e80e8767f3780d2df37c6f72cbab15d6c7232911
   PAPasscode: b408fb87c530cad58a554e26482e87dbb14b7bc2
   SSKeychain: 55cc80f66f5c73da827e3077f02e43528897db41
-  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
 
 PODFILE CHECKSUM: c78219cb82dc6452d14e0818ec28776b38b9fb24
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.0
