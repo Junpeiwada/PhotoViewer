@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "PAPasscodeViewController.h"
 #import "SSKeychain.h"
+#import "JPPhotoModel.h"
 
 @interface AppDelegate ()<PAPasscodeViewControllerDelegate>
 
@@ -41,10 +42,9 @@
                 if ([[NSFileManager defaultManager]fileExistsAtPath:[url path]]) {
                     [[NSFileManager defaultManager]removeItemAtPath:[url path] error:&error];
                 }
+                // Importsのインデックス削除
+                [JPPhotoModel removeIndex:@"Imports"];
             }
-            
-            
-            
         }
     }
     return YES;

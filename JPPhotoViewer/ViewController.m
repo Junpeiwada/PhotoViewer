@@ -192,7 +192,8 @@
                                                   NSString *direc = [self.directoryNames objectAtIndex:indexPath.row];
                                                   [JPPhotoModel removeDirectory:direc];
                                                   
-                                                  [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//                                                  [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                  [self.tableView reloadData];
                                               }],
              [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                 title:@"インデックスの削除"

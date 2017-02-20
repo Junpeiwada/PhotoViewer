@@ -500,7 +500,10 @@
     NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,directoryname];
     if ( [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&dir] ){
         if ( dir ){
-            [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+            NSError *error = nil;
+            if (![[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error]){
+                NSLog(@"%@", [error description]);
+            }
         }
     }
 }
