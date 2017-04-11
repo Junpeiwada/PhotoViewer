@@ -10,6 +10,7 @@
 #import "JPPhotoCollectionViewController.h"
 #import "JPPhotoModel.h"
 #import "JPPhoto.h"
+#import <Photos/Photos.h>
 #import <NYTPhotoViewer/NYTPhotosViewController.h>
 #import <AVFoundation/AVFoundation.h>
 #import "CHTCollectionViewWaterfallLayout.h"
@@ -79,27 +80,15 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     [super viewDidLoad];
 }
 
+// コレクションビューの長押しで操作アクションシートを出す
 -(void)longPressAction:(UILongPressGestureRecognizer *)sender{
     
     CGPoint location = [sender locationInView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
     if (indexPath){
         if (sender.state == UIGestureRecognizerStateBegan){
-            
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"削除"
-                                                                                     message:@"削除しますよろしいですか？"
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            
-            [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                // 削除する
-                [self removePhotoFile:indexPath];
-            }]];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                // cancelボタンが押された時の処理
-                return;
-            }]];
-            
-            [self presentViewController:alertController animated:YES completion:nil];
+            JPPhoto *p = self.photos[indexPath.row];
+            [self showOperationSheet:p parentVC:self];
         }
     }
 }
@@ -373,27 +362,62 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     // 写真のインデックス
     JPPhoto *current = photosViewController.currentlyDisplayedPhoto;
-    NSUInteger index = [self.photos indexOfObject:current];
+    [self showOperationSheet:current parentVC:photosViewController];
     
+    return YES;
+}
+
+// 操作のアクションシートを表示する
+-(void)showOperationSheet:(JPPhoto *)current parentVC:(UIViewController *)vc{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"操作"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"削除"
-                                                                             message:@"削除しますよろしいですか？"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    
-    // addActionした順に左から右にボタンが配置されます
-    [alertController addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // 削除する
-        [self removePhotoFile:[NSIndexPath indexPathForRow:index inSection:0]];
-        [self dismissViewControllerAnimated:YES completion:nil];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"カメラロールに保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self savePhotoToCameraroll:current.imagePath parentVC:vc];
     }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // cancelボタンが押された時の処理
+    
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"削除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        // 削除する
+        UIAlertController *al = [UIAlertController alertControllerWithTitle:@"削除"
+                                                                    message:@"削除します。よろしいですか？"
+                                                             preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        [al addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            NSUInteger index = [self.photos indexOfObject:current];
+            [self removePhotoFile:[NSIndexPath indexPathForRow:index inSection:0]];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }]];
+        [al addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:nil]];
+        
+        [vc presentViewController:al animated:YES completion:nil];
         return;
     }]];
     
-    [photosViewController presentViewController:alertController animated:YES completion:nil];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleCancel handler:nil]];
     
-    return YES;
+    [vc presentViewController:alertController animated:YES completion:nil];
+}
+
+// カメラロールに写真を保存する
+-(void)savePhotoToCameraroll:(NSString *)photoUrl parentVC:(UIViewController *)vc{
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:[NSURL URLWithString:photoUrl]];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        
+        if (!success){
+            NSLog(@"error:%@", error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"失敗"
+                                                                                         message:@"写真の保存でエラーが発生しました。"
+                                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
+                [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                [vc presentViewController:alertController animated:YES completion:nil];
+            });
+        }
+        
+    }];
 }
 
 #pragma mark NJKScrollFullScreen のデリゲート

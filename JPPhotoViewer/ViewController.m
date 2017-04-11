@@ -147,7 +147,7 @@
     // ファイル数を表示
     UILabel *countLabel = [cell viewWithTag:2];
     NSInteger fileCount = [self.fileCounts[indexPath.row]integerValue];
-    countLabel.text = [NSString stringWithFormat:@"%ld",fileCount];
+    countLabel.text = [NSString stringWithFormat:@"%ld",(long)fileCount];
     
     return cell;
 }
