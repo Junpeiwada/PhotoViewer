@@ -88,7 +88,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     if (indexPath){
         if (sender.state == UIGestureRecognizerStateBegan){
             JPPhoto *p = self.photos[indexPath.row];
-            [self showOperationSheet:p parentVC:self];
+            [self showOperationSheet:p parentVC:self location:location];
         }
     }
 }
@@ -360,15 +360,16 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (BOOL)photosViewController:(NYTPhotosViewController *)photosViewController handleLongPressForPhoto:(id <NYTPhoto>)photo withGestureRecognizer:(UILongPressGestureRecognizer *)longPressGestureRecognizer{
     
     
+    CGPoint location = [longPressGestureRecognizer locationInView:[photosViewController view]];
     // 写真のインデックス
     JPPhoto *current = photosViewController.currentlyDisplayedPhoto;
-    [self showOperationSheet:current parentVC:photosViewController];
+    [self showOperationSheet:current parentVC:photosViewController location:location];
     
     return YES;
 }
 
 // 操作のアクションシートを表示する
--(void)showOperationSheet:(JPPhoto *)current parentVC:(UIViewController *)vc{
+-(void)showOperationSheet:(JPPhoto *)current parentVC:(UIViewController *)vc location:(CGPoint)loc{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"操作"
                                                                              message:nil
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
@@ -391,11 +392,16 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         }]];
         [al addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:nil]];
         
+        al.popoverPresentationController.sourceView = vc.view;
+        al.popoverPresentationController.sourceRect = CGRectMake(loc.x, loc.y , 20 , 20);
+        
         [vc presentViewController:al animated:YES completion:nil];
         return;
     }]];
     
     [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleCancel handler:nil]];
+    alertController.popoverPresentationController.sourceView = vc.view;
+    alertController.popoverPresentationController.sourceRect = CGRectMake(loc.x, loc.y , 20 , 20);
     
     [vc presentViewController:alertController animated:YES completion:nil];
 }
