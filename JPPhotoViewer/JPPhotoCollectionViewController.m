@@ -266,7 +266,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             
             // パッと出るよりモヤッとでたほうがいいらしい。
             [cell imageView].alpha = 0;
-            [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+            [UIView animateWithDuration:1.0f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
                 [cell imageView].alpha = 1;
             } completion:nil];
         });
