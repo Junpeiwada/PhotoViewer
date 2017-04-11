@@ -409,9 +409,10 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 // カメラロールに写真を保存する
 -(void)savePhotoToCameraroll:(NSString *)photoUrl parentVC:(UIViewController *)vc{
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-        [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:[NSURL URLWithString:photoUrl]];
+        NSString *urlEncode =[photoUrl stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
+        NSURL *fileUrl = [NSURL URLWithString:urlEncode];
+        [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:fileUrl];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
-        
         if (!success){
             NSLog(@"error:%@", error);
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -422,7 +423,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
                 [vc presentViewController:alertController animated:YES completion:nil];
             });
         }
-        
     }];
 }
 
