@@ -385,7 +385,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
                                                                     message:@"削除します。よろしいですか？"
                                                              preferredStyle:UIAlertControllerStyleActionSheet];
         
-        [al addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [al addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
             NSUInteger index = [self.photos indexOfObject:current];
             [self removePhotoFile:[NSIndexPath indexPathForRow:index inSection:0]];
             [self dismissViewControllerAnimated:YES completion:nil];
