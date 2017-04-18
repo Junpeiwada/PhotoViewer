@@ -31,15 +31,17 @@
 static NSString * const reuseIdentifier = @"PhotoCell";
 
 -(void)initInstance{
+    
+    // カラム数をUserDefaultsから読み取る。なければ初期化
     NSInteger savedColumnCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"columnCount"];
     if  (savedColumnCount == 0){
         savedColumnCount = 2;
     }
     self.columnCount = savedColumnCount;
     
-    
+    // メモリワーニングでメモリ解放処理
     [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        for (JPPhoto *p in self.photos) {
+        for (JPPhoto *p in self.allPhotos) {
             p.image = nil;
         }
     }];
@@ -53,12 +55,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 -(void)viewDidLoad{
 
-    // レイアウトのパラメータ設定
-    CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
     
-    t.columnCount = self.columnCount;
-    t.minimumColumnSpacing = self.columnCount;
-    
+    // 長押しのジェスチャ設定
     UILongPressGestureRecognizer * longPressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressAction:)];
     longPressRecognizer.allowableMovement = 10;
     longPressRecognizer.minimumPressDuration = 0.5;
@@ -70,6 +68,12 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.scrollProxy.delegate = self;
     
     
+    // レイアウトのパラメータ設定
+    CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
+    t.columnCount = self.columnCount;
+    t.minimumColumnSpacing = self.columnCount;
+    
+    // カラム数の設定
     self.columnCountStepper.value = self.columnCount;
     
     // スワイプで戻る
@@ -87,7 +91,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];
     if (indexPath){
         if (sender.state == UIGestureRecognizerStateBegan){
-            JPPhoto *p = self.photos[indexPath.row];
+            JPPhoto *p = [self photoFromIndexPath:indexPath];
             [self showOperationSheet:p parentVC:self location:location];
         }
     }
@@ -103,16 +107,17 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 // 写真のファイルを削除します。
 -(void)removePhotoFile:(NSIndexPath*)indexPath{
-    JPPhoto *p = self.photos[indexPath.row];
+    JPPhoto *p = [self photoFromIndexPath:indexPath];;
     [p removeOriginal];
 
-    [self.photos removeObject:p];
+    [self.allPhotos removeObject:p];
+    [self.photoSections[indexPath.section] removeObject:p];
     [self.collectionView performBatchUpdates:^ {
         [self.collectionView deleteItemsAtIndexPaths:@[indexPath]]; // no assertion now
     } completion:nil];
     
     // JSONを上書き
-    [JPPhotoModel saveToJsonWithPhotos:self.photos directortyPath:self.photoDirectory];
+    [JPPhotoModel saveToJsonWithPhotos:self.allPhotos directortyPath:self.photoDirectory];
 }
 
 
@@ -127,11 +132,51 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 #pragma mark - View
 
+-(void)loadSectionFromPhotos:(NSMutableArray *)photos{
+    self.photoSections = [NSMutableArray array];
+    // セクションを作る予定地
+    
+    self.allPhotos = photos;
+    
+    
+    NSString * current;
+    
+    
+    NSMutableArray *section;
+    for (JPPhoto * p in self.allPhotos) {
+        
+        if (current == nil){
+            if (p.originalDateString.length > 10){
+                current = [p.originalDateString substringToIndex:10];
+                section = [NSMutableArray array];
+            }
+        }
+        
+        if (p.originalDateString.length > 10){
+            if ([p.originalDateString hasPrefix:current]){
+                [section addObject:p];
+            }else{
+                [self.photoSections addObject:section];
+                current = nil;
+                section = nil;
+            }
+        }
+    }
+    
+    [self.photoSections addObject:section];
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     if (!app.isPassCodeViewShown){
-        if (!self.photos){
-            self.photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory showProgress:YES];
+        
+        // 写真一覧のデータをロード
+        if (!self.allPhotos){
+            
+            self.photoSections = [NSMutableArray array];
+            NSMutableArray *photos = [JPPhotoModel photosWithDirectoryName:self.photoDirectory showProgress:YES];
+            
+            [self loadSectionFromPhotos:photos];
             [self updateThumbnailSize];
         }
         self.collectionView.hidden = NO;
@@ -144,7 +189,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    self.photos = nil;
+    self.allPhotos = nil;
+    self.photoSections = nil;
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -170,10 +216,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (IBAction)didCloseView:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
     
-    for (JPPhoto *p in self.photos) {
+    for (JPPhoto *p in self.allPhotos) {
         p.image = nil;
     }
-    self.photos = nil;
+    self.allPhotos = nil;
+    self.photoSections = nil;
     self.collectionView = nil;
 }
 
@@ -207,7 +254,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     CGSize s = UIScreen.mainScreen.bounds.size;
     NSInteger size = (s.width / self.columnCount) * 2.1; // Retinaだからx2かな？
     
-    for (JPPhoto *p in self.photos) {
+    for (JPPhoto *p in self.allPhotos) {
         if (MAX(p.width, p.height) < size){
             p.thumbnailSize = MAX(p.width, p.height);
         }else{
@@ -221,14 +268,24 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     // アイテムの個数を返す
-    return self.photos.count;
+    NSMutableArray *s =self.photoSections[section];
+    return s.count;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return self.photoSections.count;
 }
 
 
-
+-(JPPhoto *)photoFromIndexPath:(NSIndexPath *)indexPath{
+    NSMutableArray *s = self.photoSections[indexPath.section];
+    JPPhoto *p = [s objectAtIndex:indexPath.row];
+    
+    return p;
+}
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    JPPhoto *photo = [self.photos objectAtIndex:indexPath.row];
+    JPPhoto *photo = [self photoFromIndexPath:indexPath];
     CGSize size = AVMakeRectWithAspectRatioInsideRect(CGSizeMake(photo.width, photo.height),CGRectMake(0, 0, 300, 300)).size;
     
     // Nanの時は0にする
@@ -252,7 +309,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     JPPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    JPPhoto *photo = [self.photos objectAtIndex:indexPath.row];
+    JPPhoto *photo = [self photoFromIndexPath:indexPath];;
     cell.thumbnailPath = [photo thumbnailPathSize];
     
     // サムネをロードする
@@ -277,17 +334,18 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // サムネイルをタップした時に拡大するビューを表示する
-    NYTPhotosViewController * photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:self.photos initialPhoto:self.photos[indexPath.row]];
+    NYTPhotosViewController * photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:self.allPhotos initialPhoto:[self photoFromIndexPath:indexPath]];
     photosViewController.delegate = self;
     [self presentViewController:photosViewController animated:YES completion:nil];
     
     
-    JPPhoto *target =[self.photos objectAtIndex:indexPath.row];
+    JPPhoto *target =[self photoFromIndexPath:indexPath];
     [self loadPhotoOnPhotosViewController:photosViewController photo:target];
-    if (indexPath.row > 0 && indexPath.row < self.photos.count - 1){
-        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row -1]];
-        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row +1]];
-    }
+    // ひとまずコメント・・・
+//    if (indexPath.row > 0 && indexPath.row < self.photos.count - 1){
+//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row -1]];
+//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row +1]];
+//    }
     
     return YES;
 }
@@ -309,11 +367,18 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (UIView *)photosViewController:(NYTPhotosViewController *)photosViewController referenceViewForPhoto:(id <NYTPhoto>)photo {
     
-    JPPhoto *current = photosViewController.currentlyDisplayedPhoto;
-    NSUInteger index = [self.photos indexOfObject:current];
     
-    UICollectionViewCell *tempCell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    return tempCell;
+    JPPhoto *current = photosViewController.currentlyDisplayedPhoto;
+    for (NSInteger i=0; i < self.photoSections.count; i++) {
+        NSArray *s = self.photoSections[i];
+        for (NSInteger j=0; j < s.count; j++) {
+            if (s[j] == current){
+                UICollectionViewCell *tempCell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]];
+                return tempCell;
+            }
+        }
+    }
+    return nil;
 }
 
 - (UIView *)photosViewController:(NYTPhotosViewController *)photosViewController loadingViewForPhoto:(id <NYTPhoto>)photo {
@@ -339,11 +404,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (void)photosViewController:(NYTPhotosViewController *)photosViewController didNavigateToPhoto:(id <NYTPhoto>)photo atIndex:(NSUInteger)photoIndex {
     
     [self loadPhotoOnPhotosViewController:photosViewController photo:photo];
-    if (photoIndex > 0 && photoIndex < self.photos.count - 1){
-        // 前後の画像をロードしておく。スワイプ時にロード画面が表示されなくていい感じになる。
-        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex -1]];
-        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex +1]];
-    }
+//    if (photoIndex > 0 && photoIndex < self.photos.count - 1){
+//        // 前後の画像をロードしておく。スワイプ時にロード画面が表示されなくていい感じになる。
+//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex -1]];
+//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex +1]];
+//    }
 }
 
 - (void)photosViewController:(NYTPhotosViewController *)photosViewController actionCompletedWithActivityType:(NSString *)activityType {
@@ -351,7 +416,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 
 - (void)photosViewControllerDidDismiss:(NYTPhotosViewController *)photosViewController {
-    for (JPPhoto *p in self.photos) {
+    for (JPPhoto *p in self.allPhotos) {
         p.image = nil;
     }
 }
@@ -386,8 +451,16 @@ static NSString * const reuseIdentifier = @"PhotoCell";
                                                              preferredStyle:UIAlertControllerStyleActionSheet];
         
         [al addAction:[UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-            NSUInteger index = [self.photos indexOfObject:current];
-            [self removePhotoFile:[NSIndexPath indexPathForRow:index inSection:0]];
+
+            for (NSInteger i=0; i < self.photoSections.count; i++) {
+                NSArray *s = self.photoSections[i];
+                for (NSInteger j=0; j < s.count; j++) {
+                    if (s[j] == current){
+                        [self removePhotoFile:[NSIndexPath indexPathForRow:j inSection:i]];
+                    }
+                }
+            }
+            
             [self dismissViewControllerAnimated:YES completion:nil];
         }]];
         [al addAction:[UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDefault handler:nil]];

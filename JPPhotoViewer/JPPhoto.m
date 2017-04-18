@@ -149,4 +149,12 @@ static NSObject *syncRoot;
     return fileSize;
 }
 
+- (id <NYTPhoto>)objectAtIndexedSubscript:(NSUInteger)photoIndex {
+    return nil;
+}
+
+- (NSObject *)objectAtIndex:(NSUInteger)index{
+    return nil;
+}
+
 @end
