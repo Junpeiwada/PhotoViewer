@@ -16,4 +16,7 @@
 +(void)removeDirectory:(NSString *)directoryname;
 +(BOOL)isExistIndexWithDirectoryName:(NSString *)directoryPath;
 +(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath;
+
+// JPPhotoのArrayを日付で分割する
++(NSMutableArray *)splitPhotosByOriginalDate:(NSMutableArray *)photos;
 @end

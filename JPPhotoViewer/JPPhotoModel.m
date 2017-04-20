@@ -311,8 +311,24 @@
     // 日付順に並び替え
     NSArray * result = [photos sortedArrayUsingComparator:^NSComparisonResult(JPPhoto * obj1, JPPhoto *  obj2) {
         NSStringCompareOptions compareOptions = (NSCaseInsensitiveSearch);
+        
+        if (obj1.originalDateString == nil & obj2.originalDateString == nil){
+            return NSOrderedSame;
+        }
+        if (obj1.originalDateString == nil & obj2.originalDateString != nil){
+            return NSOrderedDescending;
+        }
+        if (obj1.originalDateString != nil & obj2.originalDateString == nil){
+            return NSOrderedAscending;
+        }
+        
         return [obj1.originalDateString compare:obj2.originalDateString options:compareOptions];
     }];
+    
+    
+    for (JPPhoto * p in result) {
+        NSLog(@"%@", p.originalDateString);
+    }
     
     // 保存
     [self saveToJsonWithPhotos:result directortyPath:directoryPath];
@@ -325,6 +341,44 @@
     return [result mutableCopy];
 }
 
+// JPPhotoのArrayを、撮影日付ごとに分けます。
++(NSMutableArray *)splitPhotosByOriginalDate:(NSMutableArray *)photos{
+    NSMutableArray *photoSections = [NSMutableArray array];
+    NSString * current;
+    
+    NSMutableArray *section = [NSMutableArray array];
+    for (JPPhoto * p in photos) {
+        // キーを読み取る
+        if (current == nil){
+            if (p.originalDateString.length > 10){
+                current = [p.originalDateString substringToIndex:10];
+            }else{
+                current = @"NULL";
+            }
+        }
+        
+        NSLog(@"%@", current);
+        
+        if (p.originalDateString.length > 10){
+            if ([p.originalDateString hasPrefix:current]){
+                [section addObject:p];
+            }else{
+                [photoSections addObject:section];
+                section = [NSMutableArray array];
+                [section addObject:p];
+                current = nil;
+            }
+        }else{
+            [section addObject:p];
+        }
+    }
+    
+    [photoSections addObject:section];
+    
+    return photoSections;
+}
+
+// JPPhotoからJsonを作成し、指定されたディレクトリに保存します。
 +(void)saveToJsonWithPhotos:(NSArray *)photos directortyPath:(NSString *)directoryPath{
     
     NSMutableArray *saveTarget = [NSMutableArray array];
@@ -357,6 +411,7 @@
     [data writeToFile:[JPPath jsonPath:directoryPath] atomically:YES];
 }
 
+// 指定されたディレクトリのJSONを読み込んで、JPPhotoのArrayを返します。
 +(NSArray *)loadPhotosFromJsonWithDirectortyPath:(NSString *)directoryPath{
     NSString *pListPath = [JPPath jsonPath:directoryPath];
     
@@ -376,7 +431,7 @@
             photo.width = [[dic objectForKey:@"width"]integerValue];
             photo.height = [[dic objectForKey:@"height"]integerValue];
             
-            photo.originalDateString =[dic objectForKey:@"thumbnailPath"];
+            photo.originalDateString =[dic objectForKey:@"originalDateString"];
             
             NSShadow * shadow = [[NSShadow alloc] init];
             [shadow setShadowColor:[UIColor blackColor]];

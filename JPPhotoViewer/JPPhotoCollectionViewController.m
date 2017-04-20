@@ -72,6 +72,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     CHTCollectionViewWaterfallLayout *t = (CHTCollectionViewWaterfallLayout * )self.collectionViewLayout;
     t.columnCount = self.columnCount;
     t.minimumColumnSpacing = self.columnCount;
+    t.headerHeight = 50;
     
     // カラム数の設定
     self.columnCountStepper.value = self.columnCount;
@@ -132,38 +133,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 #pragma mark - View
 
+
+// すべての写真から日付ごとのセクションに分けて格納
 -(void)loadSectionFromPhotos:(NSMutableArray *)photos{
-    self.photoSections = [NSMutableArray array];
-    // セクションを作る予定地
-    
     self.allPhotos = photos;
-    
-    
-    NSString * current;
-    
-    
-    NSMutableArray *section;
-    for (JPPhoto * p in self.allPhotos) {
-        
-        if (current == nil){
-            if (p.originalDateString.length > 10){
-                current = [p.originalDateString substringToIndex:10];
-                section = [NSMutableArray array];
-            }
-        }
-        
-        if (p.originalDateString.length > 10){
-            if ([p.originalDateString hasPrefix:current]){
-                [section addObject:p];
-            }else{
-                [self.photoSections addObject:section];
-                current = nil;
-                section = nil;
-            }
-        }
-    }
-    
-    [self.photoSections addObject:section];
+    self.photoSections = [JPPhotoModel splitPhotosByOriginalDate:photos];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -341,14 +315,15 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     JPPhoto *target =[self photoFromIndexPath:indexPath];
     [self loadPhotoOnPhotosViewController:photosViewController photo:target];
-    // ひとまずコメント・・・
-//    if (indexPath.row > 0 && indexPath.row < self.photos.count - 1){
-//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row -1]];
-//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:indexPath.row +1]];
-//    }
+
+    if (indexPath.row > 0 && indexPath.row < self.allPhotos.count - 1){
+        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.allPhotos objectAtIndex:indexPath.row -1]];
+        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.allPhotos objectAtIndex:indexPath.row +1]];
+    }
     
     return YES;
 }
+
 // 画像をロードする
 -(void)loadPhotoOnPhotosViewController:(NYTPhotosViewController *)photosViewController photo:(JPPhoto *)target{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -404,11 +379,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 - (void)photosViewController:(NYTPhotosViewController *)photosViewController didNavigateToPhoto:(id <NYTPhoto>)photo atIndex:(NSUInteger)photoIndex {
     
     [self loadPhotoOnPhotosViewController:photosViewController photo:photo];
-//    if (photoIndex > 0 && photoIndex < self.photos.count - 1){
-//        // 前後の画像をロードしておく。スワイプ時にロード画面が表示されなくていい感じになる。
-//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex -1]];
-//        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.photos objectAtIndex:photoIndex +1]];
-//    }
+    if (photoIndex > 0 && photoIndex < self.allPhotos.count - 1){
+        // 前後の画像をロードしておく。スワイプ時にロード画面が表示されなくていい感じになる。
+        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.allPhotos objectAtIndex:photoIndex -1]];
+        [self loadPhotoOnPhotosViewController:photosViewController photo:[self.allPhotos objectAtIndex:photoIndex +1]];
+    }
 }
 
 - (void)photosViewController:(NYTPhotosViewController *)photosViewController actionCompletedWithActivityType:(NSString *)activityType {
