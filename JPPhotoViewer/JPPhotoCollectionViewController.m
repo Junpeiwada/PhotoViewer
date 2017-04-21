@@ -17,6 +17,7 @@
 #import "JPPhotoCollectionViewCell.h"
 #import "NJKScrollFullScreen.h"
 #import "UIViewController+NJKFullScreenSupport.h"
+#import "CollectionReusableHeaderView.h"
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout,NJKScrollFullscreenDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (nonatomic) NSInteger columnCount;
@@ -76,6 +77,10 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     // カラム数の設定
     self.columnCountStepper.value = self.columnCount;
+    
+    //ヘッダの設定
+    UINib *nib = [UINib nibWithNibName:@"CollectionHeader" bundle:nil];
+    [self.collectionView registerNib:nib forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader withReuseIdentifier:@"JPHeader"];
     
     // スワイプで戻る
     UIPanGestureRecognizer *swipe = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
@@ -257,6 +262,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     return p;
 }
+#pragma mark CollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView*)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     JPPhoto *photo = [self photoFromIndexPath:indexPath];
@@ -268,15 +274,21 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     }
     return size;
 }
-#pragma mark collection view cell paddings
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 2.0f;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 2.0f;
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    if (kind == CHTCollectionElementKindSectionHeader){
+        CollectionReusableHeaderView *header = [self.collectionView dequeueReusableSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader withReuseIdentifier:@"JPHeader" forIndexPath:indexPath];
+        
+        JPPhoto *p = [self photoFromIndexPath:indexPath];
+        if (p.originalDateString.length > 10){
+            header.headerLabel.text = [[p.originalDateString substringToIndex:10] stringByReplacingOccurrencesOfString:@":" withString:@" / "];
+        }else{
+            header.headerLabel.text = p.originalDateString;
+        }
+        
+        return header;
+    }else{
+        return nil;
+    }
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -302,8 +314,19 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             } completion:nil];
         });
     });
-
+    
     return cell;
+}
+
+#pragma mark collection view cell paddings
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 2.0f;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 2.0f;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {

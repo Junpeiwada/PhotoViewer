@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4AB1D91E53EC8983ED3B30FE /* libPods-JPPhotoViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C41C6D7B4E1DD8365E8AE64B /* libPods-JPPhotoViewer.a */; };
 		EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2B63841CF7605300B6E33A /* SettingsVC.m */; };
+		EE38A25B1EA9988300551898 /* CollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE38A25A1EA9988300551898 /* CollectionHeader.xib */; };
+		EE38A25E1EA998F600551898 /* CollectionReusableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */; };
 		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
 		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
 		EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -30,6 +32,9 @@
 		C41C6D7B4E1DD8365E8AE64B /* libPods-JPPhotoViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JPPhotoViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE2B63831CF7605300B6E33A /* SettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsVC.h; sourceTree = "<group>"; };
 		EE2B63841CF7605300B6E33A /* SettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsVC.m; sourceTree = "<group>"; };
+		EE38A25A1EA9988300551898 /* CollectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionHeader.xib; sourceTree = "<group>"; };
+		EE38A25C1EA998F600551898 /* CollectionReusableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionReusableHeaderView.h; sourceTree = "<group>"; };
+		EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionReusableHeaderView.m; sourceTree = "<group>"; };
 		EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewController.h; sourceTree = "<group>"; };
 		EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewController.m; sourceTree = "<group>"; };
 		EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoModel.h; sourceTree = "<group>"; };
@@ -138,6 +143,9 @@
 				EE6A03D81CE176A50077B7DF /* Supporting Files */,
 				EE9DF3181DB9CE6E0007AE6C /* JPPath.h */,
 				EE9DF3191DB9CE6E0007AE6C /* JPPath.m */,
+				EE38A25A1EA9988300551898 /* CollectionHeader.xib */,
+				EE38A25C1EA998F600551898 /* CollectionReusableHeaderView.h */,
+				EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */,
 			);
 			path = JPPhotoViewer;
 			sourceTree = "<group>";
@@ -216,6 +224,7 @@
 			files = (
 				EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */,
 				EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */,
+				EE38A25B1EA9988300551898 /* CollectionHeader.xib in Resources */,
 				EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +332,7 @@
 				EEA912BC1D1666CA007FC163 /* JPPhotoCollectionViewCell.m in Sources */,
 				EE6A03E01CE176A50077B7DF /* ViewController.m in Sources */,
 				EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */,
+				EE38A25E1EA998F600551898 /* CollectionReusableHeaderView.m in Sources */,
 				EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				EE9DF31A1DB9CE6E0007AE6C /* JPPath.m in Sources */,
 				EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */,
