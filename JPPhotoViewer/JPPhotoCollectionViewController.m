@@ -285,6 +285,11 @@ static NSString * const reuseIdentifier = @"PhotoCell";
             header.headerLabel.text = p.originalDateString;
         }
         
+        header.alpha = 0;
+        [UIView animateWithDuration:0.4f delay:0.0f options:UIViewAnimationOptionCurveEaseOut animations:^ {
+            header.alpha = 1;
+        } completion:nil];
+        
         return header;
     }else{
         return nil;

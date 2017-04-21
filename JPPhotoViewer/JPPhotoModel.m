@@ -344,33 +344,31 @@
 // JPPhotoのArrayを、撮影日付ごとに分けます。
 +(NSMutableArray *)splitPhotosByOriginalDate:(NSMutableArray *)photos{
     NSMutableArray *photoSections = [NSMutableArray array];
+    NSString * pre;
     NSString * current;
     
-    NSMutableArray *section = [NSMutableArray array];
+    NSMutableArray *section = nil;
     for (JPPhoto * p in photos) {
         // キーを読み取る
-        if (current == nil){
-            if (p.originalDateString.length > 10){
-                current = [p.originalDateString substringToIndex:10];
-            }else{
-                current = @"NULL";
-            }
+        if (p.originalDateString.length > 10){
+            current = [p.originalDateString substringToIndex:10];
+        }else{
+            current = @"NULL";
         }
         
         NSLog(@"%@", current);
         
-        if (p.originalDateString.length > 10){
-            if ([p.originalDateString hasPrefix:current]){
-                [section addObject:p];
-            }else{
-                [photoSections addObject:section];
-                section = [NSMutableArray array];
-                [section addObject:p];
-                current = nil;
-            }
+        if ([current isEqualToString:pre]){
+            [section addObject:p];
         }else{
+            if (section){
+                [photoSections addObject:section];
+            }
+            section = [NSMutableArray array];
             [section addObject:p];
         }
+        
+        pre = current;
     }
     
     [photoSections addObject:section];
