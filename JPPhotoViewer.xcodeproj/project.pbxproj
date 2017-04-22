@@ -11,6 +11,7 @@
 		EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2B63841CF7605300B6E33A /* SettingsVC.m */; };
 		EE38A25B1EA9988300551898 /* CollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE38A25A1EA9988300551898 /* CollectionHeader.xib */; };
 		EE38A25E1EA998F600551898 /* CollectionReusableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */; };
+		EE4E42A01EAAFCA90036372C /* JPNYTPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4E429F1EAAFCA90036372C /* JPNYTPhotosViewController.m */; };
 		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
 		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
 		EE58AC4C1CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC491CE1ADAB00990B55 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -35,6 +36,8 @@
 		EE38A25A1EA9988300551898 /* CollectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionHeader.xib; sourceTree = "<group>"; };
 		EE38A25C1EA998F600551898 /* CollectionReusableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionReusableHeaderView.h; sourceTree = "<group>"; };
 		EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionReusableHeaderView.m; sourceTree = "<group>"; };
+		EE4E429E1EAAFCA90036372C /* JPNYTPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPNYTPhotosViewController.h; sourceTree = "<group>"; };
+		EE4E429F1EAAFCA90036372C /* JPNYTPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPNYTPhotosViewController.m; sourceTree = "<group>"; };
 		EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewController.h; sourceTree = "<group>"; };
 		EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewController.m; sourceTree = "<group>"; };
 		EE58AC441CE1ADA000990B55 /* JPPhotoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoModel.h; sourceTree = "<group>"; };
@@ -146,6 +149,8 @@
 				EE38A25A1EA9988300551898 /* CollectionHeader.xib */,
 				EE38A25C1EA998F600551898 /* CollectionReusableHeaderView.h */,
 				EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */,
+				EE4E429E1EAAFCA90036372C /* JPNYTPhotosViewController.h */,
+				EE4E429F1EAAFCA90036372C /* JPNYTPhotosViewController.m */,
 			);
 			path = JPPhotoViewer;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */,
 				EE6A03DD1CE176A50077B7DF /* AppDelegate.m in Sources */,
 				EE6A03DA1CE176A50077B7DF /* main.m in Sources */,
+				EE4E42A01EAAFCA90036372C /* JPNYTPhotosViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

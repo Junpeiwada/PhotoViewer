@@ -18,6 +18,7 @@
 #import "NJKScrollFullScreen.h"
 #import "UIViewController+NJKFullScreenSupport.h"
 #import "CollectionReusableHeaderView.h"
+#import "JPNYTPhotosViewController.h"
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout,NJKScrollFullscreenDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (nonatomic) NSInteger columnCount;
@@ -336,7 +337,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // サムネイルをタップした時に拡大するビューを表示する
-    NYTPhotosViewController * photosViewController = [[NYTPhotosViewController alloc] initWithPhotos:self.allPhotos initialPhoto:[self photoFromIndexPath:indexPath]];
+    JPNYTPhotosViewController * photosViewController = [[JPNYTPhotosViewController alloc] initWithPhotos:self.allPhotos initialPhoto:[self photoFromIndexPath:indexPath]];
     photosViewController.delegate = self;
     [self presentViewController:photosViewController animated:YES completion:nil];
     
