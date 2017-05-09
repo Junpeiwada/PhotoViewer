@@ -21,8 +21,9 @@
 #import "JPNYTPhotosViewController.h"
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout,NJKScrollFullscreenDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
-@property (nonatomic) NSInteger columnCount;
 @property (weak, nonatomic) IBOutlet UIStepper *columnCountStepper;
+@property (nonatomic) UISlider *slider;
+@property (nonatomic) NSInteger columnCount;
 @property (nonatomic) NJKScrollFullScreen *scrollProxy;
 @end
 
@@ -87,8 +88,41 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     UIPanGestureRecognizer *swipe = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
     [self.view addGestureRecognizer:swipe];
 
+    CGFloat sliderHeight = self.view.frame.size.height - 20;
+    CGFloat sliderX = self.view.frame.size.width - 20;
+    CGFloat sliderY = self.view.frame.size.height / 2;
+
+
+
+    
+    self.slider = [[UISlider alloc]initWithFrame:CGRectMake(100, 0, 300, 300)];
+    self.slider.maximumValue = 1.0f;
+    self.slider.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
+    
+    self.slider.frame = CGRectMake(0, 20, 20, sliderHeight - 20);
+    self.slider.center = CGPointMake(sliderX, sliderY);
+    
+    [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    // 縦にする
+    
+    [self.view addSubview:self.slider];
     
     [super viewDidLoad];
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+    self.slider.value = self.collectionView.contentOffset.y / (self.collectionView.contentSize.height - self.collectionView.bounds.size.height);
+}
+
+- (void)sliderValueChanged:(UISlider*)slider {
+    CGFloat contentHeight = self.collectionView.contentSize.height - self.view.frame.size.height;
+    if (contentHeight < 0){
+        contentHeight = 0;
+    }
+    [self.collectionView setContentOffset:CGPointMake(0, contentHeight * slider.value)];
+    
 }
 
 // コレクションビューの長押しで操作アクションシートを出す

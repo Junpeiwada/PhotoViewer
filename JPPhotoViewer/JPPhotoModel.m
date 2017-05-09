@@ -325,11 +325,6 @@
         return [obj1.originalDateString compare:obj2.originalDateString options:compareOptions];
     }];
     
-    
-    for (JPPhoto * p in result) {
-        NSLog(@"%@", p.originalDateString);
-    }
-    
     // 保存
     [self saveToJsonWithPhotos:result directortyPath:directoryPath];
     
@@ -355,8 +350,6 @@
         }else{
             current = @"NULL";
         }
-        
-        NSLog(@"%@", current);
         
         if ([current isEqualToString:pre]){
             [section addObject:p];
