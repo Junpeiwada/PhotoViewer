@@ -25,6 +25,7 @@
 		EE9DF31A1DB9CE6E0007AE6C /* JPPath.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9DF3191DB9CE6E0007AE6C /* JPPath.m */; };
 		EEA912BC1D1666CA007FC163 /* JPPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */; };
 		EECD5C211CF90B5200527B2B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EECD5C201CF90B5200527B2B /* Security.framework */; };
+		EEEF0DE61EC3DC89001F4A7B /* Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = EEEF0DE51EC3DC89001F4A7B /* Transparent.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		EEA912BA1D1666CA007FC163 /* JPPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		EEA912BB1D1666CA007FC163 /* JPPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		EECD5C201CF90B5200527B2B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		EEEF0DE51EC3DC89001F4A7B /* Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Transparent.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		EE6A03D71CE176A50077B7DF /* JPPhotoViewer */ = {
 			isa = PBXGroup;
 			children = (
+				EEEF0DE41EC3DC89001F4A7B /* Image */,
 				EE58AC501CE1CC9100990B55 /* UICollectionViewWaterfallLayout */,
 				EE58AC4A1CE1ADAB00990B55 /* JPPhoto.h */,
 				EE58AC4B1CE1ADAB00990B55 /* JPPhoto.m */,
@@ -161,6 +164,14 @@
 				EE6A03D91CE176A50077B7DF /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EEEF0DE41EC3DC89001F4A7B /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				EEEF0DE51EC3DC89001F4A7B /* Transparent.png */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +240,7 @@
 			files = (
 				EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */,
 				EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */,
+				EEEF0DE61EC3DC89001F4A7B /* Transparent.png in Resources */,
 				EE38A25B1EA9988300551898 /* CollectionHeader.xib in Resources */,
 				EE6A03E31CE176A50077B7DF /* Main.storyboard in Resources */,
 			);

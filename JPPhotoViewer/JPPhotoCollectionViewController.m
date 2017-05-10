@@ -102,6 +102,9 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.slider.frame = CGRectMake(0, 20, 20, sliderHeight - 20);
     self.slider.center = CGPointMake(sliderX, sliderY);
     
+    [self.slider setMinimumTrackImage:[UIImage imageNamed:@"Transparent.png"] forState:UIControlStateNormal];
+    [self.slider setMaximumTrackImage:[UIImage imageNamed:@"Transparent.png"] forState:UIControlStateNormal];
+    
     [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     
     // 縦にする
