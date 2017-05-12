@@ -363,8 +363,9 @@
         
         pre = current;
     }
-    
-    [photoSections addObject:section];
+    if (section){
+        [photoSections addObject:section];
+    }
     
     return photoSections;
 }
