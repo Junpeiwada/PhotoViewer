@@ -30,6 +30,9 @@
 
 @implementation JPPhotoCollectionViewController {
     NSInteger preColumnCount;
+    CGPoint sliderShowPos;
+    CGPoint sliderHidePos;
+    BOOL isDragging;
 }
 static NSString * const reuseIdentifier = @"PhotoCell";
 
@@ -99,11 +102,17 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     self.slider.maximumValue = 1.0f;
     self.slider.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
     
-    self.slider.frame = CGRectMake(0, 20, 20, sliderHeight - 20);
-    self.slider.center = CGPointMake(sliderX, sliderY);
+    
+    sliderShowPos = CGPointMake(sliderX, sliderY);
+    sliderHidePos = CGPointMake(sliderX + 50, sliderY);
+    self.slider.frame = CGRectMake(0, 20, 55, sliderHeight - 20);
+    self.slider.center = sliderHidePos;
     
     [self.slider setMinimumTrackImage:[UIImage imageNamed:@"Transparent.png"] forState:UIControlStateNormal];
     [self.slider setMaximumTrackImage:[UIImage imageNamed:@"Transparent.png"] forState:UIControlStateNormal];
+    
+    [self.slider setThumbImage:[UIImage imageNamed:@"Nob.png"] forState:UIControlStateNormal];
+    [self.slider setThumbImage:[UIImage imageNamed:@"Nob.png"] forState:UIControlStateHighlighted];
     
     [self.slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
     
@@ -115,9 +124,34 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    isDragging = YES;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.slider.center = sliderShowPos;
+    }];
     
     self.slider.value = self.collectionView.contentOffset.y / (self.collectionView.contentSize.height - self.collectionView.bounds.size.height);
 }
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    isDragging = NO;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        // ノブを隠す
+        if (!isDragging){
+            [UIView animateWithDuration:0.5 animations:^{
+                self.slider.center = sliderHidePos;
+            }];;
+        }
+        
+    });
+    
+    // ナビゲーションを隠す
+    if ([self.collectionView contentOffset].y == 0){
+        [self hideNavigationBarAfterDuration];
+    }
+}
+
+
 
 - (void)sliderValueChanged:(UISlider*)slider {
     CGFloat contentHeight = self.collectionView.contentSize.height - self.view.frame.size.height;
@@ -222,12 +256,6 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self hideNavigationBar:YES];
     });
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    if ([self.collectionView contentOffset].y == 0){
-        [self hideNavigationBarAfterDuration];
-    }
 }
 
 - (IBAction)didCloseView:(id)sender {

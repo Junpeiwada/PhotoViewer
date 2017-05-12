@@ -322,7 +322,7 @@
             return NSOrderedAscending;
         }
         
-        return [obj1.originalDateString compare:obj2.originalDateString options:compareOptions];
+        return [obj2.originalDateString compare:obj1.originalDateString options:compareOptions];
     }];
     
     // 保存

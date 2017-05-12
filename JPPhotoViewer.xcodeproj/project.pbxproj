@@ -11,6 +11,7 @@
 		EE2B63851CF7605300B6E33A /* SettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2B63841CF7605300B6E33A /* SettingsVC.m */; };
 		EE38A25B1EA9988300551898 /* CollectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE38A25A1EA9988300551898 /* CollectionHeader.xib */; };
 		EE38A25E1EA998F600551898 /* CollectionReusableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */; };
+		EE4B6D791EC5ABB20034973E /* Nob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE4B6D781EC5ABB20034973E /* Nob@2x.png */; };
 		EE4E42A01EAAFCA90036372C /* JPNYTPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4E429F1EAAFCA90036372C /* JPNYTPhotosViewController.m */; };
 		EE58AC461CE1ADA000990B55 /* JPPhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC431CE1ADA000990B55 /* JPPhotoCollectionViewController.m */; };
 		EE58AC471CE1ADA000990B55 /* JPPhotoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE58AC451CE1ADA000990B55 /* JPPhotoModel.m */; };
@@ -37,6 +38,7 @@
 		EE38A25A1EA9988300551898 /* CollectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionHeader.xib; sourceTree = "<group>"; };
 		EE38A25C1EA998F600551898 /* CollectionReusableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionReusableHeaderView.h; sourceTree = "<group>"; };
 		EE38A25D1EA998F600551898 /* CollectionReusableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionReusableHeaderView.m; sourceTree = "<group>"; };
+		EE4B6D781EC5ABB20034973E /* Nob@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Nob@2x.png"; sourceTree = "<group>"; };
 		EE4E429E1EAAFCA90036372C /* JPNYTPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPNYTPhotosViewController.h; sourceTree = "<group>"; };
 		EE4E429F1EAAFCA90036372C /* JPNYTPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPNYTPhotosViewController.m; sourceTree = "<group>"; };
 		EE58AC421CE1ADA000990B55 /* JPPhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPPhotoCollectionViewController.h; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		EEEF0DE41EC3DC89001F4A7B /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				EE4B6D781EC5ABB20034973E /* Nob@2x.png */,
 				EEEF0DE51EC3DC89001F4A7B /* Transparent.png */,
 			);
 			path = Image;
@@ -238,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE4B6D791EC5ABB20034973E /* Nob@2x.png in Resources */,
 				EE6A03E81CE176A50077B7DF /* LaunchScreen.storyboard in Resources */,
 				EE6A03E51CE176A50077B7DF /* Assets.xcassets in Resources */,
 				EEEF0DE61EC3DC89001F4A7B /* Transparent.png in Resources */,
