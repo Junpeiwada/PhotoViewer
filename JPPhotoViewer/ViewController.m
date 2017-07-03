@@ -153,6 +153,52 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    // 移動を実行
+    if (self.isMoveMode || self.isCopyMode){
+        
+        NSString *moveDestination = [self.directoryNames objectAtIndex:indexPath.row];
+        NSError *err;
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *sourceFilename =self.moveTarget.imagePath.lastPathComponent;
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@/%@",documentsDirectory,moveDestination,sourceFilename];
+        
+        // おなじディレクトリを指定されたら無視
+        if ([fullPath isEqualToString:self.moveTarget.imagePath]){
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            return;
+        }
+        
+        
+        // コピーか移動を行う
+        if (self.isMoveMode){
+            [[NSFileManager defaultManager] moveItemAtPath:self.moveTarget.imagePath toPath:fullPath error:&err];
+        }else if (self.isCopyMode){
+            [[NSFileManager defaultManager] copyItemAtPath:self.moveTarget.imagePath toPath:fullPath error:&err];
+        }
+        
+        
+        if (err){
+            NSLog(@"%@.",[err localizedDescription]);
+        }else{
+            UINavigationController *navi = (UINavigationController *)self.presentingViewController;
+            JPPhotoCollectionViewController *p = navi.viewControllers.lastObject;
+            
+            if (self.isMoveMode){
+                [p removePhotoFromSection:self.moveTarget];
+            }
+            
+            // 移動、コピー先のインデックスを削除する
+            NSString *direc = [self.directoryNames objectAtIndex:indexPath.row];
+            [JPPhotoModel removeIndex:direc];
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        
+        return;
+    }
 
     // TableViewCellのタップ
     // コレクションビューの表示
@@ -195,6 +241,7 @@
                                                   [JPPhotoModel removeDirectory:direc];
                                                   
 //                                                  [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                                                  [self prepareData];
                                                   [self.tableView reloadData];
                                               }],
              [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
@@ -217,5 +264,54 @@
 
 }
 
+- (IBAction)closeView:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(IBAction)createDirectory{
+    UIAlertController *alert
+    = [UIAlertController alertControllerWithTitle:@"新しいフォルダ"
+                                          message:@"フォルダ名を入力"
+                                   preferredStyle:UIAlertControllerStyleAlert];
+    
+    //入力欄（UITextField）付きを設定
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        //入力欄に薄くでるアレ
+        textField.placeholder = @"フォルダ名を入力";
+    }];
+    
+    //キャンセルボタンと処理
+    UIAlertAction *actionCancel
+    = [UIAlertAction actionWithTitle:@"キャンセル"
+                               style:UIAlertActionStyleCancel
+                             handler:nil];
+    [alert addAction:actionCancel];
+    
+    //OKボタンと処理
+    UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction *action) {
+                                 
+                                 //alert.textFieldsにUITextFieldが入っている
+                                 UITextField *textField = alert.textFields.firstObject;
+                                 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                                 NSString *documentsDirectory = [paths objectAtIndex:0];
+                                 NSString *fullPath = [NSString stringWithFormat:@"%@/%@",documentsDirectory,textField.text];
+                                 
+                                 NSError *err;
+                                 [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:&err];
+                                 
+                                 if (err){
+                                     NSLog(@"%@.",[err localizedDescription]);
+                                 }else{
+                                     [self prepareData];
+                                     [self.tableView reloadData];
+                                 }
+                             }];
+    [alert addAction:actionOK];
+    
+    //表示
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 @end

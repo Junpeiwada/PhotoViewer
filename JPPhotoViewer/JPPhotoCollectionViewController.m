@@ -19,6 +19,7 @@
 #import "UIViewController+NJKFullScreenSupport.h"
 #import "CollectionReusableHeaderView.h"
 #import "JPNYTPhotosViewController.h"
+#import "ViewController.h"
 @interface JPPhotoCollectionViewController () <NYTPhotosViewControllerDelegate,CHTCollectionViewDelegateWaterfallLayout,NJKScrollFullscreenDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *gridSizeSlider;
 @property (weak, nonatomic) IBOutlet UIStepper *columnCountStepper;
@@ -185,15 +186,19 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 // 写真のファイルを削除します。
 -(void)removePhotoFile:(NSIndexPath*)indexPath{
-    JPPhoto *p = [self photoFromIndexPath:indexPath];;
+    JPPhoto *p = [self photoFromIndexPath:indexPath];
     [p removeOriginal];
+    
+    [self removeFromIndex:indexPath];
+}
 
+-(void)removeFromIndex:(NSIndexPath*)indexPath{
+    JPPhoto *p = [self photoFromIndexPath:indexPath];
     [self.allPhotos removeObject:p];
     [self.photoSections[indexPath.section] removeObject:p];
     [self.collectionView performBatchUpdates:^ {
         [self.collectionView deleteItemsAtIndexPaths:@[indexPath]]; // no assertion now
     } completion:nil];
-    
     // JSONを上書き
     [JPPhotoModel saveToJsonWithPhotos:self.allPhotos directortyPath:self.photoDirectory];
 }
@@ -240,8 +245,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    self.allPhotos = nil;
-    self.photoSections = nil;
+//    self.allPhotos = nil;
+//    self.photoSections = nil;
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -502,19 +507,53 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     return YES;
 }
 
+// インデックスから対象の画像を削除する。実際の削除は行わない。
+-(void)removePhotoFromSection:(JPPhoto *)target{
+    for (NSInteger i=0; i < self.photoSections.count; i++) {
+        NSArray *s = self.photoSections[i];
+        for (NSInteger j=0; j < s.count; j++) {
+            if (s[j] == target){
+                [self removeFromIndex:[NSIndexPath indexPathForRow:j inSection:i]];
+            }
+        }
+    }
+}
+
 // 操作のアクションシートを表示する
 -(void)showOperationSheet:(JPPhoto *)current parentVC:(UIViewController *)vc location:(CGPoint)loc{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"操作"
                                                                              message:nil
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
     
+    // カメラロールに保存する
     [alertController addAction:[UIAlertAction actionWithTitle:@"カメラロールに保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self savePhotoToCameraroll:current.imagePath parentVC:vc];
     }]];
     
     
+    // 移動する
+    [alertController addAction:[UIAlertAction actionWithTitle:@"移動" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UINavigationController *navi = [[self storyboard] instantiateViewControllerWithIdentifier:@"moveViewNavi"];
+        ViewController *vc = navi.viewControllers.firstObject;
+        vc.isMoveMode = YES;
+        vc.moveTarget = current;
+        // 移動Viewを出す
+        [self presentViewController:navi animated:YES completion:nil];
+    }]];
+    
+    // コピーする
+    [alertController addAction:[UIAlertAction actionWithTitle:@"コピー" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UINavigationController *navi = [[self storyboard] instantiateViewControllerWithIdentifier:@"moveViewNavi"];
+        ViewController *vc = navi.viewControllers.firstObject;
+        vc.isCopyMode = YES;
+        vc.moveTarget = current;
+        // 移動Viewを出す
+        [self presentViewController:navi animated:YES completion:nil];
+    }]];
+    
+    
+    // 削除する
     [alertController addAction:[UIAlertAction actionWithTitle:@"削除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        // 削除する
         UIAlertController *al = [UIAlertController alertControllerWithTitle:@"削除"
                                                                     message:@"削除します。よろしいですか？"
                                                              preferredStyle:UIAlertControllerStyleActionSheet];
@@ -540,6 +579,9 @@ static NSString * const reuseIdentifier = @"PhotoCell";
         [vc presentViewController:al animated:YES completion:nil];
         return;
     }]];
+    
+    
+
     
     [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleCancel handler:nil]];
     alertController.popoverPresentationController.sourceView = vc.view;

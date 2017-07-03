@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JPPhoto.h"
 
 @interface JPPhotoCollectionViewController : UICollectionViewController
 @property (nonatomic) NSString * photoDirectory;
@@ -15,4 +16,5 @@
 
 
 -(void)loadSectionFromPhotos:(NSMutableArray *)photos;
+-(void)removePhotoFromSection:(JPPhoto *)target;
 @end

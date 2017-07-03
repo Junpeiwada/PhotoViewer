@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "JPPhoto.h"
 @interface ViewController : UIViewController
 
+@property BOOL isMoveMode;
+@property BOOL isCopyMode;
+@property JPPhoto * moveTarget;
 
 @end
 
