@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *useLockSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *tempSizeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *exifFilterSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *splitExifDateSwitch;
 
 @end
 
@@ -39,6 +40,7 @@
     [super viewWillAppear:animated];
     self.useLockSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"useLock"];
     self.exifFilterSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"exifFilter"];
+    self.splitExifDateSwitch.on = [[NSUserDefaults standardUserDefaults]boolForKey:@"splitDate"];
     [self showTempSize];
 }
 
@@ -122,6 +124,9 @@
 }
 - (IBAction)exifFilterChanged:(id)sender {
     [[NSUserDefaults standardUserDefaults]setBool:self.exifFilterSwitch.on forKey:@"exifFilter"];
+}
+- (IBAction)splitDateChanged:(id)sender {
+    [[NSUserDefaults standardUserDefaults]setBool:self.splitExifDateSwitch.on forKey:@"splitDate"];
 }
 - (IBAction)removeCache:(id)sender {
     [self.tableView reloadData];

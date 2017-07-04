@@ -219,7 +219,16 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 // すべての写真から日付ごとのセクションに分けて格納
 -(void)loadSectionFromPhotos:(NSMutableArray *)photos{
     self.allPhotos = photos;
-    self.photoSections = [JPPhotoModel splitPhotosByOriginalDate:photos];
+    if  ([[NSUserDefaults standardUserDefaults]boolForKey:@"splitDate"]){
+        // 日付で分離
+        self.photoSections = [JPPhotoModel splitPhotosByOriginalDate:photos];
+    }else{
+        // 日付で分離しない
+        NSMutableArray *photoSections = [NSMutableArray array];
+        [photoSections addObject:photos];
+        self.photoSections = photoSections;
+    }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
