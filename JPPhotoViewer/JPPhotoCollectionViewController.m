@@ -92,8 +92,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     UIPanGestureRecognizer *swipe = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
     [self.view addGestureRecognizer:swipe];
 
-    CGFloat sliderHeight = self.view.frame.size.height - 20;
-    CGFloat sliderX = self.view.frame.size.width - 20;
+    CGFloat sliderHeight = self.view.frame.size.height ;
+    CGFloat sliderX = self.view.frame.size.width - 35;
     CGFloat sliderY = self.view.frame.size.height / 2;
 
 
@@ -105,8 +105,8 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     
     
     sliderShowPos = CGPointMake(sliderX, sliderY);
-    sliderHidePos = CGPointMake(sliderX + 50, sliderY);
-    self.slider.frame = CGRectMake(0, 20, 55, sliderHeight - 20);
+    sliderHidePos = CGPointMake(sliderX + 70, sliderY);
+    self.slider.frame = CGRectMake(0, 20, 55, sliderHeight );
     self.slider.center = sliderHidePos;
     
     [self.slider setMinimumTrackImage:[UIImage imageNamed:@"Transparent.png"] forState:UIControlStateNormal];
