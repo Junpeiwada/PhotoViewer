@@ -233,7 +233,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 
 -(void)viewWillAppear:(BOOL)animated{
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    if (!app.isPassCodeViewShown){
+    if (app.isPassCodeViewPassed ){
         
         // 写真一覧のデータをロード
         if (!self.allPhotos){

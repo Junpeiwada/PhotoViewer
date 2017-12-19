@@ -43,6 +43,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
     [self prepareData];
+    
     [self.tableView reloadData];
     [self.tableView selectRowAtIndexPath:path animated:NO scrollPosition:UITableViewScrollPositionNone];
     [super viewWillAppear:animated];
@@ -75,8 +76,18 @@
                 }
             }
         }
-        
     }
+    
+    // 並び替える
+    [self.directorys sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSStringCompareOptions compareOptions = (NSCaseInsensitiveSearch);
+        return [obj1 compare:obj2 options:compareOptions];
+    }];
+    [self.directoryNames sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSStringCompareOptions compareOptions = (NSCaseInsensitiveSearch);
+        return [obj1 compare:obj2 options:compareOptions];
+    }];
+    
     for (NSInteger i = 0; i < self.directorys.count; i++) {
         NSString *path = self.directorys[i];
         NSInteger fileCount = 0;
@@ -106,7 +117,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    if (app.isPassCodeViewShown){
+    if (!app.isPassCodeViewPassed){
         // ロック中は見せない
         return 0;
     }
