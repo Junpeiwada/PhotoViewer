@@ -127,7 +127,7 @@ static NSString * const reuseIdentifier = @"PhotoCell";
 {
     isDragging = YES;
     [UIView animateWithDuration:0.2 animations:^{
-        self.slider.center = sliderShowPos;
+        self.slider.center = self->sliderShowPos;
     }];
     
     self.slider.value = self.collectionView.contentOffset.y / (self.collectionView.contentSize.height - self.collectionView.bounds.size.height);
@@ -138,9 +138,9 @@ static NSString * const reuseIdentifier = @"PhotoCell";
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         // ノブを隠す
-        if (!isDragging){
+        if (!self->isDragging){
             [UIView animateWithDuration:0.5 animations:^{
-                self.slider.center = sliderHidePos;
+                self.slider.center = self->sliderHidePos;
             }];;
         }
         

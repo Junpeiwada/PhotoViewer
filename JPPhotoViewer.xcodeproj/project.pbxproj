@@ -189,7 +189,6 @@
 				EE6A03D11CE176A50077B7DF /* Sources */,
 				EE6A03D21CE176A50077B7DF /* Frameworks */,
 				EE6A03D31CE176A50077B7DF /* Resources */,
-				1F49EBE64F0F8198B0A48CCC /* [CP] Embed Pods Frameworks */,
 				3DEFBCF4155BF6F40F5C8A42 /* [CP] Copy Pods Resources */,
 				C8828AE88E33BA68047FCE8C /* 📦 Embed Pods Frameworks */,
 				716FD40B1353DFF2C41A33DE /* 📦 Copy Pods Resources */,
@@ -253,21 +252,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1F49EBE64F0F8198B0A48CCC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		21A8C22F52D02CB02DFB0171 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -292,18 +276,20 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/NYTPhotoViewer/NYTPhotoViewer.bundle,
+				"${PODS_ROOT}/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/NYTPhotoViewer/NYTPhotoViewer.bundle",
 				"${PODS_ROOT}/SSKeychain/Support/SSKeychain.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NYTPhotoViewer.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SSKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		716FD40B1353DFF2C41A33DE /* 📦 Copy Pods Resources */ = {

@@ -117,10 +117,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    if (!app.isPassCodeViewPassed){
-        // ロック中は見せない
-        return 0;
-    }
+//    if (!app.isPassCodeViewPassed){
+//        // ロック中は見せない
+//        return 0;
+//    }
     
     return self.directorys.count;
 }
