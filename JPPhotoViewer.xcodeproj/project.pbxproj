@@ -190,7 +190,6 @@
 				EE6A03D21CE176A50077B7DF /* Frameworks */,
 				EE6A03D31CE176A50077B7DF /* Resources */,
 				3DEFBCF4155BF6F40F5C8A42 /* [CP] Copy Pods Resources */,
-				C8828AE88E33BA68047FCE8C /* 📦 Embed Pods Frameworks */,
 				716FD40B1353DFF2C41A33DE /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
@@ -222,6 +221,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -320,21 +320,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		C8828AE88E33BA68047FCE8C /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JPPhotoViewer/Pods-JPPhotoViewer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
