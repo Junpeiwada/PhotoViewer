@@ -7,6 +7,8 @@
 //
 
 #import "JPNYTPhotosViewController.h"
+#import "NYTPhotoViewController.h"
+#import "NYTScalingImageView.h"
 
 @interface JPNYTPhotosViewController ()
 
@@ -25,6 +27,16 @@
 }
 - (void)viewDidAppear:(BOOL)animated {
 
+}
+- (NYTPhotoViewController *)currentPhotoViewController {
+    NYTPhotoViewController *one = self.pageViewController.viewControllers.firstObject;
+    UIImageView *iv = (UIImageView *)one.scalingImageView.imageView;
+    if (@available(iOS 17.0, *)) {
+        iv.preferredImageDynamicRange = UIImageDynamicRangeHigh;
+    } else {
+        // Fallback on earlier versions
+    }
+    return one;
 }
 /*
 #pragma mark - Navigation

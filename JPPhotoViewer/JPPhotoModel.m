@@ -74,7 +74,9 @@
 
         if (![[fileName uppercaseString] hasSuffix:@"JPG"]){
             if (![[fileName uppercaseString] hasSuffix:@"JPEG"]){
-                continue;
+                if (![[fileName uppercaseString] hasSuffix:@"JXL"]){
+                    continue;
+                }
             }
         }
         
